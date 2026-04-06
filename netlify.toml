@@ -1,0 +1,9 @@
+# Деплой Next.js на Netlify: https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/
+[build]
+  command = "npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "20"
