@@ -1,6 +1,8 @@
 # Деплой Next.js на Netlify: https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/
 [build]
   command = "npm run build"
+  # Иначе Netlify ставит publish = корень репо и совпадает с base — плагин Next.js падает с ошибкой
+  publish = ".next"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
