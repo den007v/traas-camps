@@ -29,12 +29,12 @@ export function SiteHeader({ content }: { content: SiteContent }) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--background)_84%,transparent)] backdrop-blur-xl">
-      <Container className="flex h-16 items-center justify-between gap-4">
+      <Container className="flex h-16 items-center gap-4">
         <Link href="/" className="text-lg">
           <BrandWordmark />
         </Link>
 
-        <nav className="hidden items-center gap-2 lg:flex" aria-label="Основное меню">
+        <nav className="ml-auto hidden items-center gap-2 lg:flex" aria-label="Основное меню">
           {content.headerNav.map((item) =>
             item.label === "Связаться" ? (
               <button
