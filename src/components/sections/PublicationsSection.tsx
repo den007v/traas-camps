@@ -8,7 +8,7 @@ export function PublicationsSection({ content }: { content: SiteContent }) {
   return (
     <AnimatedSection
       id="publications"
-      className="scroll-mt-24 bg-[#0b0b10] py-16"
+      className="scroll-mt-24 bg-[var(--surface-soft)] py-16"
     >
       <Container>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -16,10 +16,10 @@ export function PublicationsSection({ content }: { content: SiteContent }) {
             <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e30613]/14 text-[#ff6f77] ring-1 ring-[#e30613]/35">
               <Newspaper className="h-5 w-5" aria-hidden />
             </div>
-            <h2 className="text-3xl font-semibold tracking-tight text-zinc-100">
+            <h2 className="text-3xl font-semibold tracking-tight text-[var(--foreground)]">
               {content.publicationsIntro.title}
             </h2>
-            <p className="mt-2 max-w-xl text-zinc-400">
+            <p className="mt-2 max-w-xl text-[var(--muted)]">
               {content.publicationsIntro.subtitle}
             </p>
           </div>
@@ -28,7 +28,7 @@ export function PublicationsSection({ content }: { content: SiteContent }) {
           {content.publications.map((pub) => (
             <article
               key={pub.id}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] transition hover:border-[#e30613]/45 hover:bg-white/[0.07] hover:shadow-[0_12px_35px_rgba(227,6,19,0.12)]"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--surface)_88%,transparent)] transition hover:border-[#e30613]/45 hover:bg-[color:color-mix(in_oklab,var(--surface)_95%,transparent)] hover:shadow-[0_12px_35px_rgba(227,6,19,0.12)]"
             >
               <VisualPlaceholder
                 className="aspect-[16/10] min-h-0 rounded-none rounded-t-2xl"
@@ -38,15 +38,15 @@ export function PublicationsSection({ content }: { content: SiteContent }) {
                 <span className="text-xs font-semibold uppercase tracking-wide text-[#ff5a65]">
                   {pub.categoryName}
                 </span>
-                <h3 className="mt-2 text-lg font-semibold leading-snug text-zinc-100">
+                <h3 className="mt-2 text-lg font-semibold leading-snug text-[var(--foreground)]">
                   <a href={pub.href} className="hover:text-[#ff7d85]">
                     {pub.title}
                   </a>
                 </h3>
-                <p className="mt-2 line-clamp-2 text-sm text-zinc-400">
+                <p className="mt-2 line-clamp-2 text-sm text-[var(--muted)]">
                   {pub.subTitle}
                 </p>
-                <div className="mt-auto flex items-center gap-3 pt-4 text-xs text-zinc-500">
+                <div className="mt-auto flex items-center gap-3 pt-4 text-xs text-[var(--muted)]">
                   <time dateTime={pub.date}>{pub.date}</time>
                   <span className="inline-flex items-center gap-1">
                     <Clock className="h-3.5 w-3.5" aria-hidden />

@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 export function FeatureRows({ content }: { content: SiteContent }) {
   return (
-    <div id="cases" className="scroll-mt-24 bg-[#0b0b10] py-8">
+    <div id="cases" className="scroll-mt-24 bg-[var(--background)] py-8">
       {content.featureRows.map((row, index) => (
         <AnimatedSection
           key={row.id}
@@ -28,10 +28,10 @@ export function FeatureRows({ content }: { content: SiteContent }) {
               <div
                 className={row.imageSide === "left" ? "lg:order-2" : "lg:order-1"}
               >
-                <h2 className="text-2xl font-semibold tracking-tight text-zinc-100 sm:text-3xl">
+                <h2 className="text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
                   {row.title}
                 </h2>
-                <p className="mt-4 text-zinc-400">
+                <p className="mt-4 text-[var(--muted)]">
                   {row.description}
                 </p>
                 <a

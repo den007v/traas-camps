@@ -10,7 +10,7 @@ export const siteContent: SiteContent = {
   brandName: "TraaS & Camps",
   headerNav: [
     { label: "Кейсы TraaS", href: "#cases" },
-    { label: "Tech Bootcamp", href: "#tech-bootcamp" },
+    { label: "Tech Bootcamp", href: "/tech-bootcamp" },
     { label: "Связаться", href: "#footer" },
   ],
   headerCta: { label: "Связаться", href: "#footer" },

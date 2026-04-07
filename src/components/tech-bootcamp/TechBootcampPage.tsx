@@ -1,0 +1,574 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  CheckCircle2,
+  ChevronDown,
+  ChevronLeft,
+  Moon,
+  SunMedium,
+} from "lucide-react";
+import { Container } from "@/components/ui/Container";
+import { ContactModal } from "@/components/contact/ContactModal";
+import { BrandWordmark } from "@/components/ui/BrandWordmark";
+import { techBootcampContent as content } from "@/data/techBootcampContent";
+import { useTheme } from "@/components/theme/ThemeProvider";
+
+function useRevealAnimations() {
+  useEffect(() => {
+    const nodes = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-reveal]"),
+    );
+    if (!nodes.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          el.classList.remove("opacity-0", "translate-y-6");
+          el.classList.add("opacity-100", "translate-y-0");
+          observer.unobserve(el);
+        });
+      },
+      { threshold: 0.18 },
+    );
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+}
+
+function useAnimatedNumber(target: number, active: boolean, duration = 1100) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let raf = 0;
+    const started = performance.now();
+    const tick = (now: number) => {
+      const progress = Math.min((now - started) / duration, 1);
+      setValue(target * progress);
+      if (progress < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [active, target, duration]);
+  return value;
+}
+
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="min-w-0 px-2 sm:px-4">
+      <p className="text-xl font-semibold text-[var(--tb-gold)] sm:text-2xl">{value}</p>
+      <p className="mt-1 text-xs text-[var(--tb-text-muted)]">{label}</p>
+    </div>
+  );
+}
+
+export function TechBootcampPage() {
+  const { theme, toggleTheme } = useTheme();
+  const [scrolled, setScrolled] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
+  const [openWeekOne, setOpenWeekOne] = useState(0);
+  const [openWeekTwo, setOpenWeekTwo] = useState(0);
+  const resultsRef = useRef<HTMLElement | null>(null);
+  const [resultsInView, setResultsInView] = useState(false);
+
+  useRevealAnimations();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!resultsRef.current) return;
+    const node = resultsRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setResultsInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  const metricOne = useAnimatedNumber(77.8, resultsInView);
+  const metricTwo = useAnimatedNumber(26, resultsInView);
+  const metricThree = useAnimatedNumber(9.1, resultsInView);
+
+  const vars = useMemo(
+    () =>
+      ({
+        "--tb-bg": theme === "dark" ? "#1a1a24" : "#e1e3ea",
+        "--tb-surface": theme === "dark" ? "#242432" : "#eaecf2",
+        "--tb-surface-2": theme === "dark" ? "#2d2d3d" : "#d7dbe4",
+        "--tb-surface-soft": theme === "dark" ? "#20202d" : "#e6e9f0",
+        "--tb-border": theme === "dark" ? "#454759" : "#bcc2cf",
+        "--tb-text": theme === "dark" ? "#f5f6fa" : "#1a1c24",
+        "--tb-text-muted": theme === "dark" ? "#bcc1cf" : "#606675",
+        "--tb-accent": "#e30613",
+        "--tb-accent-hover": theme === "dark" ? "#ff2f3b" : "#c90511",
+        "--tb-accent-glow":
+          theme === "dark" ? "rgba(227,6,19,0.22)" : "rgba(227,6,19,0.18)",
+        "--tb-gold": theme === "dark" ? "#dfb657" : "#b27d15",
+      }) as CSSProperties,
+    [theme],
+  );
+
+  return (
+    <div
+      style={vars}
+      className="bg-[var(--tb-bg)] text-[var(--tb-text)] [background-image:radial-gradient(circle_at_18%_-10%,rgba(227,6,19,0.08),transparent_36%),radial-gradient(circle_at_100%_0%,rgba(223,182,87,0.08),transparent_30%)]"
+    >
+      <header
+        className={`sticky top-0 z-50 border-b transition ${
+          scrolled
+            ? "border-[var(--tb-border)] bg-[color:color-mix(in_oklab,var(--tb-bg)_70%,transparent)] backdrop-blur-xl"
+            : "border-transparent bg-transparent"
+        }`}
+      >
+        <Container className="flex h-16 items-center justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 text-xs">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--tb-border)] bg-[var(--tb-surface)] px-2.5 py-1 text-[var(--tb-text-muted)] transition hover:border-[var(--tb-accent)]/55 hover:text-[var(--tb-text)]"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+                <BrandWordmark className="text-[11px]" />
+              </Link>
+              <span className="text-[var(--tb-text-muted)]/70">/</span>
+              <span className="rounded-md bg-[var(--tb-surface)] px-2 py-1 font-medium text-[var(--tb-accent)]">
+                Tech Bootcamp
+              </span>
+            </div>
+          </div>
+          <nav className="hidden items-center gap-1 md:flex">
+            {content.nav.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="rounded-lg px-3 py-2 text-sm text-[var(--tb-text-muted)] transition hover:bg-[var(--tb-surface)] hover:text-[var(--tb-text)]"
+              >
+                {item.label}
+              </a>
+            ))}
+            <button
+              type="button"
+              aria-label="Переключить тему"
+              onClick={toggleTheme}
+              className="ml-1 rounded-lg border border-[var(--tb-border)] bg-[var(--tb-surface)] p-2 text-[var(--tb-text-muted)] transition hover:text-[var(--tb-text)]"
+            >
+              {theme === "dark" ? <SunMedium className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+            <button
+              type="button"
+              onClick={() => setContactOpen(true)}
+              className="ml-2 rounded-full border border-[var(--tb-accent)] bg-[var(--tb-accent)] px-4 py-2 text-sm font-semibold text-white shadow-[0_0_20px_var(--tb-accent-glow)] transition hover:bg-[var(--tb-accent-hover)]"
+            >
+              Подать заявку
+            </button>
+          </nav>
+        </Container>
+      </header>
+
+      <main className="relative overflow-hidden">
+        <section className="relative border-b border-[var(--divider)] bg-[var(--tb-surface-soft)] py-14 sm:py-20">
+          <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:radial-gradient(circle_at_15%_10%,rgba(227,6,19,0.22),transparent_35%),radial-gradient(circle_at_85%_20%,rgba(223,182,87,0.16),transparent_34%)]" />
+          <Container className="relative">
+            <span className="inline-flex rounded-full border border-[var(--tb-border)] bg-[var(--tb-surface)] px-3 py-1 text-xs text-[var(--tb-text-muted)]">
+              {content.hero.badge}
+            </span>
+            <h1
+              data-reveal
+              className="mt-6 whitespace-pre-line text-balance text-4xl font-semibold leading-[1.02] tracking-tight opacity-0 translate-y-6 transition duration-700 sm:text-6xl"
+            >
+              {content.hero.title}
+            </h1>
+            <p
+              data-reveal
+              className="mt-6 max-w-3xl text-base leading-relaxed text-[var(--tb-text-muted)] opacity-0 translate-y-6 transition duration-700"
+            >
+              {content.hero.subtitle}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => setContactOpen(true)}
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--tb-accent)] bg-[var(--tb-accent)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--tb-accent-hover)]"
+              >
+                Подать заявку
+                <ArrowRight className="h-4 w-4" />
+              </button>
+              <a
+                href="#program"
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--tb-border)] bg-[var(--tb-surface)] px-5 py-3 text-sm font-semibold text-[var(--tb-text)] transition hover:border-[var(--tb-accent)]"
+              >
+                Скачать программу
+              </a>
+            </div>
+            <div className="mt-10 grid gap-3 rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-4 sm:grid-cols-3 sm:gap-0">
+              {content.hero.metrics.map((item, idx) => (
+                <div
+                  key={item.label}
+                  className={`${idx !== 0 ? "sm:border-l sm:border-[var(--tb-border)]" : ""}`}
+                >
+                  <Metric {...item} />
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        <section data-reveal className="opacity-0 translate-y-6 transition duration-700 border-y border-[var(--divider)] bg-[var(--tb-surface)] py-6">
+          <Container>
+            <p className="mb-4 text-xs uppercase tracking-[0.24em] text-[var(--tb-text-muted)]">
+              Среди участников программы
+            </p>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              {content.socialProof.map((company) => (
+                <div
+                  key={company}
+                  className="rounded-lg border border-[var(--tb-border)] px-3 py-2 text-center text-xs text-[var(--tb-text-muted)] opacity-65 transition hover:opacity-100"
+                >
+                  {company}
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        <section id="audience" data-reveal className="opacity-0 translate-y-6 transition duration-700 border-y border-[var(--divider)] bg-[var(--tb-surface-soft)] py-14">
+          <Container>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              Программа создана для тех, кто уже на высоком уровне
+            </h2>
+            <div className="mt-8 grid gap-4 lg:grid-cols-3">
+              {content.audienceCards.map((card) => (
+                <article
+                  key={card.title}
+                  className="rounded-2xl border border-[var(--tb-border)] bg-[color:color-mix(in_oklab,var(--tb-surface)_82%,transparent)] p-6 backdrop-blur-lg transition duration-300 hover:-translate-y-0.5 hover:border-[var(--tb-accent)]/60 hover:shadow-[0_0_34px_var(--tb-accent-glow)]"
+                >
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--tb-border)] bg-[var(--tb-surface-2)] text-sm font-semibold text-[var(--tb-accent)]">
+                    {card.icon}
+                  </span>
+                  <h3 className="mt-4 text-xl font-semibold">{card.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[var(--tb-text-muted)]">
+                    {card.text}
+                  </p>
+                </article>
+              ))}
+            </div>
+            <p className="mt-5 inline-flex rounded-full border border-[var(--tb-border)] px-4 py-2 text-xs text-[var(--tb-text-muted)]">
+              Не подходит для начинающих и middle-специалистов
+            </p>
+          </Container>
+        </section>
+
+        <section data-reveal className="opacity-0 translate-y-6 transition duration-700 border-y border-[var(--divider)] bg-[var(--tb-surface)] py-14">
+          <Container className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+            <div>
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                Технологический лидер сегодня — это не только экспертиза
+              </h2>
+              <ul className="mt-6 space-y-3">
+                {content.challenges.map((challenge) => (
+                  <li key={challenge} className="flex items-start gap-3 text-sm text-[var(--tb-text-muted)]">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 text-[var(--tb-accent)]" />
+                    <span>{challenge}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface-2)] p-6 lg:border-l-4 lg:border-l-[var(--tb-accent)]">
+              <p className="text-sm leading-relaxed text-[var(--tb-text-muted)]">
+                CTO сегодня должен соединять технологию, продукт, финансы, культуру и развитие
+                людей. Программа выстраивает системное мышление и инструменты для этой роли.
+              </p>
+            </div>
+          </Container>
+        </section>
+
+        <section id="program" data-reveal className="opacity-0 translate-y-6 transition duration-700 border-y border-[var(--divider)] bg-[var(--tb-surface-soft)] py-14">
+          <Container>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Как устроен Bootcamp</h2>
+            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {content.formatFacts.map((fact) => (
+                <article key={fact.value} className="rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-5 transition duration-300 hover:-translate-y-0.5 hover:border-[var(--tb-accent)]/55 hover:shadow-[0_0_28px_var(--tb-accent-glow)]">
+                  <p className="text-2xl font-semibold text-[var(--tb-gold)]">{fact.value}</p>
+                  <p className="mt-2 text-sm text-[var(--tb-text-muted)]">{fact.description}</p>
+                </article>
+              ))}
+            </div>
+            <div className="mt-8 rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-6">
+              <h3 className="text-lg font-semibold">Типичный день</h3>
+              <ol className="mt-4 space-y-3 border-l border-[var(--tb-accent)] pl-4">
+                {content.timeline.map((point, idx) => (
+                  <li
+                    key={point}
+                    className={`text-sm ${
+                      idx % 2 === 0 ? "text-[var(--tb-text-muted)]" : "text-[var(--tb-text)]"
+                    }`}
+                  >
+                    {point}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </Container>
+        </section>
+
+        <section data-reveal className="opacity-0 translate-y-6 transition duration-700 border-y border-[var(--divider)] bg-[var(--tb-surface)] py-14">
+          <Container className="grid gap-6 lg:grid-cols-[1fr_1fr_0.9fr]">
+            <article className="rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface-2)] p-5 transition duration-300 hover:-translate-y-0.5 hover:border-[var(--tb-accent)]/55 hover:shadow-[0_0_30px_var(--tb-accent-glow)]">
+              <h3 className="text-xl font-semibold text-[var(--tb-accent)]">Неделя 1</h3>
+              <div className="mt-4 space-y-2">
+                {content.weekOneModules.map((module, idx) => (
+                  <button
+                    key={module}
+                    type="button"
+                    onClick={() => setOpenWeekOne((p) => (p === idx ? -1 : idx))}
+                    className="w-full rounded-xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-3 text-left"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <span className="text-sm">{module}</span>
+                      <ChevronDown className={`h-4 w-4 transition ${openWeekOne === idx ? "rotate-180" : ""}`} />
+                    </div>
+                    {openWeekOne === idx ? (
+                      <p className="mt-2 text-xs text-[var(--tb-text-muted)]">
+                        PLACEHOLDER: краткое описание модуля и ожидаемый практический результат.
+                      </p>
+                    ) : null}
+                  </button>
+                ))}
+              </div>
+            </article>
+            <article className="rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface-2)] p-5 transition duration-300 hover:-translate-y-0.5 hover:border-[var(--tb-accent)]/55 hover:shadow-[0_0_30px_var(--tb-accent-glow)]">
+              <h3 className="text-xl font-semibold text-[var(--tb-gold)]">Неделя 2</h3>
+              <div className="mt-4 space-y-2">
+                {content.weekTwoModules.map((module, idx) => (
+                  <button
+                    key={module}
+                    type="button"
+                    onClick={() => setOpenWeekTwo((p) => (p === idx ? -1 : idx))}
+                    className="w-full rounded-xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-3 text-left"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <span className="text-sm">{module}</span>
+                      <ChevronDown className={`h-4 w-4 transition ${openWeekTwo === idx ? "rotate-180" : ""}`} />
+                    </div>
+                    {openWeekTwo === idx ? (
+                      <p className="mt-2 text-xs text-[var(--tb-text-muted)]">
+                        PLACEHOLDER: краткое описание модуля и ожидаемый практический результат.
+                      </p>
+                    ) : null}
+                  </button>
+                ))}
+              </div>
+            </article>
+            <aside className="rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface-2)] p-6 transition duration-300 hover:-translate-y-0.5 hover:border-[var(--tb-accent)]/55 hover:shadow-[0_0_30px_var(--tb-accent-glow)]">
+              <p className="text-xl leading-snug">
+                «Большинство CTO отличные инженеры. Единицы — стратегические лидеры.»
+              </p>
+              <p className="mt-4 text-xs text-[var(--tb-text-muted)]">
+                PLACEHOLDER: заменить на реальную цитату участника или эксперта.
+              </p>
+              <button
+                type="button"
+                onClick={() => setContactOpen(true)}
+                className="mt-6 inline-flex rounded-full border border-[var(--tb-accent)] bg-[var(--tb-accent)] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[var(--tb-accent-hover)]"
+              >
+                Скачать полную программу (PDF)
+              </button>
+            </aside>
+          </Container>
+        </section>
+
+        <section
+          id="results"
+          ref={resultsRef}
+          data-reveal
+          className="opacity-0 translate-y-6 transition duration-700 border-y border-[var(--divider)] bg-[var(--tb-surface-soft)] py-14"
+        >
+          <Container>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              Измеримый результат, подтверждённый участниками
+            </h2>
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              <article className="rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-5 transition duration-300 hover:-translate-y-0.5 hover:border-[var(--tb-accent)]/55 hover:shadow-[0_0_30px_var(--tb-accent-glow)]">
+                <p className="text-3xl font-semibold text-[var(--tb-gold)]">{metricOne.toFixed(1)}%</p>
+                <p className="mt-1 text-sm text-[var(--tb-text-muted)]">NPS программы</p>
+              </article>
+              <article className="rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-5 transition duration-300 hover:-translate-y-0.5 hover:border-[var(--tb-accent)]/55 hover:shadow-[0_0_30px_var(--tb-accent-glow)]">
+                <p className="text-3xl font-semibold text-[var(--tb-gold)]">+{Math.round(metricTwo)}%</p>
+                <p className="mt-1 text-sm text-[var(--tb-text-muted)]">Рост компетенций</p>
+              </article>
+              <article className="rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-5 transition duration-300 hover:-translate-y-0.5 hover:border-[var(--tb-accent)]/55 hover:shadow-[0_0_30px_var(--tb-accent-glow)]">
+                <p className="text-3xl font-semibold text-[var(--tb-gold)]">{metricThree.toFixed(1)} / 10</p>
+                <p className="mt-1 text-sm text-[var(--tb-text-muted)]">Средняя оценка программы</p>
+              </article>
+            </div>
+            <div className="mt-8 rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-6 transition duration-300 hover:border-[var(--tb-accent)]/55 hover:shadow-[0_0_30px_var(--tb-accent-glow)]">
+              <h3 className="text-lg font-semibold">Компетенции до / после</h3>
+              <div className="mt-4 space-y-3">
+                {content.competencies.map((item) => (
+                  <div key={item.name}>
+                    <div className="mb-1 flex items-center justify-between text-xs text-[var(--tb-text-muted)]">
+                      <span>{item.name}</span>
+                      <span>дельта +{item.after - item.before}%</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-[var(--tb-surface-2)]">
+                      <div className="relative h-2 w-full">
+                        <div
+                          className="absolute left-0 top-0 h-2 rounded-full bg-[color:color-mix(in_oklab,var(--tb-text-muted)_55%,transparent)] transition-all duration-1000"
+                          style={{ width: `${item.before}%` }}
+                        />
+                        <div
+                          className="absolute top-0 h-2 rounded-full bg-[var(--tb-accent)] transition-all duration-1000"
+                          style={{
+                            left: `${item.before}%`,
+                            width: resultsInView ? `${item.after - item.before}%` : "0%",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {content.quotes.map((quote) => (
+                <blockquote
+                  key={quote.text}
+                  className="rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-5 transition duration-300 hover:-translate-y-0.5 hover:border-[var(--tb-accent)]/55 hover:shadow-[0_0_30px_var(--tb-accent-glow)]"
+                >
+                  <p className="text-sm leading-relaxed text-[var(--tb-text-muted)]">{quote.text}</p>
+                  <footer className="mt-3 text-xs text-[var(--tb-text)]">{quote.author}</footer>
+                </blockquote>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        <section data-reveal className="opacity-0 translate-y-6 transition duration-700 border-y border-[var(--divider)] bg-[var(--tb-surface)] py-14">
+          <Container>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Практики, а не теоретики</h2>
+            <p className="mt-3 text-sm text-[var(--tb-text-muted)]">
+              До 35 экспертов и спикеров. Внутренние эксперты МТС/MWS и приглашённые гости.
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {content.speakers.map((speaker) => (
+                <article
+                  key={speaker}
+                  className="rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-surface-2)] p-4 transition duration-300 hover:-translate-y-1 hover:border-[var(--tb-accent)]/55 hover:shadow-[0_0_30px_var(--tb-accent-glow)]"
+                >
+                  <div className="h-12 w-12 rounded-full border border-[var(--tb-border)] bg-[var(--tb-surface)]" />
+                  <p className="mt-3 text-sm text-[var(--tb-text-muted)]">{speaker}</p>
+                </article>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        <section id="pricing" data-reveal className="opacity-0 translate-y-6 transition duration-700 border-y border-[var(--divider)] bg-[var(--tb-surface-soft)] py-14">
+          <Container>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              Инвестиция в команду технологических лидеров
+            </h2>
+            <div className="mt-8 grid gap-4 lg:grid-cols-3">
+              {content.pricing.map((plan) => (
+                <article
+                  key={plan.name}
+                  className={`rounded-2xl border p-6 transition duration-300 hover:-translate-y-1 hover:border-[var(--tb-accent)]/65 hover:shadow-[0_0_34px_var(--tb-accent-glow)] ${
+                    "featured" in plan && plan.featured
+                      ? "border-[var(--tb-accent)] bg-[var(--tb-surface)] shadow-[0_0_22px_var(--tb-accent-glow)]"
+                      : "border-[var(--tb-border)] bg-[var(--tb-surface)]"
+                  }`}
+                >
+                  {"featured" in plan && plan.featured ? (
+                    <span className="mb-3 inline-flex rounded-full bg-[var(--tb-accent)] px-3 py-1 text-xs font-semibold text-white">
+                      Популярный
+                    </span>
+                  ) : null}
+                  <h3 className="text-xl font-semibold">{plan.name}</h3>
+                  <p className="mt-2 text-3xl font-semibold text-[var(--tb-gold)]">{plan.price}</p>
+                  <ul className="mt-4 space-y-2">
+                    {plan.items.map((item) => (
+                      <li key={item} className="text-sm text-[var(--tb-text-muted)]">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    type="button"
+                    onClick={() => setContactOpen(true)}
+                    className="mt-6 w-full rounded-full border border-[var(--tb-accent)] bg-[var(--tb-accent)] py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--tb-accent-hover)]"
+                  >
+                    Оставить заявку
+                  </button>
+                </article>
+              ))}
+            </div>
+            <p className="mt-6 text-sm text-[var(--tb-text-muted)]">
+              Хотите обсудить индивидуальный формат?{" "}
+              <button
+                type="button"
+                onClick={() => setContactOpen(true)}
+                className="font-semibold text-[var(--tb-accent)]"
+              >
+                Запросить консультацию
+              </button>
+            </p>
+          </Container>
+        </section>
+
+        <section data-reveal className="opacity-0 translate-y-6 transition duration-700 border-t border-[var(--divider)] bg-[var(--tb-surface)] py-16">
+          <Container className="rounded-3xl border border-[var(--tb-border)] bg-[var(--tb-surface-2)] p-8 text-center">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              Готовы прокачать команду технологических лидеров?
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[var(--tb-text-muted)]">
+              23 места в потоке. Свяжитесь с нами, чтобы узнать детали и условия участия.
+            </p>
+            <button
+              type="button"
+              onClick={() => setContactOpen(true)}
+              className="mt-8 inline-flex rounded-full border border-[var(--tb-accent)] bg-[var(--tb-accent)] px-6 py-3 text-sm font-semibold text-white shadow-[0_0_22px_var(--tb-accent-glow)] transition hover:bg-[var(--tb-accent-hover)]"
+            >
+              Оставить заявку
+            </button>
+            <p className="mt-4 text-sm text-[var(--tb-text-muted)]">
+              или напишите напрямую:{" "}
+              <a href="mailto:avsavche10@mts.ru" className="text-[var(--tb-accent)]">
+                avsavche10@mts.ru
+              </a>
+            </p>
+          </Container>
+        </section>
+
+        <footer className="border-t border-[var(--divider)] bg-[var(--tb-surface-soft)] py-8">
+          <Container className="flex flex-col gap-4 text-sm text-[var(--tb-text-muted)] sm:flex-row sm:items-center sm:justify-between">
+            <p>© 2025 Tech Bootcamp</p>
+            <div className="flex flex-wrap gap-3">
+              {content.nav.map((item) => (
+                <a key={item.href} href={item.href} className="transition hover:text-[var(--tb-text)]">
+                  {item.label}
+                </a>
+              ))}
+              <span>Контакты</span>
+            </div>
+          </Container>
+        </footer>
+      </main>
+
+      <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
+    </div>
+  );
+}

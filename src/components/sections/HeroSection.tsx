@@ -16,10 +16,10 @@ function ProcessArrowLink({
   return (
     <a
       href={href}
-      className="group min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+      className="group min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
     >
-      <span className="inline-flex w-full -skew-x-[12deg] items-center justify-center rounded-sm bg-white/[0.09] px-2 py-2.5 backdrop-blur-xl transition hover:bg-white/[0.16] sm:px-3 sm:py-2.5">
-        <span className="inline-block skew-x-[12deg] whitespace-nowrap text-center text-[10px] font-normal leading-none text-white/95 sm:text-[11px] md:text-xs">
+      <span className="inline-flex w-full -skew-x-[12deg] items-center justify-center rounded-sm border border-[var(--border)] bg-[color:color-mix(in_oklab,var(--surface)_84%,transparent)] px-2 py-2.5 backdrop-blur-xl transition hover:bg-[color:color-mix(in_oklab,var(--surface)_96%,transparent)] sm:px-3 sm:py-2.5">
+        <span className="inline-block skew-x-[12deg] whitespace-nowrap text-center text-[10px] font-normal leading-none text-[var(--foreground)] sm:text-[11px] md:text-xs">
           {children}
         </span>
       </span>
@@ -42,11 +42,19 @@ export function HeroSection({ content }: { content: SiteContent }) {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-center hero-main-image"
         />
-        <div className="absolute inset-0 bg-black/45" aria-hidden />
         <div
-          className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/30"
+          className="absolute inset-0"
+          style={{ background: "var(--hero-overlay-1)" }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, var(--hero-overlay-2), color-mix(in oklab, var(--hero-overlay-1) 72%, transparent), color-mix(in oklab, var(--hero-overlay-1) 72%, transparent))",
+          }}
           aria-hidden
         />
 
@@ -55,18 +63,18 @@ export function HeroSection({ content }: { content: SiteContent }) {
           <div className="grid w-full gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.35fr)] lg:items-start lg:gap-x-10 xl:gap-x-14">
             <div className="min-w-0 lg:max-w-none">
               {content.hero.eyebrow ? (
-                <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-white/70">
+                <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-[var(--muted)]">
                   {content.hero.eyebrow}
                 </p>
               ) : null}
               <h1
                 id="hero-title"
-                className="whitespace-pre-line text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[2.75rem] xl:text-[3.25rem]"
+                className="whitespace-pre-line text-4xl font-bold leading-[1.08] tracking-tight text-[var(--foreground)] sm:text-5xl lg:text-[2.75rem] xl:text-[3.25rem]"
               >
                 {content.hero.title}
               </h1>
               {content.hero.subtitleUnderTitle ? (
-                <p className="mt-2 text-xs font-medium tracking-wide text-white/78 sm:text-sm">
+                <p className="mt-2 text-xs font-medium tracking-wide text-[var(--muted)] sm:text-sm">
                   {content.hero.subtitleUnderTitle}
                 </p>
               ) : null}
@@ -74,7 +82,7 @@ export function HeroSection({ content }: { content: SiteContent }) {
 
             <div className="flex min-w-0 flex-col gap-3 lg:-ml-6 lg:gap-3 xl:-ml-10">
               {/* Вторая надпись — мельче, сразу над кнопками */}
-              <p className="max-w-xl text-sm font-normal leading-snug text-white/92 sm:text-[0.9375rem] sm:leading-relaxed lg:max-w-none">
+              <p className="max-w-xl text-sm font-normal leading-snug text-[var(--foreground)] sm:text-[0.9375rem] sm:leading-relaxed lg:max-w-none">
                 {content.hero.subtitle}
               </p>
               {links.length > 0 ? (

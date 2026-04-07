@@ -8,7 +8,7 @@ export function ServicesSection({ content }: { content: SiteContent }) {
   return (
     <AnimatedSection
       id="reviews"
-      className="scroll-mt-24 border-t border-white/10 bg-[#101017] py-16"
+      className="scroll-mt-24 border-t border-[var(--divider)] bg-[var(--surface-soft)] py-16"
     >
       <Container>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -16,10 +16,10 @@ export function ServicesSection({ content }: { content: SiteContent }) {
             <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e30613]/14 text-[#ff6f77] ring-1 ring-[#e30613]/35">
               <Quote className="h-5 w-5" aria-hidden />
             </div>
-            <h2 className="text-3xl font-semibold tracking-tight text-zinc-100">
+            <h2 className="text-3xl font-semibold tracking-tight text-[var(--foreground)]">
               {content.servicesIntro.title}
             </h2>
-            <p className="mt-2 max-w-xl text-zinc-400">
+            <p className="mt-2 max-w-xl text-[var(--muted)]">
               {content.servicesIntro.subtitle}
             </p>
           </div>
@@ -34,17 +34,17 @@ export function ServicesSection({ content }: { content: SiteContent }) {
           {content.services.map((s) => (
             <article
               key={s.slug}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] shadow-sm transition hover:border-[#e30613]/45 hover:bg-white/[0.07] hover:shadow-[0_12px_35px_rgba(227,6,19,0.12)]"
+              className="group overflow-hidden rounded-2xl border border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--surface)_88%,transparent)] shadow-sm transition hover:border-[#e30613]/45 hover:bg-[color:color-mix(in_oklab,var(--surface)_95%,transparent)] hover:shadow-[0_12px_35px_rgba(227,6,19,0.12)]"
             >
               <VisualPlaceholder
                 className="min-h-[160px] rounded-none rounded-t-2xl"
                 label="Карточка отзыва"
               />
               <div className="p-6">
-                <h3 className="text-lg font-semibold text-zinc-100">
+                <h3 className="text-lg font-semibold text-[var(--foreground)]">
                   {s.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+                <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
                   {s.description}
                 </p>
                 {s.href ? (
