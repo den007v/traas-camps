@@ -4,6 +4,17 @@ import { motion } from "framer-motion";
 
 type Bucket = { key: string; label: string; count: number };
 
+function formatUtcDateTime(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  const dd = String(date.getUTCDate()).padStart(2, "0");
+  const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const yyyy = String(date.getUTCFullYear());
+  const hh = String(date.getUTCHours()).padStart(2, "0");
+  const min = String(date.getUTCMinutes()).padStart(2, "0");
+  return `${dd}.${mm}.${yyyy}, ${hh}:${min} UTC`;
+}
+
 export type AssessmentAnalyticsData = {
   totalSessions: number;
   avgScore: number;
@@ -115,7 +126,7 @@ export function AssessmentAnalyticsDashboard({
                   className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-xs"
                 >
                   <span className="text-[var(--muted)]">
-                    {new Date(run.createdAt).toLocaleString("ru-RU")}
+                    {formatUtcDateTime(run.createdAt)}
                   </span>
                   <span className="font-medium text-[var(--foreground)]">
                     {run.level} · {run.score}
