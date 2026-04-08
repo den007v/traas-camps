@@ -44,7 +44,7 @@ export const siteContent: SiteContent = {
         "Зрелость данных и интеграций под ИИ-задачи",
         "Рекомендации по пилоту и масштабированию",
       ],
-      href: "#educational-programs",
+      href: "/assessment/ai-readiness",
       variant: "ai",
     },
     {
