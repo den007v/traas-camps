@@ -8,8 +8,9 @@ export function PublicationsSection({ content }: { content: SiteContent }) {
   return (
     <AnimatedSection
       id="publications"
-      className="scroll-mt-24 bg-[var(--surface-soft)] py-16"
+      className="scroll-mt-24 relative bg-[var(--surface-soft)] py-16"
     >
+      <div className="pointer-events-none absolute inset-0 opacity-60 [background-image:radial-gradient(circle_at_12%_0%,rgba(227,6,19,0.12),transparent_30%),radial-gradient(circle_at_90%_12%,rgba(139,110,34,0.08),transparent_30%)]" />
       <Container>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>

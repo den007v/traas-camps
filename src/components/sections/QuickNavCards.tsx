@@ -7,8 +7,9 @@ export function QuickNavCards({ content }: { content: SiteContent }) {
   return (
     <AnimatedSection
       id="assessment"
-      className="border-y border-[var(--divider)] bg-[var(--surface-soft)] py-14"
+      className="relative border-y border-[var(--divider)] bg-[var(--surface-soft)] py-14"
     >
+      <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:radial-gradient(circle_at_8%_0%,rgba(227,6,19,0.14),transparent_30%),radial-gradient(circle_at_92%_10%,rgba(159,123,36,0.09),transparent_28%)]" />
       <Container>
         <div className="mb-10 max-w-3xl space-y-4 lg:mb-12">
           <h2 className="text-3xl font-bold uppercase leading-tight tracking-tight text-[var(--foreground)] sm:text-4xl lg:text-[2.35rem] lg:leading-[1.1]">

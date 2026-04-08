@@ -13,7 +13,7 @@ function navLinkClass(label: string) {
   const base =
     "rounded-lg px-3 py-2 text-sm transition sm:px-4 sm:py-2.5";
   if (label === "Связаться") {
-    return `${base} border border-[var(--border)] bg-[color:color-mix(in_oklab,var(--surface)_88%,transparent)] font-medium text-[var(--foreground)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] hover:border-[#e30613]/45 hover:bg-[#e30613]/10`;
+    return `${base} border border-[#e30613]/55 bg-[linear-gradient(180deg,color-mix(in_oklab,#e30613_78%,#ff5e67),#cf0612)] font-semibold text-white shadow-[0_10px_24px_rgba(227,6,19,0.25),inset_0_1px_0_rgba(255,255,255,0.22)] hover:brightness-105`;
   }
   return `${base} font-medium text-[var(--muted)] hover:bg-[color:color-mix(in_oklab,var(--surface)_92%,transparent)] hover:text-[var(--foreground)]`;
 }

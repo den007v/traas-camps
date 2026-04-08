@@ -1,6 +1,7 @@
 export const techBootcampContent = {
   nav: [
     { label: "Программа", href: "#program" },
+    { label: "Кейсы", href: "#alumni-cases" },
     { label: "Для кого", href: "#audience" },
     { label: "Результаты", href: "#results" },
     { label: "Стоимость", href: "#pricing" },

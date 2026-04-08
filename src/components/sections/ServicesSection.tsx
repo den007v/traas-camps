@@ -8,8 +8,9 @@ export function ServicesSection({ content }: { content: SiteContent }) {
   return (
     <AnimatedSection
       id="reviews"
-      className="scroll-mt-24 border-t border-[var(--divider)] bg-[var(--surface-soft)] py-16"
+      className="scroll-mt-24 relative border-t border-[var(--divider)] bg-[var(--surface-soft)] py-16"
     >
+      <div className="pointer-events-none absolute inset-0 opacity-65 [background-image:radial-gradient(circle_at_10%_15%,rgba(227,6,19,0.13),transparent_34%),radial-gradient(circle_at_85%_18%,rgba(143,112,31,0.09),transparent_28%)]" />
       <Container>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>

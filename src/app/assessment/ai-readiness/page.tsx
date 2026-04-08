@@ -55,15 +55,23 @@ export default function AiReadinessAssessmentPage() {
   const palette = useMemo(
     () =>
       ({
-        "--a-bg": theme === "dark" ? "#181a26" : "#dee3ed",
-        "--a-surface": theme === "dark" ? "#232734" : "#edf2f8",
-        "--a-surface-2": theme === "dark" ? "#2b3040" : "#d8deea",
-        "--a-border": theme === "dark" ? "rgba(202,209,230,0.22)" : "rgba(110,120,145,0.16)",
-        "--a-text": theme === "dark" ? "#f3f4f8" : "#1a1c25",
-        "--a-muted": theme === "dark" ? "#b8bed0" : "#5b6170",
+        "--a-bg": theme === "dark" ? "#181a26" : "#cfd7e7",
+        "--a-surface": theme === "dark" ? "#232734" : "#e3eaf6",
+        "--a-surface-2": theme === "dark" ? "#2b3040" : "#c1cde2",
+        "--a-border": theme === "dark" ? "rgba(202,209,230,0.22)" : "rgba(67,82,112,0.28)",
+        "--a-text": theme === "dark" ? "#f3f4f8" : "#0f1725",
+        "--a-muted": theme === "dark" ? "#b8bed0" : "#3f4d66",
       }) as CSSProperties,
     [theme],
   );
+  const ctaButtonClass =
+    theme === "dark"
+      ? "rounded-full border border-[#e30613]/55 bg-[#e30613]/15 px-4 py-2 text-sm font-semibold text-[#ffd5d8] transition hover:bg-[#e30613]/25"
+      : "rounded-full border border-[#e30613]/60 bg-[linear-gradient(180deg,#ef1b2a,#d10614)] px-4 py-2 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(227,6,19,0.24)] transition hover:brightness-105";
+  const nextButtonClass =
+    theme === "dark"
+      ? "rounded-full border border-[#e30613]/50 bg-[#e30613]/18 px-5 py-2.5 text-sm font-semibold text-[#ffd5d8] transition hover:bg-[#e30613]/28 disabled:cursor-not-allowed disabled:opacity-40"
+      : "rounded-full border border-[#e30613]/65 bg-[linear-gradient(180deg,#ef1b2a,#d10614)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_22px_rgba(227,6,19,0.22)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-40";
 
   function setAnswer(value: string) {
     if (isProfileStep) {
@@ -144,7 +152,7 @@ export default function AiReadinessAssessmentPage() {
           <button
             type="button"
             onClick={() => setContactOpen(true)}
-            className="rounded-full border border-[#e30613]/55 bg-[#e30613]/15 px-4 py-2 text-sm font-semibold text-[#ffd5d8] transition hover:bg-[#e30613]/25"
+            className={ctaButtonClass}
           >
             Связаться
           </button>
@@ -181,7 +189,7 @@ export default function AiReadinessAssessmentPage() {
                   type="button"
                   onClick={goNext}
                   disabled={!selectedValue}
-                  className="rounded-full border border-[#e30613]/50 bg-[#e30613]/18 px-5 py-2.5 text-sm font-semibold text-[#ffd5d8] transition hover:bg-[#e30613]/28 disabled:cursor-not-allowed disabled:opacity-40"
+                  className={nextButtonClass}
                 >
                   Далее
                 </button>

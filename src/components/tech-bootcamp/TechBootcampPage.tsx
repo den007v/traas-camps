@@ -14,6 +14,7 @@ import { Container } from "@/components/ui/Container";
 import { ContactModal } from "@/components/contact/ContactModal";
 import { BrandWordmark } from "@/components/ui/BrandWordmark";
 import { techBootcampContent as content } from "@/data/techBootcampContent";
+import { techBootcampCases } from "@/data/techBootcampCases";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
 function useRevealAnimations() {
@@ -107,17 +108,17 @@ export function TechBootcampPage() {
     () =>
       ({
         "--tb-bg": theme === "dark" ? "#1a1a24" : "#e1e3ea",
-        "--tb-surface": theme === "dark" ? "#242432" : "#eaecf2",
-        "--tb-surface-2": theme === "dark" ? "#2d2d3d" : "#d7dbe4",
-        "--tb-surface-soft": theme === "dark" ? "#20202d" : "#e6e9f0",
-        "--tb-border": theme === "dark" ? "#454759" : "#bcc2cf",
-        "--tb-text": theme === "dark" ? "#f5f6fa" : "#1a1c24",
-        "--tb-text-muted": theme === "dark" ? "#bcc1cf" : "#606675",
+        "--tb-surface": theme === "dark" ? "#242432" : "#e3e8f2",
+        "--tb-surface-2": theme === "dark" ? "#2d2d3d" : "#c5cfe0",
+        "--tb-surface-soft": theme === "dark" ? "#20202d" : "#d5ddeb",
+        "--tb-border": theme === "dark" ? "#454759" : "#818ea7",
+        "--tb-text": theme === "dark" ? "#f5f6fa" : "#0f1521",
+        "--tb-text-muted": theme === "dark" ? "#bcc1cf" : "#3f4b62",
         "--tb-accent": "#e30613",
         "--tb-accent-hover": theme === "dark" ? "#ff2f3b" : "#c90511",
         "--tb-accent-glow":
-          theme === "dark" ? "rgba(227,6,19,0.22)" : "rgba(227,6,19,0.18)",
-        "--tb-gold": theme === "dark" ? "#dfb657" : "#b27d15",
+          theme === "dark" ? "rgba(227,6,19,0.22)" : "rgba(227,6,19,0.24)",
+        "--tb-gold": theme === "dark" ? "#dfb657" : "#9d6d11",
       }) as CSSProperties,
     [theme],
   );
@@ -125,7 +126,7 @@ export function TechBootcampPage() {
   return (
     <div
       style={vars}
-      className="bg-[var(--tb-bg)] text-[var(--tb-text)] [background-image:radial-gradient(circle_at_18%_-10%,rgba(227,6,19,0.08),transparent_36%),radial-gradient(circle_at_100%_0%,rgba(223,182,87,0.08),transparent_30%)]"
+      className="bg-[var(--tb-bg)] text-[var(--tb-text)] [background-image:radial-gradient(circle_at_18%_-10%,rgba(227,6,19,0.13),transparent_36%),radial-gradient(circle_at_100%_0%,rgba(223,182,87,0.1),transparent_30%)]"
     >
       <header
         className={`sticky top-0 z-50 border-b transition ${
@@ -452,6 +453,71 @@ export function TechBootcampPage() {
                   <p className="text-sm leading-relaxed text-[var(--tb-text-muted)]">{quote.text}</p>
                   <footer className="mt-3 text-xs text-[var(--tb-text)]">{quote.author}</footer>
                 </blockquote>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        <section
+          id="alumni-cases"
+          data-reveal
+          className="opacity-0 translate-y-6 transition duration-700 border-y border-[var(--divider)] bg-[var(--tb-surface)] py-14"
+        >
+          <Container>
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                  Кейсы выпускников Tech Bootcamp
+                </h2>
+                <p className="mt-3 max-w-2xl text-sm text-[var(--tb-text-muted)]">
+                  Реальные истории лидеров: продуктовые запуски, управление командами и
+                  внедрение AI-инструментов в рабочие процессы.
+                </p>
+              </div>
+              <Link
+                href="/tech-bootcamp/cases"
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--tb-border)] bg-[var(--tb-surface-2)] px-4 py-2 text-sm font-medium text-[var(--tb-text)] transition hover:border-[var(--tb-accent)]/55 hover:text-white"
+              >
+                Смотреть все кейсы
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div className="mt-7 grid gap-4 lg:grid-cols-3">
+              {techBootcampCases.map((item) => (
+                <article
+                  key={item.slug}
+                  className="group relative overflow-hidden rounded-2xl border border-[var(--tb-border)] bg-[linear-gradient(160deg,color-mix(in_oklab,var(--tb-surface-2)_90%,transparent),color-mix(in_oklab,var(--tb-surface)_92%,transparent))] p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--tb-accent)]/60 hover:shadow-[0_20px_50px_-24px_var(--tb-accent-glow)]"
+                >
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[var(--tb-accent)]/10 blur-3xl transition duration-300 group-hover:bg-[var(--tb-accent)]/16"
+                  />
+                  <div className="relative">
+                    <span className="inline-flex rounded-full border border-[var(--tb-border)] bg-[var(--tb-surface)] px-2.5 py-1 text-[11px] text-[var(--tb-text-muted)]">
+                      {item.coverTag}
+                    </span>
+                    <h3 className="mt-4 text-lg font-semibold leading-tight">{item.title}</h3>
+                    <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-[var(--tb-text-muted)]">
+                      {item.subtitle}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-[var(--tb-text-muted)]">
+                      <span className="rounded-full border border-[var(--tb-border)] bg-[var(--tb-surface)] px-2.5 py-1">
+                        {item.author}
+                      </span>
+                      <span className="rounded-full border border-[var(--tb-border)] bg-[var(--tb-surface)] px-2.5 py-1">
+                        {item.company}
+                      </span>
+                    </div>
+                    <Link
+                      href={`/tech-bootcamp/cases/${item.slug}`}
+                      className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--tb-accent)] transition group-hover:text-[var(--tb-accent-hover)]"
+                    >
+                      Читать кейс
+                      <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                    </Link>
+                  </div>
+                </article>
               ))}
             </div>
           </Container>
