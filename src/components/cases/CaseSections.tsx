@@ -1,28 +1,10 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowLeft } from "lucide-react";
 import type { TechCampCaseRecord } from "@/data/cases/types";
 import { CaseSectionNav } from "@/components/cases/CaseProgressAndNav";
 
 export function CasePageLayout({ children }: { children: ReactNode }) {
   return <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">{children}</div>;
-}
-
-export function CaseTopBar() {
-  return (
-    <div className="border-b border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--background)_92%,transparent)]">
-      <div className="mx-auto flex h-14 w-full max-w-[1120px] items-center justify-between px-4 sm:px-6">
-        <span className="text-sm font-medium text-[var(--foreground)]">Tech Camp Alumni</span>
-        <Link
-          href="/tech-bootcamp/cases"
-          className="inline-flex items-center gap-1.5 text-sm text-[var(--muted)] transition hover:text-[var(--foreground)]"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Все кейсы
-        </Link>
-      </div>
-    </div>
-  );
 }
 
 export function CaseHero({
@@ -35,12 +17,12 @@ export function CaseHero({
   return (
     <section
       data-case-reveal
-      className="opacity-0 translate-y-4 transition duration-700 rounded-3xl border border-[var(--border)] bg-[linear-gradient(160deg,color-mix(in_oklab,var(--surface)_97%,transparent),color-mix(in_oklab,var(--surface-2)_86%,transparent))] p-6 sm:p-8 motion-safe:hover:shadow-[0_20px_50px_-36px_rgba(227,6,19,0.35)]"
+      className="opacity-0 translate-y-4 transition duration-700 rounded-3xl border border-[var(--border)] bg-[linear-gradient(160deg,color-mix(in_oklab,var(--surface)_97%,transparent),color-mix(in_oklab,var(--surface-2)_86%,transparent))] p-6 sm:p-8 motion-safe:hover:shadow-[0_20px_50px_-36px_color-mix(in_oklab,var(--primary)_35%,transparent)]"
     >
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <div>
           <div className="mb-3 flex flex-wrap gap-2">
-            <span className="rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-1 text-[11px] uppercase tracking-[0.1em] text-[#e30613]">
+            <span className="rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-1 text-[11px] uppercase tracking-[0.1em] text-[var(--primary)]">
               {caseItem.heroBadge}
             </span>
             <span className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[11px] text-[var(--muted)]">
@@ -66,9 +48,9 @@ export function CaseHero({
             {caseItem.metrics.slice(0, 3).map((metric) => (
               <div
                 key={metric.label}
-                className="rounded-lg border border-[var(--divider)] bg-[var(--surface-2)]/45 p-3 transition duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:border-[#e30613]/35"
+                className="rounded-lg border border-[var(--divider)] bg-[var(--surface-2)]/45 p-3 transition duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:border-[color:color-mix(in_oklab,var(--primary)_35%,transparent)]"
               >
-                <p className="text-xl font-semibold leading-none text-[#e30613]">{metric.value}</p>
+                <p className="text-xl font-semibold leading-none text-[var(--primary)]">{metric.value}</p>
                 <p className="mt-1 text-[11px] text-[var(--muted)]">{metric.label}</p>
               </div>
             ))}
@@ -85,13 +67,36 @@ export function CaseTLDR({ items }: { items: TechCampCaseRecord["tldr"] }) {
       data-case-reveal
       className="opacity-0 translate-y-4 transition duration-700 mt-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5"
     >
-      <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--muted)]">TL;DR</p>
-      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+      <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--muted)]">Краткие выводы</p>
+      <ul className="mt-3 space-y-2.5">
         {items.map((item) => (
-          <article key={item.label} className="rounded-xl border border-[var(--divider)] bg-[var(--surface-2)]/45 p-3.5">
-            <p className="text-[11px] uppercase tracking-[0.1em] text-[#e30613]">{item.label}</p>
-            <p className="mt-1.5 text-[13px] leading-6 text-[var(--foreground)]/92">{item.text}</p>
-          </article>
+          <li key={item.label} className="flex items-start gap-2.5 text-[13px] leading-6 text-[var(--foreground)]/92">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--primary)]" />
+            <span>
+              <span className="font-semibold text-[var(--foreground)]">{item.label}:</span> {item.text}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+export function CaseToolsStrip({ tools }: { tools: string[] }) {
+  return (
+    <section
+      data-case-reveal
+      className="opacity-0 translate-y-4 transition duration-700 mt-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5"
+    >
+      <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--muted)]">Инструменты и технологии</p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {tools.map((tool) => (
+          <span
+            key={tool}
+            className="rounded-full border border-[var(--divider)] bg-[var(--surface-2)]/45 px-3 py-1 text-[12px] text-[var(--foreground)]/90"
+          >
+            {tool}
+          </span>
         ))}
       </div>
     </section>
@@ -100,7 +105,7 @@ export function CaseTLDR({ items }: { items: TechCampCaseRecord["tldr"] }) {
 
 export function CaseQuote({ text }: { text: string }) {
   return (
-    <blockquote className="my-3 rounded-xl border-l-2 border-[#e30613] bg-[var(--surface)] px-4 py-3 text-[15px] italic leading-7 text-[var(--foreground)]/95">
+    <blockquote className="my-3 rounded-xl border-l-2 border-[var(--primary)] bg-[var(--surface)] px-4 py-3 text-[15px] italic leading-7 text-[var(--foreground)]/95">
       {text}
     </blockquote>
   );
@@ -108,7 +113,7 @@ export function CaseQuote({ text }: { text: string }) {
 
 export function CaseHighlight({ text }: { text: string }) {
   return (
-    <div className="my-3 rounded-xl border border-[#e30613]/35 bg-[#e30613]/8 px-4 py-3 text-[14px] leading-6 text-[var(--foreground)]/95">
+    <div className="my-3 rounded-xl border border-[color:color-mix(in_oklab,var(--primary)_35%,transparent)] bg-[color:color-mix(in_oklab,var(--primary)_10%,transparent)] px-4 py-3 text-[14px] leading-6 text-[var(--foreground)]/95">
       {text}
     </div>
   );
@@ -124,7 +129,7 @@ export function CaseResults({ items }: { items: TechCampCaseRecord["results"] })
       <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
           <article key={`${item.value}-${item.label}`} className="rounded-xl border border-[var(--divider)] bg-[var(--surface-2)]/45 p-4">
-            <p className="text-2xl font-semibold leading-none text-[#e30613]">{item.value}</p>
+            <p className="text-2xl font-semibold leading-none text-[var(--primary)]">{item.value}</p>
             <p className="mt-1.5 text-[12px] leading-5 text-[var(--muted)]">{item.label}</p>
           </article>
         ))}
@@ -140,7 +145,7 @@ export function CaseOptionalContext({ items }: { items: string[] }) {
       data-case-reveal
       className="opacity-0 translate-y-4 transition duration-700 mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5"
     >
-      <h2 className="text-xl font-semibold">Контекст Tech Camp</h2>
+      <h2 className="text-xl font-semibold">Связь с TechBootcamp</h2>
       <ul className="mt-3 space-y-2">
         {items.map((item) => (
           <li key={item} className="text-[13px] leading-6 text-[var(--muted)]">
@@ -186,7 +191,7 @@ export function CaseSidePanel({
           {nextPrev.prev ? (
             <Link
               href={`/tech-bootcamp/cases/${nextPrev.prev.slug}`}
-              className="block rounded-md border border-[var(--border)] px-3 py-2 text-[13px] transition hover:border-[#e30613]/45"
+              className="block rounded-md border border-[var(--border)] px-3 py-2 text-[13px] transition hover:border-[color:color-mix(in_oklab,var(--primary)_45%,transparent)]"
             >
               ← {nextPrev.prev.title}
             </Link>
@@ -194,7 +199,7 @@ export function CaseSidePanel({
           {nextPrev.next ? (
             <Link
               href={`/tech-bootcamp/cases/${nextPrev.next.slug}`}
-              className="block rounded-md border border-[var(--border)] px-3 py-2 text-[13px] transition hover:border-[#e30613]/45"
+              className="block rounded-md border border-[var(--border)] px-3 py-2 text-[13px] transition hover:border-[color:color-mix(in_oklab,var(--primary)_45%,transparent)]"
             >
               {nextPrev.next.title} →
             </Link>

@@ -8,9 +8,19 @@ type Props = {
   question: AssessmentQuestionItem | ProfileQuestion;
   selectedValue?: string | number;
   onSelect: (value: string) => void;
+  otherText?: string;
+  onOtherInput?: (value: string) => void;
 };
 
-export function AssessmentQuestion({ question, selectedValue, onSelect }: Props) {
+export function AssessmentQuestion({
+  question,
+  selectedValue,
+  onSelect,
+  otherText,
+  onOtherInput,
+}: Props) {
+  const showOtherInput = selectedValue === "other" && typeof onOtherInput === "function";
+
   return (
     <motion.div
       key={question.id}
@@ -59,6 +69,24 @@ export function AssessmentQuestion({ question, selectedValue, onSelect }: Props)
           );
         })}
       </div>
+      {showOtherInput ? (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-3"
+        >
+          <label className="mb-1.5 block text-xs text-[var(--muted)]">
+            Уточнение (необязательно)
+          </label>
+          <input
+            type="text"
+            value={otherText ?? ""}
+            onChange={(event) => onOtherInput(event.target.value)}
+            placeholder="Введите свой вариант"
+            className="w-full rounded-xl border border-[var(--border)] bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)] px-3.5 py-3 text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--muted)]/85 focus:border-[#e30613]/55"
+          />
+        </motion.div>
+      ) : null}
     </motion.div>
   );
 }

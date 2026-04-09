@@ -61,6 +61,34 @@ export function AssessmentResult({
         <ModernRadarChart data={radarData} color={level.color} />
       </motion.div>
 
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.24 }}
+        className="rounded-2xl border border-[var(--border)] bg-[linear-gradient(160deg,color-mix(in_oklab,var(--surface)_94%,transparent),color-mix(in_oklab,var(--primary)_8%,transparent))] p-5"
+      >
+        <p className="text-sm leading-relaxed text-[var(--foreground)]">{level.ctaText}</p>
+        <p className="mt-2 text-xs text-[var(--muted)]">
+          Что получите: экспресс-разбор текущего уровня, приоритеты на 30-90 дней и рекомендации по следующему шагу.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={onCta}
+            className="rounded-full border border-[#e30613]/68 bg-[linear-gradient(180deg,#ef1b2a,#d10614)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_22px_rgba(227,6,19,0.24)] transition hover:brightness-105"
+          >
+            {level.ctaLabel}
+          </button>
+          <button
+            type="button"
+            onClick={onReset}
+            className="rounded-full border border-[var(--border)] bg-transparent px-5 py-2.5 text-sm font-medium text-[var(--muted)] transition hover:text-[var(--foreground)]"
+          >
+            Пройти тест заново
+          </button>
+        </div>
+      </motion.div>
+
       <div className="space-y-2.5">
         {level.insights.map((insight, idx) => (
           <motion.div
@@ -74,31 +102,6 @@ export function AssessmentResult({
           </motion.div>
         ))}
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="rounded-2xl border border-[var(--border)] bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)] p-5"
-      >
-        <p className="text-sm leading-relaxed text-[var(--foreground)]">{level.ctaText}</p>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={onCta}
-            className="rounded-full border border-[#e30613]/50 bg-[#e30613]/18 px-5 py-2.5 text-sm font-semibold text-[#ffd1d4] transition hover:bg-[#e30613]/28"
-          >
-            {level.ctaLabel}
-          </button>
-          <button
-            type="button"
-            onClick={onReset}
-            className="rounded-full border border-[var(--border)] bg-transparent px-5 py-2.5 text-sm font-medium text-[var(--muted)] transition hover:text-[var(--foreground)]"
-          >
-            Пройти тест заново
-          </button>
-        </div>
-      </motion.div>
     </motion.div>
   );
 }

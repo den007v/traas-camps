@@ -27,14 +27,14 @@ export function CasesCtaPanel({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="inline-flex items-center gap-2 rounded-full border border-[#e30613] bg-[#e30613] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#cf0611]"
+            className="inline-flex items-center gap-2 rounded-full border border-[color:color-mix(in_oklab,var(--primary)_72%,#ffffff)] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--primary)_84%,#ff5e67),var(--primary-hover))] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_color-mix(in_oklab,var(--primary)_34%,transparent)] transition hover:brightness-105"
           >
             {buttonLabel}
             <ArrowRight className="h-4 w-4" />
           </button>
           <Link
             href={backHref}
-            className="inline-flex items-center rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-5 py-2.5 text-sm font-medium text-[var(--foreground)] transition hover:border-[#e30613]/55"
+            className="inline-flex items-center rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-5 py-2.5 text-sm font-medium text-[var(--foreground)] transition hover:border-[color:color-mix(in_oklab,var(--primary)_50%,transparent)]"
           >
             Вернуться в Tech Bootcamp
           </Link>

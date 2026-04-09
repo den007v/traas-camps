@@ -26,6 +26,7 @@ export const profileQuestions: ProfileQuestion[] = [
       { id: "B", value: "cto_cio", text: "CTO / CIO / CDO" },
       { id: "C", value: "head_unit", text: "Руководитель функции / направления" },
       { id: "D", value: "manager_expert", text: "Менеджер / эксперт команды" },
+      { id: "E", value: "other", text: "Другое" },
     ],
   },
   {
@@ -36,6 +37,7 @@ export const profileQuestions: ProfileQuestion[] = [
       { id: "B", value: "100_500", text: "100–500 сотрудников" },
       { id: "C", value: "500_2000", text: "500–2000 сотрудников" },
       { id: "D", value: "gt_2000", text: "Более 2000 сотрудников" },
+      { id: "E", value: "other", text: "Другое" },
     ],
   },
   {
@@ -46,6 +48,7 @@ export const profileQuestions: ProfileQuestion[] = [
       { id: "B", value: "retail_ecom", text: "Ритейл / eCommerce / FMCG" },
       { id: "C", value: "industrial_energy", text: "Промышленность / энергетика / логистика" },
       { id: "D", value: "it_telecom_other", text: "IT / телеком / другие услуги" },
+      { id: "E", value: "other", text: "Другое" },
     ],
   },
   {
@@ -56,6 +59,7 @@ export const profileQuestions: ProfileQuestion[] = [
       { id: "B", value: "data_quality", text: "Низкое качество данных и интеграций" },
       { id: "C", value: "team_skills", text: "Нехватка команды и компетенций" },
       { id: "D", value: "infra_governance", text: "Ограничения инфраструктуры и governance" },
+      { id: "E", value: "other", text: "Другое" },
     ],
   },
 ];
@@ -72,7 +76,7 @@ export type ReadinessLevel = {
   ctaLabel: string;
 };
 
-export const aiReadinessQuestions: AssessmentQuestionItem[] = [
+const baseAiReadinessQuestions: AssessmentQuestionItem[] = [
   {
     id: "q1",
     text: "Насколько чётко в вашей компании сформулирована стратегия применения ИИ?",
@@ -269,6 +273,21 @@ export const aiReadinessQuestions: AssessmentQuestionItem[] = [
     ],
   },
 ];
+
+export const aiReadinessQuestions: AssessmentQuestionItem[] = baseAiReadinessQuestions.map(
+  (question) => ({
+    ...question,
+    options: [
+      ...question.options,
+      {
+        id: "E",
+        value: "unknown",
+        score: 2,
+        text: "Затрудняюсь ответить / нужно уточнение",
+      },
+    ],
+  }),
+);
 
 export const readinessLevels: ReadinessLevel[] = [
   {

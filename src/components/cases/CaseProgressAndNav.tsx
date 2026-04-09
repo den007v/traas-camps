@@ -24,7 +24,7 @@ export function CaseReadingProgress() {
   return (
     <div className="fixed left-0 right-0 top-0 z-[70] h-[2px] bg-transparent">
       <div
-        className="h-[2px] bg-[#e30613] transition-[width] duration-150"
+        className="h-[2px] bg-[linear-gradient(90deg,var(--primary),var(--accent-alt))] transition-[width] duration-150"
         style={{ width: `${progress}%` }}
       />
     </div>
@@ -76,7 +76,7 @@ export function CaseSectionNav({
               href={`#${section.id}`}
               className={`block rounded-md px-2 py-1 text-[12px] transition ${
                 isActive
-                  ? "bg-[#e30613]/14 text-[var(--foreground)]"
+                  ? "bg-[color:color-mix(in_oklab,var(--accent-alt)_16%,transparent)] text-[var(--foreground)]"
                   : "text-[var(--muted)] hover:text-[var(--foreground)]"
               }`}
             >

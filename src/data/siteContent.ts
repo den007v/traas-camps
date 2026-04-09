@@ -9,16 +9,18 @@ export const siteContent: SiteContent = {
   },
   brandName: "TraaS & Camps",
   headerNav: [
-    { label: "Кейсы TraaS", href: "#cases" },
+    { label: "Наши кейсы", href: "#cases" },
     { label: "Tech Bootcamp", href: "/tech-bootcamp" },
     { label: "Связаться", href: "#footer" },
   ],
   headerCta: { label: "Связаться", href: "#footer" },
   hero: {
-    title: "TraaS",
-    subtitleUnderTitle: "Transformation As A Servisce",
+    title:
+      "Помогаем\nкомпаниям навести порядок в технологиях\nи запустить управляемую трансформацию бизнеса",
+    subtitleUnderTitle:
+      "TraaS — технологический консалтинг, который помогает превратить сложные изменения в понятную дорожную карту и измеримый результат",
     subtitle:
-      "Программа и инструменты, которые за несколько месяцев помогают ускорить вывод изменений, упорядочить процессы и ИТ и встроить данные и AI в повседневную работу вашей команды",
+      "TraaS объединяет консалтинг и Tech Bootcamp: вы получаете понятную дорожную карту изменений, усиление команды и измеримый результат в процессах, ИТ и данных.",
     links: [
       { label: "Оценка", href: "#assessment" },
       { label: "Услуги", href: "#tech-bootcamp" },

@@ -14,7 +14,7 @@ export function PublicationsSection({ content }: { content: SiteContent }) {
       <Container>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e30613]/14 text-[#ff6f77] ring-1 ring-[#e30613]/35">
+            <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[color:color-mix(in_oklab,var(--accent-alt)_14%,transparent)] text-[var(--accent-alt)] ring-1 ring-[color:color-mix(in_oklab,var(--accent-alt)_34%,transparent)]">
               <Newspaper className="h-5 w-5" aria-hidden />
             </div>
             <h2 className="text-3xl font-semibold tracking-tight text-[var(--foreground)]">
@@ -29,18 +29,18 @@ export function PublicationsSection({ content }: { content: SiteContent }) {
           {content.publications.map((pub) => (
             <article
               key={pub.id}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--surface)_88%,transparent)] transition hover:border-[#e30613]/45 hover:bg-[color:color-mix(in_oklab,var(--surface)_95%,transparent)] hover:shadow-[0_12px_35px_rgba(227,6,19,0.12)]"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--surface)_88%,transparent)] transition hover:border-[color:color-mix(in_oklab,var(--primary)_45%,transparent)] hover:bg-[color:color-mix(in_oklab,var(--surface)_95%,transparent)] hover:shadow-[0_12px_35px_color-mix(in_oklab,var(--primary)_18%,transparent)]"
             >
               <VisualPlaceholder
                 className="aspect-[16/10] min-h-0 rounded-none rounded-t-2xl"
                 label="Обложка статьи"
               />
               <div className="flex flex-1 flex-col p-5">
-                <span className="text-xs font-semibold uppercase tracking-wide text-[#ff5a65]">
+                <span className="text-xs font-semibold uppercase tracking-wide text-[var(--accent-alt)]">
                   {pub.categoryName}
                 </span>
                 <h3 className="mt-2 text-lg font-semibold leading-snug text-[var(--foreground)]">
-                  <a href={pub.href} className="hover:text-[#ff7d85]">
+                  <a href={pub.href} className="hover:text-[color:color-mix(in_oklab,var(--primary)_72%,#ffffff)]">
                     {pub.title}
                   </a>
                 </h3>

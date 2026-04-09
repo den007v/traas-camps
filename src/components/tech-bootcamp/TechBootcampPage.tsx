@@ -2,20 +2,23 @@
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
-  ChevronLeft,
-  Moon,
-  SunMedium,
 } from "lucide-react";
-import { Container } from "@/components/ui/Container";
 import { ContactModal } from "@/components/contact/ContactModal";
-import { BrandWordmark } from "@/components/ui/BrandWordmark";
+import { Container } from "@/components/ui/Container";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { siteContent } from "@/data/siteContent";
 import { techBootcampContent as content } from "@/data/techBootcampContent";
 import { techBootcampCases } from "@/data/techBootcampCases";
 import { useTheme } from "@/components/theme/ThemeProvider";
+
+const HERO_IMAGE = "/images/hero-servers.png";
+const HERO_VIDEO_WEBM = "/videos/hero-transform.webm";
+const HERO_VIDEO_MP4 = "/videos/hero-transform.mp4";
 
 function useRevealAnimations() {
   useEffect(() => {
@@ -67,8 +70,7 @@ function Metric({ label, value }: { label: string; value: string }) {
 }
 
 export function TechBootcampPage() {
-  const { theme, toggleTheme } = useTheme();
-  const [scrolled, setScrolled] = useState(false);
+  const { theme } = useTheme();
   const [contactOpen, setContactOpen] = useState(false);
   const [openWeekOne, setOpenWeekOne] = useState(0);
   const [openWeekTwo, setOpenWeekTwo] = useState(0);
@@ -76,13 +78,6 @@ export function TechBootcampPage() {
   const [resultsInView, setResultsInView] = useState(false);
 
   useRevealAnimations();
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     if (!resultsRef.current) return;
@@ -128,60 +123,44 @@ export function TechBootcampPage() {
       style={vars}
       className="bg-[var(--tb-bg)] text-[var(--tb-text)] [background-image:radial-gradient(circle_at_18%_-10%,rgba(227,6,19,0.13),transparent_36%),radial-gradient(circle_at_100%_0%,rgba(223,182,87,0.1),transparent_30%)]"
     >
-      <header
-        className={`sticky top-0 z-50 border-b transition ${
-          scrolled
-            ? "border-[var(--tb-border)] bg-[color:color-mix(in_oklab,var(--tb-bg)_70%,transparent)] backdrop-blur-xl"
-            : "border-transparent bg-transparent"
-        }`}
-      >
-        <Container className="flex h-16 items-center justify-between gap-4">
-          <div className="min-w-0">
-            <div className="flex items-center gap-2 text-xs">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--tb-border)] bg-[var(--tb-surface)] px-2.5 py-1 text-[var(--tb-text-muted)] transition hover:border-[var(--tb-accent)]/55 hover:text-[var(--tb-text)]"
-              >
-                <ChevronLeft className="h-3.5 w-3.5" />
-                <BrandWordmark className="text-[11px]" />
-              </Link>
-              <span className="text-[var(--tb-text-muted)]/70">/</span>
-              <span className="rounded-md bg-[var(--tb-surface)] px-2 py-1 font-medium text-[var(--tb-accent)]">
-                Tech Bootcamp
-              </span>
-            </div>
-          </div>
-          <nav className="hidden items-center gap-1 md:flex">
-            {content.nav.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="rounded-lg px-3 py-2 text-sm text-[var(--tb-text-muted)] transition hover:bg-[var(--tb-surface)] hover:text-[var(--tb-text)]"
-              >
-                {item.label}
-              </a>
-            ))}
-            <button
-              type="button"
-              aria-label="Переключить тему"
-              onClick={toggleTheme}
-              className="ml-1 rounded-lg border border-[var(--tb-border)] bg-[var(--tb-surface)] p-2 text-[var(--tb-text-muted)] transition hover:text-[var(--tb-text)]"
+      <SiteHeader content={siteContent} currentPageLabel="Tech Bootcamp" />
+      <div className="sticky top-16 z-40 border-b border-[var(--tb-border)] bg-[color:color-mix(in_oklab,var(--tb-bg)_80%,transparent)] backdrop-blur-xl">
+        <Container className="flex h-12 items-center gap-2 overflow-x-auto">
+          {content.nav.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium text-[var(--tb-text-muted)] transition hover:bg-[var(--tb-surface)] hover:text-[var(--tb-text)]"
             >
-              {theme === "dark" ? <SunMedium className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </button>
-            <button
-              type="button"
-              onClick={() => setContactOpen(true)}
-              className="ml-2 rounded-full border border-[var(--tb-accent)] bg-[var(--tb-accent)] px-4 py-2 text-sm font-semibold text-white shadow-[0_0_20px_var(--tb-accent-glow)] transition hover:bg-[var(--tb-accent-hover)]"
-            >
-              Подать заявку
-            </button>
-          </nav>
+              {item.label}
+            </a>
+          ))}
         </Container>
-      </header>
+      </div>
 
       <main className="relative overflow-hidden">
-        <section className="relative border-b border-[var(--divider)] bg-[var(--tb-surface-soft)] py-14 sm:py-20">
+        <section className="relative min-h-[min(58vh,620px)] border-b border-[var(--divider)] bg-[var(--tb-surface-soft)] py-14 sm:py-20">
+          <Image
+            src={HERO_IMAGE}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center sm:hidden"
+          />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 hidden h-full w-full object-cover object-center sm:block"
+            aria-hidden
+          >
+            <source src={HERO_VIDEO_WEBM} type="video/webm" />
+            <source src={HERO_VIDEO_MP4} type="video/mp4" />
+          </video>
+          <div className="pointer-events-none absolute inset-0 bg-[rgba(12,12,18,0.44)]" />
           <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:radial-gradient(circle_at_15%_10%,rgba(227,6,19,0.22),transparent_35%),radial-gradient(circle_at_85%_20%,rgba(223,182,87,0.16),transparent_34%)]" />
           <Container className="relative">
             <span className="inline-flex rounded-full border border-[var(--tb-border)] bg-[var(--tb-surface)] px-3 py-1 text-xs text-[var(--tb-text-muted)]">
@@ -589,7 +568,7 @@ export function TechBootcampPage() {
                 onClick={() => setContactOpen(true)}
                 className="font-semibold text-[var(--tb-accent)]"
               >
-                Запросить консультацию
+                Обсудить условия
               </button>
             </p>
           </Container>

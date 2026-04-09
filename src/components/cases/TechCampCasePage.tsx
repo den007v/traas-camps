@@ -1,6 +1,8 @@
 import { CasesCtaPanel } from "@/components/tech-bootcamp/CasesCtaPanel";
 import { CaseRevealProvider } from "@/components/cases/CaseRevealProvider";
 import { CaseReadingProgress } from "@/components/cases/CaseProgressAndNav";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { siteContent } from "@/data/siteContent";
 import {
   CaseHighlight,
   CaseHero,
@@ -10,7 +12,7 @@ import {
   CaseResults,
   CaseSidePanel,
   CaseTLDR,
-  CaseTopBar,
+  CaseToolsStrip,
 } from "@/components/cases/CaseSections";
 import type { TechCampCaseRecord } from "@/data/cases/types";
 
@@ -63,10 +65,15 @@ export function TechCampCasePage({
     <CasePageLayout>
       <CaseReadingProgress />
       <CaseRevealProvider />
-      <CaseTopBar />
+      <SiteHeader
+        content={siteContent}
+        currentPageLabel="Кейс Tech Bootcamp"
+        backHref="/tech-bootcamp/cases"
+      />
       <main className="mx-auto w-full max-w-[1120px] px-4 py-7 sm:px-6 sm:py-9">
         <CaseHero caseItem={caseItem} readTime={readTime} />
         <CaseTLDR items={caseItem.tldr} />
+        <CaseToolsStrip tools={caseItem.tools} />
 
         <section className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
           <article

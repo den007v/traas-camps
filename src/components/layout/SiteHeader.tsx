@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { BrandWordmark } from "@/components/ui/BrandWordmark";
 import { ContactModal } from "@/components/contact/ContactModal";
-import { Menu, Moon, SunMedium, X } from "lucide-react";
+import { ChevronLeft, Menu, Moon, SunMedium, X } from "lucide-react";
 import type { SiteContent } from "@/types/content";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
@@ -13,7 +14,10 @@ function navLinkClass(label: string) {
   const base =
     "rounded-lg px-3 py-2 text-sm transition sm:px-4 sm:py-2.5";
   if (label === "Связаться") {
-    return `${base} border border-[#e30613]/55 bg-[linear-gradient(180deg,color-mix(in_oklab,#e30613_78%,#ff5e67),#cf0612)] font-semibold text-white shadow-[0_10px_24px_rgba(227,6,19,0.25),inset_0_1px_0_rgba(255,255,255,0.22)] hover:brightness-105`;
+    return `${base} border border-[color:color-mix(in_oklab,var(--primary)_70%,#ffffff)] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--primary)_84%,#ff5e67),var(--primary-hover))] font-semibold text-white shadow-[0_10px_24px_color-mix(in_oklab,var(--primary)_34%,transparent),inset_0_1px_0_rgba(255,255,255,0.24)] hover:brightness-105`;
+  }
+  if (label === "Tech Bootcamp") {
+    return `${base} border border-[color:color-mix(in_oklab,var(--primary)_45%,var(--border))] bg-[color:color-mix(in_oklab,var(--surface)_88%,var(--primary)_12%)] font-semibold text-[var(--foreground)] shadow-[0_8px_22px_color-mix(in_oklab,var(--primary)_16%,transparent)] hover:border-[color:color-mix(in_oklab,var(--primary)_62%,var(--border))] hover:text-[var(--primary)]`;
   }
   return `${base} font-medium text-[var(--muted)] hover:bg-[color:color-mix(in_oklab,var(--surface)_92%,transparent)] hover:text-[var(--foreground)]`;
 }
@@ -22,20 +26,59 @@ function isInternalPath(href: string) {
   return href.startsWith("/");
 }
 
-export function SiteHeader({ content }: { content: SiteContent }) {
+function resolveNavHref(pathname: string, href: string) {
+  if (!href.startsWith("#")) return href;
+  return pathname === "/" ? href : `/${href}`;
+}
+
+type HeaderItem = { label: string; href: string };
+
+export function SiteHeader({
+  content,
+  navItems,
+  currentPageLabel,
+  backHref,
+}: {
+  content: SiteContent;
+  navItems?: HeaderItem[];
+  currentPageLabel?: string;
+  backHref?: string;
+}) {
   const [open, setOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const pathname = usePathname();
+  const items = navItems ?? content.headerNav;
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--background)_84%,transparent)] backdrop-blur-xl">
-      <Container className="flex h-16 items-center gap-4">
-        <Link href="/" className="text-lg">
-          <BrandWordmark />
-        </Link>
+      <Container className="flex h-16 items-center justify-between gap-4">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 text-xs">
+            {currentPageLabel ? (
+              <>
+                <Link
+                  href={backHref ?? "/"}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 text-[var(--muted)] transition hover:border-[var(--primary)]/55 hover:text-[var(--foreground)]"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                  <BrandWordmark className="text-[11px]" />
+                </Link>
+                <span className="text-[var(--muted)]/70">/</span>
+                <span className="rounded-md border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 font-medium text-[var(--primary)]">
+                  {currentPageLabel}
+                </span>
+              </>
+            ) : (
+              <Link href="/" className="text-lg">
+                <BrandWordmark />
+              </Link>
+            )}
+          </div>
+        </div>
 
         <nav className="ml-auto hidden items-center gap-2 lg:flex" aria-label="Основное меню">
-          {content.headerNav.map((item) =>
+          {items.map((item) =>
             item.label === "Связаться" ? (
               <button
                 key={item.href + item.label}
@@ -48,7 +91,7 @@ export function SiteHeader({ content }: { content: SiteContent }) {
             ) : isInternalPath(item.href) ? (
               <Link
                 key={item.href + item.label}
-                href={item.href}
+                href={resolveNavHref(pathname, item.href)}
                 className={navLinkClass(item.label)}
               >
                 {item.label}
@@ -101,7 +144,7 @@ export function SiteHeader({ content }: { content: SiteContent }) {
             </button>
           </div>
           <nav className="flex flex-col gap-2" aria-label="Мобильное меню">
-            {content.headerNav.map((item) =>
+            {items.map((item) =>
               item.label === "Связаться" ? (
                 <button
                   key={item.href + item.label}
@@ -117,7 +160,7 @@ export function SiteHeader({ content }: { content: SiteContent }) {
               ) : isInternalPath(item.href) ? (
                 <Link
                   key={item.href + item.label}
-                  href={item.href}
+                  href={resolveNavHref(pathname, item.href)}
                   className={`${navLinkClass(item.label)} px-3 py-3 text-base`}
                   onClick={() => setOpen(false)}
                 >

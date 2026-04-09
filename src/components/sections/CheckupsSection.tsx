@@ -19,7 +19,7 @@ export function CheckupsSection({ content }: { content: SiteContent }) {
   return (
     <AnimatedSection
       id="tech-bootcamp"
-      className="relative scroll-mt-24 overflow-hidden py-16"
+      className="relative scroll-mt-24 overflow-hidden border-y border-[var(--divider)] py-16"
     >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[var(--checkups-underlay)]" aria-hidden />

@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { BrandWordmark } from "@/components/ui/BrandWordmark";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { CasesCtaPanel } from "@/components/tech-bootcamp/CasesCtaPanel";
 import { techCampCases } from "@/data/cases/cases";
+import { siteContent } from "@/data/siteContent";
 
 function estimateReadMinutes(text: string) {
   const words = text.trim().split(/\s+/).length;
@@ -13,20 +14,7 @@ function estimateReadMinutes(text: string) {
 export default function TechBootcampCasesPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <header className="sticky top-0 z-40 border-b border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--background)_86%,transparent)] backdrop-blur-xl">
-        <Container className="flex h-16 items-center justify-between gap-3">
-          <Link
-            href="/tech-bootcamp"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 text-[var(--muted)] transition hover:text-[var(--foreground)]"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            <BrandWordmark className="text-[11px]" />
-          </Link>
-          <span className="rounded-md bg-[var(--surface)] px-2.5 py-1 text-xs font-medium text-[#e30613]">
-            Кейсы выпускников Tech Bootcamp
-          </span>
-        </Container>
-      </header>
+      <SiteHeader content={siteContent} currentPageLabel="Кейсы выпускников Tech Bootcamp" />
 
       <Container className="py-8 sm:py-10">
         <section className="relative mb-8 overflow-hidden rounded-3xl border border-[var(--border)] bg-[linear-gradient(145deg,color-mix(in_oklab,var(--surface)_96%,transparent),color-mix(in_oklab,var(--surface-2)_86%,transparent))] p-6 sm:p-8">

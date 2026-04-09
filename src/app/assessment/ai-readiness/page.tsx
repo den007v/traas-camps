@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { ContactModal } from "@/components/contact/ContactModal";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { AssessmentProgress } from "@/components/assessment/AssessmentProgress";
 import { AssessmentQuestion } from "@/components/assessment/AssessmentQuestion";
 import { AssessmentResult } from "@/components/assessment/AssessmentResult";
@@ -15,6 +14,7 @@ import {
   getReadinessLevel,
   profileQuestions,
 } from "@/data/assessmentAiReadiness";
+import { siteContent } from "@/data/siteContent";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
 export default function AiReadinessAssessmentPage() {
@@ -24,6 +24,7 @@ export default function AiReadinessAssessmentPage() {
   const [step, setStep] = useState(0);
   const [answerValues, setAnswerValues] = useState<string[]>([]);
   const [profileAnswers, setProfileAnswers] = useState<Record<string, string>>({});
+  const [profileOtherText, setProfileOtherText] = useState<Record<string, string>>({});
   const [contactOpen, setContactOpen] = useState(false);
   const [analyticsSent, setAnalyticsSent] = useState(false);
   const { theme } = useTheme();
@@ -64,18 +65,11 @@ export default function AiReadinessAssessmentPage() {
       }) as CSSProperties,
     [theme],
   );
-  const ctaButtonClass =
-    theme === "dark"
-      ? "rounded-full border border-[#e30613]/55 bg-[#e30613]/15 px-4 py-2 text-sm font-semibold text-[#ffd5d8] transition hover:bg-[#e30613]/25"
-      : "rounded-full border border-[#e30613]/60 bg-[linear-gradient(180deg,#ef1b2a,#d10614)] px-4 py-2 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(227,6,19,0.24)] transition hover:brightness-105";
-  const nextButtonClass =
-    theme === "dark"
-      ? "rounded-full border border-[#e30613]/50 bg-[#e30613]/18 px-5 py-2.5 text-sm font-semibold text-[#ffd5d8] transition hover:bg-[#e30613]/28 disabled:cursor-not-allowed disabled:opacity-40"
-      : "rounded-full border border-[#e30613]/65 bg-[linear-gradient(180deg,#ef1b2a,#d10614)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_22px_rgba(227,6,19,0.22)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-40";
 
   function setAnswer(value: string) {
     if (isProfileStep) {
       setProfileAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }));
+      setStep((s) => Math.min(s + 1, totalSteps));
       return;
     }
     setAnswerValues((prev) => {
@@ -83,11 +77,6 @@ export default function AiReadinessAssessmentPage() {
       next[scoredStepIndex] = value;
       return next;
     });
-  }
-
-  function goNext() {
-    if (isDone) return;
-    if (!selectedValue) return;
     setStep((s) => Math.min(s + 1, totalSteps));
   }
 
@@ -98,8 +87,16 @@ export default function AiReadinessAssessmentPage() {
   function resetTest() {
     setAnswerValues([]);
     setProfileAnswers({});
+    setProfileOtherText({});
     setAnalyticsSent(false);
     setStep(0);
+  }
+
+  function resolveProfileValue(id: string) {
+    const selected = profileAnswers[id];
+    if (selected !== "other") return selected;
+    const custom = profileOtherText[id]?.trim();
+    return custom ? `other:${custom}` : "other";
   }
 
   async function saveAnalytics() {
@@ -111,10 +108,10 @@ export default function AiReadinessAssessmentPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          role: profileAnswers.role,
-          companySize: profileAnswers.companySize,
-          industry: profileAnswers.industry,
-          primaryChallenge: profileAnswers.primaryChallenge,
+          role: resolveProfileValue("role"),
+          companySize: resolveProfileValue("companySize"),
+          industry: resolveProfileValue("industry"),
+          primaryChallenge: resolveProfileValue("primaryChallenge"),
           scores: scoresByQuestion,
         }),
       });
@@ -135,29 +132,7 @@ export default function AiReadinessAssessmentPage() {
         <div className="absolute left-[10%] top-[6%] h-56 w-56 rounded-full bg-[#e30613]/[0.08] blur-3xl" />
         <div className="absolute bottom-[10%] right-[8%] h-64 w-64 rounded-full bg-[#e30613]/[0.06] blur-3xl" />
       </div>
-      <header className="sticky top-0 z-40 border-b border-[var(--a-border)] bg-[color:color-mix(in_oklab,var(--a-bg)_86%,transparent)] backdrop-blur-xl">
-        <Container className="flex h-16 items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--a-border)] bg-[var(--a-surface)] px-3 py-1.5 text-sm text-[var(--a-muted)] transition hover:text-[var(--a-text)]"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              На главную
-            </Link>
-            <span className="rounded-md bg-[var(--a-surface)] px-2 py-1 text-xs font-medium text-[#e30613]">
-              Оценка готовности к ИИ-трансформации
-            </span>
-          </div>
-          <button
-            type="button"
-            onClick={() => setContactOpen(true)}
-            className={ctaButtonClass}
-          >
-            Связаться
-          </button>
-        </Container>
-      </header>
+      <SiteHeader content={siteContent} currentPageLabel="Оценка готовности к ИИ-трансформации" />
 
       <Container className="relative z-10 py-7 sm:py-10">
         {!isDone ? (
@@ -170,12 +145,19 @@ export default function AiReadinessAssessmentPage() {
                   question={currentQuestion}
                   selectedValue={selectedValue}
                   onSelect={setAnswer}
+                  otherText={profileOtherText[currentQuestion.id]}
+                  onOtherInput={
+                    isProfileStep
+                      ? (value) =>
+                          setProfileOtherText((prev) => ({ ...prev, [currentQuestion.id]: value }))
+                      : undefined
+                  }
                 />
               </AnimatePresence>
 
               <motion.div
                 layout
-                className="mt-6 flex items-center justify-between gap-3"
+                className="mt-6 flex items-center gap-3"
               >
                 <button
                   type="button"
@@ -184,14 +166,6 @@ export default function AiReadinessAssessmentPage() {
                   className="rounded-full border border-[var(--a-border)] px-4 py-2 text-sm text-[var(--a-muted)] transition hover:text-[var(--a-text)] disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Назад
-                </button>
-                <button
-                  type="button"
-                  onClick={goNext}
-                  disabled={!selectedValue}
-                  className={nextButtonClass}
-                >
-                  Далее
                 </button>
               </motion.div>
             </div>
