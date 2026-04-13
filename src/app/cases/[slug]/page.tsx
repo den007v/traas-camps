@@ -19,7 +19,7 @@ export async function generateMetadata({
   }
   return {
     title: `${caseItem.title} — Кейсы TraaS`,
-    description: caseItem.lead[0],
+    description: caseItem.subtitle,
   };
 }
 

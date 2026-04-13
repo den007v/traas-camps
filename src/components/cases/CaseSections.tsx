@@ -61,7 +61,7 @@ export function CaseHero({
   );
 }
 
-export function CaseTLDR({ items }: { items: TechCampCaseRecord["tldr"] }) {
+export function CaseTLDR({ items }: { items: Array<{ label: string; text: string }> }) {
   return (
     <section
       data-case-reveal
@@ -119,13 +119,22 @@ export function CaseHighlight({ text }: { text: string }) {
   );
 }
 
-export function CaseResults({ items }: { items: TechCampCaseRecord["results"] }) {
+export function CaseResults({
+  items,
+  id,
+  heading = "Результаты",
+}: {
+  items: Array<{ value: string; label: string }>;
+  id?: string;
+  heading?: string;
+}) {
   return (
     <section
+      id={id}
       data-case-reveal
       className="opacity-0 translate-y-4 transition duration-700 mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5"
     >
-      <h2 className="text-xl font-semibold">Результаты</h2>
+      <h2 className="text-xl font-semibold">{heading}</h2>
       <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
           <article key={`${item.value}-${item.label}`} className="rounded-xl border border-[var(--divider)] bg-[var(--surface-2)]/45 p-4">
@@ -140,12 +149,27 @@ export function CaseResults({ items }: { items: TechCampCaseRecord["results"] })
 
 export function CaseOptionalContext({ items }: { items: string[] }) {
   if (!items.length) return null;
+  return <CaseContextBullets title="Связь с TechBootcamp" items={items} />;
+}
+
+/** Универсальный блок со списком тезисов (как «Связь с TechBootcamp» на кейсе TB). */
+export function CaseContextBullets({
+  title,
+  items,
+  id,
+}: {
+  title: string;
+  items: string[];
+  id?: string;
+}) {
+  if (!items.length) return null;
   return (
     <section
+      id={id}
       data-case-reveal
       className="opacity-0 translate-y-4 transition duration-700 mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5"
     >
-      <h2 className="text-xl font-semibold">Связь с TechBootcamp</h2>
+      <h2 className="text-xl font-semibold">{title}</h2>
       <ul className="mt-3 space-y-2">
         {items.map((item) => (
           <li key={item} className="text-[13px] leading-6 text-[var(--muted)]">
