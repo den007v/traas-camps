@@ -10,11 +10,13 @@ export function CasesCtaPanel({
   text = "Оставьте заявку — разберём ваш кейс и предложим рабочий план внедрения.",
   backHref = "/tech-bootcamp",
   buttonLabel = "Оставить заявку",
+  backLabel = "Вернуться в Tech Bootcamp",
 }: {
   title?: string;
   text?: string;
   backHref?: string;
   buttonLabel?: string;
+  backLabel?: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -36,7 +38,7 @@ export function CasesCtaPanel({
             href={backHref}
             className="inline-flex items-center rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-5 py-2.5 text-sm font-medium text-[var(--foreground)] transition hover:border-[color:color-mix(in_oklab,var(--primary)_50%,transparent)]"
           >
-            Вернуться в Tech Bootcamp
+            {backLabel}
           </Link>
         </div>
       </section>

@@ -134,10 +134,10 @@ export const siteContent: SiteContent = {
   featureRows: [
     {
       id: "fr1",
-      title: "Блок с акцентом на команду",
+      title: "Кейс TraaS",
       description:
-        "Параграф о развитии компетенций, курсах или внутренних программах. Справа или слева — визуал.",
-      href: "#educational-programs",
+        "Кратко о том, как мы помогли собрать проектный офис в одной системе — на примере Segezha Group.",
+      href: "/cases",
       ctaLabel: "Подробнее",
       imageSide: "right",
     },
