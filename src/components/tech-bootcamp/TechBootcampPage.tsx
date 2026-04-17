@@ -312,19 +312,32 @@ export function TechBootcampPage() {
               <div className="mt-4 space-y-2">
                 {content.weekOneModules.map((module, idx) => (
                   <button
-                    key={module}
+                    key={module.title}
                     type="button"
                     onClick={() => setOpenWeekOne((p) => (p === idx ? -1 : idx))}
                     className="w-full rounded-xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-3 text-left"
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <span className="text-sm">{module}</span>
+                      <span className="text-sm">{module.title}</span>
                       <ChevronDown className={`h-4 w-4 transition ${openWeekOne === idx ? "rotate-180" : ""}`} />
                     </div>
                     {openWeekOne === idx ? (
-                      <p className="mt-2 text-xs text-[var(--tb-text-muted)]">
-                        PLACEHOLDER: краткое описание модуля и ожидаемый практический результат.
-                      </p>
+                      <div className="mt-3 space-y-3 text-xs leading-relaxed text-[var(--tb-text-muted)]">
+                        <p>{module.description}</p>
+                        <ul className="list-disc space-y-1 pl-4">
+                          {module.topics.map((topic) => (
+                            <li key={topic}>{topic}</li>
+                          ))}
+                        </ul>
+                        <p>
+                          <span className="font-semibold text-[var(--tb-text)]">Практика:</span>{" "}
+                          {module.practice}
+                        </p>
+                        <p>
+                          <span className="font-semibold text-[var(--tb-text)]">Результат:</span>{" "}
+                          {module.result}
+                        </p>
+                      </div>
                     ) : null}
                   </button>
                 ))}
@@ -335,19 +348,32 @@ export function TechBootcampPage() {
               <div className="mt-4 space-y-2">
                 {content.weekTwoModules.map((module, idx) => (
                   <button
-                    key={module}
+                    key={module.title}
                     type="button"
                     onClick={() => setOpenWeekTwo((p) => (p === idx ? -1 : idx))}
                     className="w-full rounded-xl border border-[var(--tb-border)] bg-[var(--tb-surface)] p-3 text-left"
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <span className="text-sm">{module}</span>
+                      <span className="text-sm">{module.title}</span>
                       <ChevronDown className={`h-4 w-4 transition ${openWeekTwo === idx ? "rotate-180" : ""}`} />
                     </div>
                     {openWeekTwo === idx ? (
-                      <p className="mt-2 text-xs text-[var(--tb-text-muted)]">
-                        PLACEHOLDER: краткое описание модуля и ожидаемый практический результат.
-                      </p>
+                      <div className="mt-3 space-y-3 text-xs leading-relaxed text-[var(--tb-text-muted)]">
+                        <p>{module.description}</p>
+                        <ul className="list-disc space-y-1 pl-4">
+                          {module.topics.map((topic) => (
+                            <li key={topic}>{topic}</li>
+                          ))}
+                        </ul>
+                        <p>
+                          <span className="font-semibold text-[var(--tb-text)]">Практика:</span>{" "}
+                          {module.practice}
+                        </p>
+                        <p>
+                          <span className="font-semibold text-[var(--tb-text)]">Результат:</span>{" "}
+                          {module.result}
+                        </p>
+                      </div>
                     ) : null}
                   </button>
                 ))}

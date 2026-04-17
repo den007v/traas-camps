@@ -52,14 +52,22 @@ export function TechCampCasePage({
 }) {
   const readTime = estimateReadMinutes(caseItem.fullText);
   const paragraphs = splitParagraphs(caseItem.fullText);
-  let headingCounter = 0;
-  const sections = paragraphs
-    .filter((paragraph) => isHeading(paragraph))
-    .map((title) => {
-      headingCounter += 1;
-      return { id: `case-section-${headingCounter}`, title };
-    });
-  let headingRenderCounter = 0;
+  const { sections, headingIdsByParagraphIndex } = paragraphs.reduce<{
+    sections: { id: string; title: string }[];
+    headingIdsByParagraphIndex: Map<number, string>;
+  }>(
+    (acc, paragraph, idx) => {
+      if (!isHeading(paragraph)) return acc;
+      const id = `case-section-${acc.sections.length + 1}`;
+      acc.headingIdsByParagraphIndex.set(idx, id);
+      acc.sections.push({ id, title: paragraph });
+      return acc;
+    },
+    {
+      sections: [],
+      headingIdsByParagraphIndex: new Map<number, string>(),
+    },
+  );
 
   return (
     <CasePageLayout>
@@ -104,11 +112,10 @@ export function TechCampCasePage({
                 }
 
                 if (isHeading(paragraph)) {
-                  headingRenderCounter += 1;
                   return (
                     <h2
                       key={`${idx}-heading`}
-                      id={`case-section-${headingRenderCounter}`}
+                      id={headingIdsByParagraphIndex.get(idx)}
                       className="mt-8 border-b border-[#e30613]/40 pb-2 text-2xl font-semibold leading-tight sm:text-[30px]"
                     >
                       {paragraph}
