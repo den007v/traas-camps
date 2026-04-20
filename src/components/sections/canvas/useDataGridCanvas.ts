@@ -86,8 +86,8 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
       const { width, height } = sizeRef.current;
       if (!ctx || alpha <= 0) return;
       const { cols, rows, padX, padY, stepX, stepY } = getGrid(width, height);
-      ctx.strokeStyle = `rgba(192,57,43,${alpha * 0.34})`;
-      ctx.lineWidth = 0.65;
+      ctx.strokeStyle = `rgba(208,70,70,${alpha * 0.42})`;
+      ctx.lineWidth = 0.75;
       for (let r = 0; r < rows; r += 1) {
         ctx.beginPath();
         ctx.moveTo(padX, padY + r * stepY);
@@ -122,13 +122,23 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
       if (phase === "gather") progress = easeInOutCubic(frame / GATHER);
       if (phase === "scatter_out") progress = easeInOutCubic(frame / SCATTER);
 
+      if (phase === "gather" || phase === "hold") {
+        const scanY = ((frame * 1.4) % (height + 80)) - 40;
+        const scanGradient = ctx.createLinearGradient(0, scanY - 14, 0, scanY + 14);
+        scanGradient.addColorStop(0, "rgba(255,110,120,0)");
+        scanGradient.addColorStop(0.5, "rgba(255,110,120,0.2)");
+        scanGradient.addColorStop(1, "rgba(255,110,120,0)");
+        ctx.fillStyle = scanGradient;
+        ctx.fillRect(0, scanY - 14, width, 28);
+      }
+
       dotsRef.current.forEach((d) => {
         if (phase === "gather" || phase === "scatter_out") {
           d.x = lerp(d.fromX, d.toX, Math.min(1, progress));
           d.y = lerp(d.fromY, d.toY, Math.min(1, progress));
         }
-        ctx.fillStyle = "#D45050";
-        ctx.shadowBlur = 6;
+        ctx.fillStyle = "#EB6262";
+        ctx.shadowBlur = 8;
         ctx.shadowColor = "#E05050";
         ctx.beginPath();
         ctx.arc(d.x, d.y, 3, 0, Math.PI * 2);

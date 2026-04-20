@@ -54,6 +54,19 @@ export function useNeuralNetCanvas(canvasRef: RefObject<HTMLCanvasElement | null
       const nodes = nodesRef.current;
       const pulses = pulsesRef.current;
       ctx.clearRect(0, 0, width, height);
+      const bgGlow = ctx.createRadialGradient(
+        width / 2 + Math.sin(t * 0.01) * width * 0.1,
+        height / 2 + Math.cos(t * 0.013) * height * 0.08,
+        width * 0.04,
+        width / 2,
+        height / 2,
+        Math.max(width, height) * 0.62,
+      );
+      bgGlow.addColorStop(0, "rgba(229,57,53,0.16)");
+      bgGlow.addColorStop(0.45, "rgba(123,45,139,0.08)");
+      bgGlow.addColorStop(1, "rgba(14,16,28,0)");
+      ctx.fillStyle = bgGlow;
+      ctx.fillRect(0, 0, width, height);
 
       const edges: Array<[number, number, number]> = [];
       for (let i = 0; i < nodes.length; i += 1) {
@@ -64,8 +77,8 @@ export function useNeuralNetCanvas(canvasRef: RefObject<HTMLCanvasElement | null
           if (dist < EDGE_DIST) {
             const alpha = 1 - dist / EDGE_DIST;
             edges.push([i, j, alpha]);
-            ctx.strokeStyle = `rgba(192,57,43,${alpha * 0.5})`;
-            ctx.lineWidth = 0.6;
+            ctx.strokeStyle = `rgba(204,72,72,${alpha * 0.62})`;
+            ctx.lineWidth = 0.72;
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
@@ -90,7 +103,7 @@ export function useNeuralNetCanvas(canvasRef: RefObject<HTMLCanvasElement | null
         const y1 = lerp(a.y, b.y, p.progress);
         const grad = ctx.createLinearGradient(x0, y0, x1, y1);
         grad.addColorStop(0, "rgba(224,80,80,0)");
-        grad.addColorStop(1, "rgba(224,80,80,0.9)");
+        grad.addColorStop(1, "rgba(224,80,80,0.95)");
         ctx.strokeStyle = grad;
         ctx.lineWidth = 2;
         ctx.beginPath();
@@ -98,8 +111,8 @@ export function useNeuralNetCanvas(canvasRef: RefObject<HTMLCanvasElement | null
         ctx.lineTo(x1, y1);
         ctx.stroke();
 
-        ctx.fillStyle = "#E05050";
-        ctx.shadowBlur = 12;
+        ctx.fillStyle = "#FF6666";
+        ctx.shadowBlur = 14;
         ctx.shadowColor = "#FF4444";
         ctx.beginPath();
         ctx.arc(x1, y1, 3, 0, Math.PI * 2);
@@ -125,6 +138,7 @@ export function useNeuralNetCanvas(canvasRef: RefObject<HTMLCanvasElement | null
       }
 
       const centralR = 7 + Math.sin(t * 0.04) * 3;
+      const ringR = centralR + 8 + Math.sin(t * 0.02) * 2;
       nodes[0].x = width / 2;
       nodes[0].y = height / 2;
       ctx.fillStyle = "#E53935";
@@ -133,6 +147,12 @@ export function useNeuralNetCanvas(canvasRef: RefObject<HTMLCanvasElement | null
       ctx.beginPath();
       ctx.arc(width / 2, height / 2, centralR, 0, Math.PI * 2);
       ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = "rgba(255,120,120,0.42)";
+      ctx.lineWidth = 1.1;
+      ctx.beginPath();
+      ctx.arc(width / 2, height / 2, ringR, 0, Math.PI * 2);
+      ctx.stroke();
       ctx.shadowBlur = 0;
     };
 

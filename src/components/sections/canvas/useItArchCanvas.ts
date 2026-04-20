@@ -111,6 +111,19 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
       }
 
       ctx.globalAlpha = resetAlpha;
+      const ambientGlow = ctx.createRadialGradient(
+        width * 0.52,
+        height * 0.45,
+        width * 0.06,
+        width * 0.52,
+        height * 0.45,
+        Math.max(width, height) * 0.62,
+      );
+      ambientGlow.addColorStop(0, "rgba(229,57,53,0.14)");
+      ambientGlow.addColorStop(0.5, "rgba(192,60,60,0.06)");
+      ambientGlow.addColorStop(1, "rgba(192,60,60,0)");
+      ctx.fillStyle = ambientGlow;
+      ctx.fillRect(0, 0, width, height);
 
       for (let i = 0; i < connectionCount; i += 1) {
         const [a, b] = CONNECTIONS[i];
@@ -119,7 +132,7 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
         const start = rectEdgePoint(sa.x, sa.y, sb.x, sb.y, sa.w, sa.h);
         const end = rectEdgePoint(sb.x, sb.y, sa.x, sa.y, sb.w, sb.h);
         ctx.setLineDash(i < CONNECTIONS.length ? [4, 4] : []);
-        ctx.strokeStyle = "rgba(192,60,60,0.52)";
+        ctx.strokeStyle = "rgba(192,60,60,0.58)";
         ctx.lineWidth = 0.8;
         ctx.beginPath();
         ctx.moveTo(start.x, start.y);
@@ -171,12 +184,13 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
         ctx.save();
         ctx.globalAlpha = Math.max(0, alpha * resetAlpha);
         if (glowIntensity > 0) {
-          ctx.shadowBlur = glowIntensity * 20;
+          const breathing = 0.7 + Math.sin((frame + i * 14) * 0.06) * 0.3;
+          ctx.shadowBlur = glowIntensity * 20 * breathing;
           ctx.shadowColor = "#E53935";
         }
         ctx.strokeStyle = "#C03C3C";
-        ctx.lineWidth = 1;
-        ctx.fillStyle = "rgba(192,60,60,0.08)";
+        ctx.lineWidth = 1.1;
+        ctx.fillStyle = "rgba(192,60,60,0.11)";
         roundRect(ctx, s.x - s.w / 2, s.y - s.h / 2, s.w, s.h, 3);
         ctx.fill();
         ctx.stroke();
