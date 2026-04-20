@@ -23,6 +23,23 @@ const CONNECTIONS: Array<[number, number]> = [
   [0, 2], [0, 3], [1, 3], [1, 5], [2, 3], [3, 4], [3, 5], [4, 6], [4, 7], [5, 7], [6, 3], [7, 3],
 ];
 
+function rectEdgePoint(
+  fromX: number,
+  fromY: number,
+  toX: number,
+  toY: number,
+  rectW: number,
+  rectH: number,
+) {
+  const dx = toX - fromX;
+  const dy = toY - fromY;
+  if (dx === 0 && dy === 0) return { x: fromX, y: fromY };
+  const scaleX = dx === 0 ? Number.POSITIVE_INFINITY : (rectW / 2) / Math.abs(dx);
+  const scaleY = dy === 0 ? Number.POSITIVE_INFINITY : (rectH / 2) / Math.abs(dy);
+  const scale = Math.min(scaleX, scaleY);
+  return { x: fromX + dx * scale, y: fromY + dy * scale };
+}
+
 export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) {
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const sizeRef = useRef({ width: 0, height: 0 });
@@ -99,12 +116,14 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
         const [a, b] = CONNECTIONS[i];
         const sa = services[a];
         const sb = services[b];
+        const start = rectEdgePoint(sa.x, sa.y, sb.x, sb.y, sa.w, sa.h);
+        const end = rectEdgePoint(sb.x, sb.y, sa.x, sa.y, sb.w, sb.h);
         ctx.setLineDash(i < CONNECTIONS.length ? [4, 4] : []);
-        ctx.strokeStyle = "rgba(192,60,60,0.7)";
+        ctx.strokeStyle = "rgba(192,60,60,0.52)";
         ctx.lineWidth = 0.8;
         ctx.beginPath();
-        ctx.moveTo(sa.x, sa.y);
-        ctx.lineTo(sb.x, sb.y);
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(end.x, end.y);
         ctx.stroke();
       }
       ctx.setLineDash([]);
@@ -118,11 +137,13 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
         const p = pulsesRef.current[i];
         const a = services[p.from];
         const b = services[p.to];
+        const start = rectEdgePoint(a.x, a.y, b.x, b.y, a.w, a.h);
+        const end = rectEdgePoint(b.x, b.y, a.x, a.y, b.w, b.h);
         const t0 = Math.max(0, p.progress - 0.25);
-        const x0 = lerp(a.x, b.x, t0);
-        const y0 = lerp(a.y, b.y, t0);
-        const x1 = lerp(a.x, b.x, p.progress);
-        const y1 = lerp(a.y, b.y, p.progress);
+        const x0 = lerp(start.x, end.x, t0);
+        const y0 = lerp(start.y, end.y, t0);
+        const x1 = lerp(start.x, end.x, p.progress);
+        const y1 = lerp(start.y, end.y, p.progress);
         const grad = ctx.createLinearGradient(x0, y0, x1, y1);
         grad.addColorStop(0, "rgba(224,80,80,0)");
         grad.addColorStop(1, "rgba(224,80,80,1)");

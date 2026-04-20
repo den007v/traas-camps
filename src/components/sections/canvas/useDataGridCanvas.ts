@@ -17,9 +17,9 @@ type Dot = {
 
 type Phase = "scatter" | "gather" | "hold" | "scatter_out";
 
-const SCATTER = 60;
-const GATHER = 90;
-const HOLD = 90;
+const SCATTER = 84;
+const GATHER = 128;
+const HOLD = 120;
 
 export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) {
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -86,8 +86,8 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
       const { width, height } = sizeRef.current;
       if (!ctx || alpha <= 0) return;
       const { cols, rows, padX, padY, stepX, stepY } = getGrid(width, height);
-      ctx.strokeStyle = `rgba(192,57,43,${alpha * 0.25})`;
-      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = `rgba(192,57,43,${alpha * 0.34})`;
+      ctx.lineWidth = 0.65;
       for (let r = 0; r < rows; r += 1) {
         ctx.beginPath();
         ctx.moveTo(padX, padY + r * stepY);

@@ -32,7 +32,7 @@ export function QuickNavCards({ content }: { content: SiteContent }) {
               <div className="relative min-h-[380px] w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] sm:min-h-[400px]">
                 <div className="absolute inset-0 flex [backface-visibility:hidden]">
                   <div className="relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-[var(--divider)] bg-[var(--surface)] p-6 text-left shadow-[0_20px_50px_rgba(0,0,0,0.22)] ring-1 ring-inset ring-[#e30613]/15">
-                    <div className="absolute inset-x-0 top-0 bottom-24">
+                    <div className="absolute inset-x-4 top-4 bottom-24 overflow-hidden rounded-xl">
                       <DiagnosticCardCanvas variant={card.variant} />
                     </div>
                     <div
