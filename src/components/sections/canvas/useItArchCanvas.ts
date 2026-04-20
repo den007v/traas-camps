@@ -100,8 +100,8 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
         const sa = services[a];
         const sb = services[b];
         ctx.setLineDash(i < CONNECTIONS.length ? [4, 4] : []);
-        ctx.strokeStyle = "rgba(192,60,60,0.7)";
-        ctx.lineWidth = 0.8;
+        ctx.strokeStyle = "rgba(192,60,60,0.45)";
+        ctx.lineWidth = 0.65;
         ctx.beginPath();
         ctx.moveTo(sa.x, sa.y);
         ctx.lineTo(sb.x, sb.y);
@@ -109,9 +109,9 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
       }
       ctx.setLineDash([]);
 
-      if (phase === "pulse" && frame % 30 === 0 && pulsesRef.current.length < 6) {
+      if (phase === "pulse" && frame % 42 === 0 && pulsesRef.current.length < 4) {
         const [from, to] = CONNECTIONS[Math.floor(Math.random() * CONNECTIONS.length)];
-        pulsesRef.current.push({ from, to, progress: 0, speed: random(0.012, 0.022) });
+        pulsesRef.current.push({ from, to, progress: 0, speed: random(0.01, 0.016) });
       }
 
       for (let i = pulsesRef.current.length - 1; i >= 0; i -= 1) {
@@ -127,17 +127,17 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
         grad.addColorStop(0, "rgba(224,80,80,0)");
         grad.addColorStop(1, "rgba(224,80,80,1)");
         ctx.strokeStyle = grad;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.2;
         ctx.beginPath();
         ctx.moveTo(x0, y0);
         ctx.lineTo(x1, y1);
         ctx.stroke();
 
         ctx.fillStyle = "#FF5555";
-        ctx.shadowBlur = 12;
+        ctx.shadowBlur = 7;
         ctx.shadowColor = "#E53935";
         ctx.beginPath();
-        ctx.arc(x1, y1, 2.8, 0, Math.PI * 2);
+        ctx.arc(x1, y1, 2.2, 0, Math.PI * 2);
         ctx.fill();
         ctx.shadowBlur = 0;
         p.progress += p.speed;
@@ -150,12 +150,12 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
         ctx.save();
         ctx.globalAlpha = Math.max(0, alpha * resetAlpha);
         if (glowIntensity > 0) {
-          ctx.shadowBlur = glowIntensity * 20;
+          ctx.shadowBlur = glowIntensity * 12;
           ctx.shadowColor = "#E53935";
         }
         ctx.strokeStyle = "#C03C3C";
         ctx.lineWidth = 1;
-        ctx.fillStyle = "rgba(192,60,60,0.08)";
+        ctx.fillStyle = "rgba(192,60,60,0.05)";
         roundRect(ctx, s.x - s.w / 2, s.y - s.h / 2, s.w, s.h, 3);
         ctx.fill();
         ctx.stroke();

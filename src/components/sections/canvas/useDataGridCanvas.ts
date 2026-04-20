@@ -63,7 +63,9 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
     dotsRef.current.forEach((d, i) => {
       d.fromX = d.x;
       d.fromY = d.y;
-      const target = toGrid ? points[i] : { x: random(0, width), y: random(0, height) };
+      const target = toGrid
+        ? points[i]
+        : { x: random(width * 0.08, width * 0.92), y: random(height * 0.1, height * 0.9) };
       d.toX = target.x;
       d.toY = target.y;
       d.scatterX = d.fromX;
@@ -86,8 +88,8 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
       const { width, height } = sizeRef.current;
       if (!ctx || alpha <= 0) return;
       const { cols, rows, padX, padY, stepX, stepY } = getGrid(width, height);
-      ctx.strokeStyle = `rgba(192,57,43,${alpha * 0.25})`;
-      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = `rgba(192,57,43,${alpha * 0.18})`;
+      ctx.lineWidth = 0.45;
       for (let r = 0; r < rows; r += 1) {
         ctx.beginPath();
         ctx.moveTo(padX, padY + r * stepY);
@@ -128,10 +130,10 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
           d.y = lerp(d.fromY, d.toY, Math.min(1, progress));
         }
         ctx.fillStyle = "#D45050";
-        ctx.shadowBlur = 6;
+        ctx.shadowBlur = 4;
         ctx.shadowColor = "#E05050";
         ctx.beginPath();
-        ctx.arc(d.x, d.y, 3, 0, Math.PI * 2);
+        ctx.arc(d.x, d.y, 2.2, 0, Math.PI * 2);
         ctx.fill();
       });
       ctx.shadowBlur = 0;
