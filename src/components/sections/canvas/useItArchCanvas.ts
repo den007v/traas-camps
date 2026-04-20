@@ -141,6 +141,19 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
       }
       ctx.setLineDash([]);
 
+      if (phase === "glow" || phase === "pulse") {
+        const center = services[3];
+        const ringBase = Math.max(center.w, center.h) * 0.65;
+        const ringExpansion = (frame % 72) / 72;
+        const ringRadius = ringBase + ringExpansion * Math.min(width, height) * 0.22;
+        const ringAlpha = (1 - ringExpansion) * 0.38;
+        ctx.strokeStyle = `rgba(255,120,120,${ringAlpha})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.arc(center.x, center.y, ringRadius, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
       if (phase === "pulse" && frame % 30 === 0 && pulsesRef.current.length < 6) {
         const [from, to] = CONNECTIONS[Math.floor(Math.random() * CONNECTIONS.length)];
         pulsesRef.current.push({ from, to, progress: 0, speed: random(0.012, 0.022) });
@@ -194,8 +207,9 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
         roundRect(ctx, s.x - s.w / 2, s.y - s.h / 2, s.w, s.h, 3);
         ctx.fill();
         ctx.stroke();
-        ctx.fillStyle = "#E05050";
-        ctx.font = "700 9px monospace";
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "#FFD9D9";
+        ctx.font = "700 10px monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(s.label, s.x, s.y);

@@ -17,9 +17,9 @@ type Dot = {
 
 type Phase = "scatter" | "gather" | "hold" | "scatter_out";
 
-const SCATTER = 84;
-const GATHER = 128;
-const HOLD = 120;
+const SCATTER = 168;
+const GATHER = 256;
+const HOLD = 240;
 
 export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) {
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -27,6 +27,7 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
   const dotsRef = useRef<Dot[]>([]);
   const frameRef = useRef(0);
   const phaseRef = useRef<Phase>("scatter");
+  const scanYRef = useRef(-80);
   const rafRef = useRef(0);
 
   const random = (a: number, b: number) => a + Math.random() * (b - a);
@@ -56,6 +57,7 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
     });
     phaseRef.current = "scatter";
     frameRef.current = 0;
+    scanYRef.current = -80;
   }, []);
 
   const setTargets = useCallback((width: number, height: number, toGrid: boolean) => {
@@ -123,13 +125,17 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
       if (phase === "scatter_out") progress = easeInOutCubic(frame / SCATTER);
 
       if (phase === "gather" || phase === "hold") {
-        const scanY = ((frame * 1.4) % (height + 80)) - 40;
-        const scanGradient = ctx.createLinearGradient(0, scanY - 14, 0, scanY + 14);
+        scanYRef.current += 0.65;
+        if (scanYRef.current > height + 36) {
+          scanYRef.current = -36;
+        }
+        const scanY = scanYRef.current;
+        const scanGradient = ctx.createLinearGradient(0, scanY - 16, 0, scanY + 16);
         scanGradient.addColorStop(0, "rgba(255,110,120,0)");
-        scanGradient.addColorStop(0.5, "rgba(255,110,120,0.2)");
+        scanGradient.addColorStop(0.5, "rgba(255,110,120,0.28)");
         scanGradient.addColorStop(1, "rgba(255,110,120,0)");
         ctx.fillStyle = scanGradient;
-        ctx.fillRect(0, scanY - 14, width, 28);
+        ctx.fillRect(0, scanY - 16, width, 32);
       }
 
       dotsRef.current.forEach((d) => {
@@ -144,6 +150,23 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
         ctx.arc(d.x, d.y, 3, 0, Math.PI * 2);
         ctx.fill();
       });
+      if (phase === "gather" || phase === "hold") {
+        for (let i = 0; i < dotsRef.current.length; i += 1) {
+          const a = dotsRef.current[i];
+          for (let j = i + 1; j < dotsRef.current.length; j += 1) {
+            const b = dotsRef.current[j];
+            const dist = Math.hypot(b.x - a.x, b.y - a.y);
+            if (dist > 56) continue;
+            const alpha = 1 - dist / 56;
+            ctx.strokeStyle = `rgba(255,120,130,${alpha * 0.18})`;
+            ctx.lineWidth = 0.6;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
       ctx.shadowBlur = 0;
 
       if (phase === "scatter" && frame >= SCATTER) {
