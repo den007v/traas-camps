@@ -27,7 +27,6 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
   const dotsRef = useRef<Dot[]>([]);
   const frameRef = useRef(0);
   const phaseRef = useRef<Phase>("scatter");
-  const scanYRef = useRef(-80);
   const rafRef = useRef(0);
 
   const random = (a: number, b: number) => a + Math.random() * (b - a);
@@ -57,7 +56,6 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
     });
     phaseRef.current = "scatter";
     frameRef.current = 0;
-    scanYRef.current = -80;
   }, []);
 
   const setTargets = useCallback((width: number, height: number, toGrid: boolean) => {
@@ -123,20 +121,6 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
       let progress = 0;
       if (phase === "gather") progress = easeInOutCubic(frame / GATHER);
       if (phase === "scatter_out") progress = easeInOutCubic(frame / SCATTER);
-
-      if (phase === "gather" || phase === "hold") {
-        scanYRef.current += 0.65;
-        if (scanYRef.current > height + 36) {
-          scanYRef.current = -36;
-        }
-        const scanY = scanYRef.current;
-        const scanGradient = ctx.createLinearGradient(0, scanY - 16, 0, scanY + 16);
-        scanGradient.addColorStop(0, "rgba(255,110,120,0)");
-        scanGradient.addColorStop(0.5, "rgba(255,110,120,0.28)");
-        scanGradient.addColorStop(1, "rgba(255,110,120,0)");
-        ctx.fillStyle = scanGradient;
-        ctx.fillRect(0, scanY - 16, width, 32);
-      }
 
       dotsRef.current.forEach((d) => {
         if (phase === "gather" || phase === "scatter_out") {
