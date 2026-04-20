@@ -52,6 +52,7 @@ export function SiteHeader({
   const pathname = usePathname();
   const items = navItems ?? content.headerNav;
   const isTechBootcampRoute = pathname.startsWith("/tech-bootcamp");
+  const isTraasCasesRoute = pathname.startsWith("/cases");
   const showTraasCasesButton = !isTechBootcampRoute;
   const techBackHref = pathname === "/tech-bootcamp" ? "/" : "/tech-bootcamp";
   const techBackLabel = pathname === "/tech-bootcamp" ? "TraaS" : "Tech Bootcamp";
@@ -61,7 +62,15 @@ export function SiteHeader({
       <Container className="flex h-16 items-center justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-xs">
-            {showTraasCasesButton ? (
+            {isTraasCasesRoute ? (
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 text-[var(--muted)] transition hover:border-[var(--primary)]/55 hover:text-[var(--foreground)]"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+                <span className="text-[11px] font-medium">TraaS</span>
+              </Link>
+            ) : showTraasCasesButton ? (
               <Link href="/cases" className={traasCasesButtonClass}>
                 Кейсы TraaS
               </Link>
