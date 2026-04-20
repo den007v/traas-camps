@@ -1,7 +1,10 @@
+"use client";
+
 import { Container } from "@/components/ui/Container";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import type { SiteContent } from "@/types/content";
 import { AssessmentInfographic } from "@/components/sections/AssessmentInfographic";
+import { DiagnosticCardCanvas } from "@/components/sections/canvas/DiagnosticCardCanvas";
 
 export function QuickNavCards({ content }: { content: SiteContent }) {
   return (
@@ -29,18 +32,21 @@ export function QuickNavCards({ content }: { content: SiteContent }) {
             >
               <div className="relative min-h-[380px] w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] sm:min-h-[400px]">
                 <div className="absolute inset-0 flex [backface-visibility:hidden]">
-                  <div className="flex w-full flex-col justify-between rounded-2xl border border-[var(--divider)] bg-[var(--surface)] p-6 text-left shadow-[0_20px_50px_rgba(0,0,0,0.22)] ring-1 ring-inset ring-[#e30613]/15">
-                    <div className="flex flex-col gap-5">
-                      <div className="flex justify-center rounded-xl bg-gradient-to-b from-white/[0.06] to-transparent px-3 py-4">
-                        <AssessmentInfographic variant={card.variant} />
+                  <div className="relative flex w-full flex-col justify-between rounded-2xl border border-[var(--divider)] bg-[var(--surface)] p-6 text-left shadow-[0_20px_50px_rgba(0,0,0,0.22)] ring-1 ring-inset ring-[#e30613]/15">
+                    <DiagnosticCardCanvas variant={card.variant} />
+                    <div style={{ position: "relative", zIndex: 1 }}>
+                      <div className="flex flex-col gap-5">
+                        <div className="flex justify-center rounded-xl bg-gradient-to-b from-white/[0.06] to-transparent px-3 py-4">
+                          <AssessmentInfographic variant={card.variant} />
+                        </div>
+                        <p className="text-balance text-[15px] font-medium leading-snug tracking-tight text-[var(--foreground)] sm:text-base">
+                          {card.frontTitle}
+                        </p>
                       </div>
-                      <p className="text-balance text-[15px] font-medium leading-snug tracking-tight text-[var(--foreground)] sm:text-base">
-                        {card.frontTitle}
+                      <p className="mt-6 text-center text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--muted)]">
+                        Подробности
                       </p>
                     </div>
-                    <p className="mt-6 text-center text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--muted)]">
-                      Подробности
-                    </p>
                   </div>
                 </div>
 
