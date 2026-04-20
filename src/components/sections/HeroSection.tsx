@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
+import { AutoplayBackgroundVideo } from "@/components/ui/AutoplayBackgroundVideo";
 import type { SiteContent } from "@/types/content";
 
 const HERO_IMAGE = "/images/hero-servers.png";
@@ -21,18 +22,11 @@ export function HeroSection({ content }: { content: SiteContent }) {
           sizes="100vw"
           className="object-cover object-center hero-main-image sm:hidden"
         />
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
+        <AutoplayBackgroundVideo
+          webmSrc={HERO_VIDEO_WEBM}
+          mp4Src={HERO_VIDEO_MP4}
           className="absolute inset-0 hidden h-full w-full object-cover object-center sm:block"
-          aria-hidden
-        >
-          <source src={HERO_VIDEO_WEBM} type="video/webm" />
-          <source src={HERO_VIDEO_MP4} type="video/mp4" />
-        </video>
+        />
         <div
           className="absolute inset-0"
           style={{ background: "var(--hero-overlay-1)" }}

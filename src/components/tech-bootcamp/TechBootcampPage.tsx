@@ -11,6 +11,7 @@ import {
 import { ContactModal } from "@/components/contact/ContactModal";
 import { Container } from "@/components/ui/Container";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { AutoplayBackgroundVideo } from "@/components/ui/AutoplayBackgroundVideo";
 import { siteContent } from "@/data/siteContent";
 import { techBootcampContent as content } from "@/data/techBootcampContent";
 import { techBootcampCases } from "@/data/techBootcampCases";
@@ -124,19 +125,6 @@ export function TechBootcampPage() {
       className="bg-[var(--tb-bg)] text-[var(--tb-text)] [background-image:radial-gradient(circle_at_18%_-10%,rgba(227,6,19,0.13),transparent_36%),radial-gradient(circle_at_100%_0%,rgba(223,182,87,0.1),transparent_30%)]"
     >
       <SiteHeader content={siteContent} currentPageLabel="Tech Bootcamp" />
-      <div className="sticky top-16 z-40 border-b border-[var(--tb-border)] bg-[color:color-mix(in_oklab,var(--tb-bg)_80%,transparent)] backdrop-blur-xl">
-        <Container className="flex h-12 items-center gap-2 overflow-x-auto">
-          {content.nav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium text-[var(--tb-text-muted)] transition hover:bg-[var(--tb-surface)] hover:text-[var(--tb-text)]"
-            >
-              {item.label}
-            </a>
-          ))}
-        </Container>
-      </div>
 
       <main className="relative overflow-hidden">
         <section className="relative min-h-[min(58vh,620px)] border-b border-[var(--divider)] bg-[var(--tb-surface-soft)] py-14 sm:py-20">
@@ -148,18 +136,11 @@ export function TechBootcampPage() {
             sizes="100vw"
             className="object-cover object-center sm:hidden"
           />
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
+          <AutoplayBackgroundVideo
+            webmSrc={HERO_VIDEO_WEBM}
+            mp4Src={HERO_VIDEO_MP4}
             className="absolute inset-0 hidden h-full w-full object-cover object-center sm:block"
-            aria-hidden
-          >
-            <source src={HERO_VIDEO_WEBM} type="video/webm" />
-            <source src={HERO_VIDEO_MP4} type="video/mp4" />
-          </video>
+          />
           <div className="pointer-events-none absolute inset-0 bg-[rgba(12,12,18,0.44)]" />
           <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:radial-gradient(circle_at_15%_10%,rgba(227,6,19,0.22),transparent_35%),radial-gradient(circle_at_85%_20%,rgba(223,182,87,0.16),transparent_34%)]" />
           <Container className="relative">

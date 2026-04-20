@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Container } from "@/components/ui/Container";
-import { BrandWordmark } from "@/components/ui/BrandWordmark";
 import { ContactModal } from "@/components/contact/ContactModal";
 import { ChevronLeft, Menu, Moon, SunMedium, X } from "lucide-react";
 import type { SiteContent } from "@/types/content";
@@ -21,6 +20,9 @@ function navLinkClass(label: string) {
   }
   return `${base} font-medium text-[var(--muted)] hover:bg-[color:color-mix(in_oklab,var(--surface)_92%,transparent)] hover:text-[var(--foreground)]`;
 }
+
+const traasCasesButtonClass =
+  "inline-flex items-center rounded-lg border border-[color:color-mix(in_oklab,#ffffff_74%,var(--border))] bg-[color:color-mix(in_oklab,var(--surface)_86%,transparent)] px-3 py-2 text-sm font-semibold text-[var(--foreground)] transition hover:bg-[color:color-mix(in_oklab,var(--surface)_96%,transparent)] hover:border-white/90 sm:px-4 sm:py-2.5";
 
 function isInternalPath(href: string) {
   return href.startsWith("/");
@@ -49,29 +51,33 @@ export function SiteHeader({
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const items = navItems ?? content.headerNav;
+  const isTechBootcampRoute = pathname.startsWith("/tech-bootcamp");
+  const showTraasCasesButton = !isTechBootcampRoute;
+  const techBackHref = pathname === "/tech-bootcamp" ? "/" : "/tech-bootcamp";
+  const techBackLabel = pathname === "/tech-bootcamp" ? "TraaS" : "Tech Bootcamp";
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--background)_84%,transparent)] backdrop-blur-xl">
       <Container className="flex h-16 items-center justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-xs">
-            {currentPageLabel ? (
+            {showTraasCasesButton ? (
+              <Link href="/cases" className={traasCasesButtonClass}>
+                Кейсы TraaS
+              </Link>
+            ) : currentPageLabel ? (
               <>
                 <Link
-                  href={backHref ?? "/"}
+                  href={backHref ?? techBackHref}
                   className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 text-[var(--muted)] transition hover:border-[var(--primary)]/55 hover:text-[var(--foreground)]"
                 >
                   <ChevronLeft className="h-3.5 w-3.5" />
-                  <BrandWordmark className="text-[11px]" />
+                  <span className="text-[11px] font-medium">{techBackLabel}</span>
                 </Link>
-                <span className="text-[var(--muted)]/70">/</span>
-                <span className="rounded-md border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 font-medium text-[var(--primary)]">
-                  {currentPageLabel}
-                </span>
               </>
             ) : (
-              <Link href="/" className="text-lg">
-                <BrandWordmark />
+              <Link href="/cases" className={traasCasesButtonClass}>
+                Кейсы TraaS
               </Link>
             )}
           </div>

@@ -76,7 +76,7 @@ export function TechCampCasePage({
       <SiteHeader
         content={siteContent}
         currentPageLabel="Кейс Tech Bootcamp"
-        backHref="/tech-bootcamp/cases"
+        backHref="/tech-bootcamp"
       />
       <main className="mx-auto w-full max-w-[1120px] px-4 py-7 sm:px-6 sm:py-9">
         <CaseHero caseItem={caseItem} readTime={readTime} />
