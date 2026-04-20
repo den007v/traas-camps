@@ -32,24 +32,21 @@ export function QuickNavCards({ content }: { content: SiteContent }) {
               <div className="relative min-h-[380px] w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] sm:min-h-[400px]">
                 <div className="absolute inset-0 flex [backface-visibility:hidden]">
                   <div className="relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-[var(--divider)] bg-[var(--surface)] p-6 text-left shadow-[0_20px_50px_rgba(0,0,0,0.22)] ring-1 ring-inset ring-[#e30613]/15">
-                    <DiagnosticCardCanvas variant={card.variant} />
+                    <div className="absolute inset-x-0 top-0 bottom-24">
+                      <DiagnosticCardCanvas variant={card.variant} />
+                    </div>
                     <div
                       aria-hidden
                       className="pointer-events-none absolute inset-0"
                       style={{
                         zIndex: 1,
                         background:
-                          "linear-gradient(to bottom, rgba(10,12,20,0.42) 0%, rgba(10,12,20,0.36) 38%, rgba(10,12,20,0.7) 100%)",
+                          "linear-gradient(to bottom, rgba(10,12,20,0.26) 0%, rgba(10,12,20,0.2) 44%, rgba(10,12,20,0.82) 82%, rgba(10,12,20,0.95) 100%)",
                       }}
                     />
-                    <div style={{ position: "relative", zIndex: 1 }}>
-                      <div className="flex flex-col gap-5">
-                        <p className="text-balance text-[15px] font-medium leading-snug tracking-tight text-[var(--foreground)] sm:text-base">
-                          {card.frontTitle}
-                        </p>
-                      </div>
-                      <p className="mt-6 text-center text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--muted)]">
-                        Подробности
+                    <div style={{ position: "relative", zIndex: 1 }} className="flex h-full items-end justify-center pb-3">
+                      <p className="text-center text-balance text-[16px] font-bold leading-snug tracking-tight text-[var(--foreground)] sm:text-[17px]">
+                        {card.frontTitle}
                       </p>
                     </div>
                   </div>

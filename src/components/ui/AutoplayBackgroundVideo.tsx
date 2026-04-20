@@ -12,24 +12,35 @@ export function AutoplayBackgroundVideo({
   className?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const retryTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const tryPlay = () => {
+      if (video.readyState < 2) return;
       const playPromise = video.play();
       if (playPromise?.catch) {
         playPromise.catch(() => {
-          // Ignore autoplay rejections (browser policy/user gesture).
+          // Retry after a short delay to recover from transient stalls.
+          if (retryTimerRef.current) window.clearTimeout(retryTimerRef.current);
+          retryTimerRef.current = window.setTimeout(() => {
+            if (!video.paused) return;
+            void video.play().catch(() => {
+              // Ignore autoplay policy rejections.
+            });
+          }, 450);
         });
       }
     };
 
     const onVisibilityChange = () => {
-      if (document.visibilityState !== "visible") return;
-      if (video.paused || video.readyState < 2) {
-        video.load();
+      if (document.visibilityState === "hidden") {
+        video.pause();
+        return;
+      }
+      if (video.paused) {
         tryPlay();
       }
     };
@@ -38,21 +49,30 @@ export function AutoplayBackgroundVideo({
       if (video.paused) tryPlay();
     };
 
+    const onCanPlay = () => {
+      if (video.paused) tryPlay();
+    };
+
     const onStalled = () => {
-      video.load();
+      video.currentTime = Math.max(0, video.currentTime - 0.1);
       tryPlay();
     };
 
-    tryPlay();
-    video.addEventListener("canplay", tryPlay);
+    if (video.readyState >= 2) {
+      tryPlay();
+    }
+    video.addEventListener("canplay", onCanPlay);
     video.addEventListener("stalled", onStalled);
+    video.addEventListener("waiting", onStalled);
     document.addEventListener("visibilitychange", onVisibilityChange);
     window.addEventListener("pageshow", onPageShow);
     window.addEventListener("focus", onPageShow);
 
     return () => {
-      video.removeEventListener("canplay", tryPlay);
+      if (retryTimerRef.current) window.clearTimeout(retryTimerRef.current);
+      video.removeEventListener("canplay", onCanPlay);
       video.removeEventListener("stalled", onStalled);
+      video.removeEventListener("waiting", onStalled);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("pageshow", onPageShow);
       window.removeEventListener("focus", onPageShow);
