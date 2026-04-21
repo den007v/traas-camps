@@ -5,8 +5,24 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { Container } from "@/components/ui/Container";
 import { siteContent } from "@/data/siteContent";
 import { traasCases } from "@/data/cases/traasCases";
+import { MedsiVisual } from "@/components/illustrations/MedsiVisual";
+import { SegezhaVisual } from "@/components/illustrations/SegezhaVisual";
+import { BootcampVisual } from "@/components/illustrations/BootcampVisual";
 
 export default function TraasCasesPage() {
+  const getCardVisual = (slug: string) => {
+    if (slug === "medsi-it-diagnostic") {
+      return { bg: "#0d1520", visual: <MedsiVisual /> };
+    }
+    if (slug === "segezha-project-office") {
+      return { bg: "#08101a", visual: <SegezhaVisual /> };
+    }
+    if (slug === "tech-bootcamp") {
+      return { bg: "#0e1928", visual: <BootcampVisual /> };
+    }
+    return null;
+  };
+
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <SiteHeader content={siteContent} currentPageLabel="Кейсы TraaS" backHref="/#cases" />
@@ -26,28 +42,41 @@ export default function TraasCasesPage() {
           {traasCases.map((item) => (
             <article
               key={item.slug}
-              className="group rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 transition duration-300 hover:-translate-y-1 hover:border-[color:color-mix(in_oklab,var(--primary)_55%,transparent)] hover:shadow-[0_16px_40px_-22px_color-mix(in_oklab,var(--primary)_32%,transparent)]"
+              className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] transition duration-300 hover:-translate-y-1 hover:border-[color:color-mix(in_oklab,var(--primary)_55%,transparent)] hover:shadow-[0_16px_40px_-22px_color-mix(in_oklab,var(--primary)_32%,transparent)]"
             >
-              <span className="inline-flex rounded-full border border-[var(--divider)] bg-[var(--surface-2)] px-2.5 py-1 text-[11px] text-[var(--muted)]">
-                {item.card.badge}
-              </span>
-              <h2 className="mt-3 text-lg font-semibold leading-tight">{item.card.title}</h2>
-              <p className="mt-2 text-[13px] leading-relaxed text-[var(--muted)]">{item.card.description}</p>
-              <ul className="mt-3 space-y-1.5">
-                {item.card.bullets.map((point) => (
-                  <li key={point} className="flex items-start gap-2 text-[12px] text-[var(--muted)]">
-                    <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--primary)]" />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href={`/cases/${item.slug}`}
-                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--primary)] transition group-hover:text-[var(--primary-hover)]"
-              >
-                {item.card.ctaLabel}
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </Link>
+              {getCardVisual(item.slug) ? (
+                <div
+                  className="relative aspect-[4/3] w-full overflow-hidden border-b border-[var(--divider)]"
+                  style={{ backgroundColor: getCardVisual(item.slug)!.bg }}
+                >
+                  <div className="absolute inset-0 transition duration-300 group-hover:scale-[1.02]">
+                    {getCardVisual(item.slug)!.visual}
+                  </div>
+                </div>
+              ) : null}
+
+              <div className="p-5">
+                <span className="inline-flex rounded-full border border-[var(--divider)] bg-[var(--surface-2)] px-2.5 py-1 text-[11px] text-[var(--muted)]">
+                  {item.card.badge}
+                </span>
+                <h2 className="mt-3 text-lg font-semibold leading-tight">{item.card.title}</h2>
+                <p className="mt-2 text-[13px] leading-relaxed text-[var(--muted)]">{item.card.description}</p>
+                <ul className="mt-3 space-y-1.5">
+                  {item.card.bullets.map((point) => (
+                    <li key={point} className="flex items-start gap-2 text-[12px] text-[var(--muted)]">
+                      <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--primary)]" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href={`/cases/${item.slug}`}
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--primary)] transition group-hover:text-[var(--primary-hover)]"
+                >
+                  {item.card.ctaLabel}
+                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                </Link>
+              </div>
             </article>
           ))}
         </section>

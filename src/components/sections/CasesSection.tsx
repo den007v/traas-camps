@@ -16,7 +16,7 @@ const cases = [
     visual: <MedsiVisual />,
   },
   {
-    slug: "/cases/segezha",
+    slug: "/cases/segezha-project-office",
     company: "Сегежа",
     caseName: "Инструменты управления",
     action: "Запустили диагностику процессов и пилот новой модели управления проектами.",
