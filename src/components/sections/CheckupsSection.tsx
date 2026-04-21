@@ -216,10 +216,14 @@ function renderCheckupVisual(stepId: string): ReactNode {
           <text key={t} x={x} y="275" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="10" fontFamily="inherit">{t}</text>
         ))}
         <line x1="355" y1="298" x2="640" y2="298" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
-        {[{ x: 360, label: "+30% скорость", fill: "#C0392B", fo: 0.30 }, { x: 460, label: "−25% инциденты", fill: "#C0392B", fo: 0.18 }, { x: 555, label: "Зрелость 4/5", fill: "rgba(255,255,255,0.08)", fo: 1 }].map(({ x, label, fill, fo }) => (
+        {[
+          { x: 360, width: 92, label: "+30% скорость", fill: "#C0392B", fo: 0.30 },
+          { x: 462, width: 112, label: "−25% инциденты", fill: "#C0392B", fo: 0.18 },
+          { x: 584, width: 88, label: "Зрелость 4/5", fill: "rgba(255,255,255,0.08)", fo: 1 },
+        ].map(({ x, width, label, fill, fo }) => (
           <g key={label}>
-            <rect x={x} y="308" width={label.length * 7 + 16} height="24" rx="6" fill={fill} fillOpacity={fo} stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
-            <text x={x + (label.length * 7 + 16) / 2} y="320" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.70)" fontSize="11" fontFamily="inherit">{label}</text>
+            <rect x={x} y="308" width={width} height="24" rx="6" fill={fill} fillOpacity={fo} stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
+            <text x={x + width / 2} y="320" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.70)" fontSize="11" fontFamily="inherit">{label}</text>
           </g>
         ))}
       </svg>
