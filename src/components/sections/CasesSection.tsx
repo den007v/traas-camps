@@ -7,11 +7,11 @@ import { BootcampVisual } from "@/components/illustrations/BootcampVisual";
 
 const cases = [
   {
-    slug: "/cases/medsi",
+    slug: "/cases/medsi-it-diagnostic",
     company: "Медси",
     tag: "Медси · IT-диагностика",
-    title: "Технологический аудит группы компаний",
-    result: "55 инициатив, 4 портфеля, роадмап на 3 года",
+    title: "Диагностика ИТ-блока медицинской сети",
+    result: "Выявили 8 критических ограничений роста и сформировали портфель инициатив с эффектом >0,5 млрд руб./год",
     bg: "#0d1520",
     visual: <MedsiVisual />,
   },
