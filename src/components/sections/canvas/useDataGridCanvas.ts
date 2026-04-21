@@ -47,11 +47,20 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
     return { points, cols, rows, padX, padY, stepX, stepY };
   };
 
+  const randomPointInGrid = (width: number, height: number) => {
+    const { cols, rows, padX, padY, stepX, stepY } = getGrid(width, height);
+    const maxX = padX + stepX * (cols - 1);
+    const maxY = padY + stepY * (rows - 1);
+    return {
+      x: random(padX, maxX),
+      y: random(padY, maxY),
+    };
+  };
+
   const resetDots = useCallback((width: number, height: number) => {
     const { points } = getGrid(width, height);
     dotsRef.current = points.map(() => {
-      const sx = random(0, width);
-      const sy = random(0, height);
+      const { x: sx, y: sy } = randomPointInGrid(width, height);
       return { x: sx, y: sy, fromX: sx, fromY: sy, toX: sx, toY: sy, scatterX: sx, scatterY: sy };
     });
     phaseRef.current = "scatter";
@@ -63,7 +72,7 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
     dotsRef.current.forEach((d, i) => {
       d.fromX = d.x;
       d.fromY = d.y;
-      const target = toGrid ? points[i] : { x: random(0, width), y: random(0, height) };
+      const target = toGrid ? points[i] : randomPointInGrid(width, height);
       d.toX = target.x;
       d.toY = target.y;
       d.scatterX = d.fromX;

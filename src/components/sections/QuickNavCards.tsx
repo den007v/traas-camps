@@ -32,19 +32,29 @@ export function QuickNavCards({ content }: { content: SiteContent }) {
               <div className="relative h-[360px] w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                 <div className="absolute inset-0 flex [backface-visibility:hidden]">
                   <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[var(--divider)] bg-[var(--surface)] text-left shadow-[0_20px_50px_rgba(0,0,0,0.22)] ring-1 ring-inset ring-[#e30613]/15">
-                    <div className="relative min-h-0 flex-1 overflow-hidden">
-                      <DiagnosticCardCanvas variant={card.variant} />
+                    <div className="relative min-h-[240px] flex-1 overflow-hidden px-5 pt-5">
+                      <div className="relative h-full w-full overflow-hidden rounded-xl">
+                        <DiagnosticCardCanvas variant={card.variant} />
+                      </div>
                       <div
                         aria-hidden
                         className="pointer-events-none absolute inset-0"
                         style={{
                           zIndex: 1,
                           background:
-                            "linear-gradient(to bottom, rgba(10,12,20,0.18) 0%, rgba(10,12,20,0.12) 56%, rgba(10,12,20,0.4) 100%)",
+                            "linear-gradient(to bottom, rgba(10,12,20,0.14) 0%, rgba(10,12,20,0.08) 56%, rgba(10,12,20,0.34) 100%)",
                         }}
                       />
                     </div>
-                    <div className="shrink-0 border-t border-[var(--divider)] px-6 py-5">
+                    <div className="relative shrink-0 px-6 pb-5 pt-4">
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute -top-8 left-0 right-0 h-10"
+                        style={{
+                          background:
+                            "linear-gradient(to bottom, rgba(10,12,20,0), rgba(10,12,20,0.55) 70%, rgba(10,12,20,0.72) 100%)",
+                        }}
+                      />
                       <p className="text-center text-balance text-[16px] font-bold leading-snug tracking-tight text-[var(--foreground)] sm:text-[17px]">
                         {card.frontTitle}
                       </p>
