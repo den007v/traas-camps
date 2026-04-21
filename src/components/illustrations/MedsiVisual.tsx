@@ -108,8 +108,8 @@ export function MedsiVisual() {
       ctx.stroke();
 
       const tailLen = width * 0.18;
-      const headX = (1 - loop) * width;
-      const tailX = Math.min(width, headX + tailLen);
+      const headX = loop * width;
+      const tailX = Math.max(0, headX - tailLen);
       const yAt = (x: number) => {
         const t = x / width;
         return baseY - ecgY(t) * amp;
@@ -125,7 +125,7 @@ export function MedsiVisual() {
       const tailSamples = 42;
       for (let i = 0; i <= tailSamples; i += 1) {
         const p = i / tailSamples;
-        const x = tailX - (tailX - headX) * p;
+        const x = tailX + (headX - tailX) * p;
         const y = yAt(x);
         if (i === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
