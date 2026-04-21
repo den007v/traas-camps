@@ -19,7 +19,7 @@ type Phase = "scatter" | "gather" | "hold" | "scatter_out";
 
 const SCATTER = 168;
 const GATHER = 256;
-const HOLD = 240;
+const HOLD = 72;
 
 export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) {
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);

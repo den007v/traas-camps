@@ -29,22 +29,22 @@ export function QuickNavCards({ content }: { content: SiteContent }) {
               id={card.id}
               className="group scroll-mt-28 [perspective:1400px]"
             >
-              <div className="relative min-h-[380px] w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] sm:min-h-[400px]">
+              <div className="relative h-[360px] w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                 <div className="absolute inset-0 flex [backface-visibility:hidden]">
-                  <div className="relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-[var(--divider)] bg-[var(--surface)] p-6 text-left shadow-[0_20px_50px_rgba(0,0,0,0.22)] ring-1 ring-inset ring-[#e30613]/15">
-                    <div className="absolute inset-x-12 top-12 bottom-12 overflow-hidden rounded-xl">
+                  <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[var(--divider)] bg-[var(--surface)] text-left shadow-[0_20px_50px_rgba(0,0,0,0.22)] ring-1 ring-inset ring-[#e30613]/15">
+                    <div className="relative min-h-0 flex-1 overflow-hidden">
                       <DiagnosticCardCanvas variant={card.variant} />
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                          zIndex: 1,
+                          background:
+                            "linear-gradient(to bottom, rgba(10,12,20,0.18) 0%, rgba(10,12,20,0.12) 56%, rgba(10,12,20,0.4) 100%)",
+                        }}
+                      />
                     </div>
-                    <div
-                      aria-hidden
-                      className="pointer-events-none absolute inset-0"
-                      style={{
-                        zIndex: 1,
-                        background:
-                          "linear-gradient(to bottom, rgba(10,12,20,0.18) 0%, rgba(10,12,20,0.14) 42%, rgba(10,12,20,0.78) 82%, rgba(10,12,20,0.94) 100%)",
-                      }}
-                    />
-                    <div style={{ position: "relative", zIndex: 1 }} className="flex h-full items-end justify-center pb-3">
+                    <div className="shrink-0 border-t border-[var(--divider)] px-6 py-5">
                       <p className="text-center text-balance text-[16px] font-bold leading-snug tracking-tight text-[var(--foreground)] sm:text-[17px]">
                         {card.frontTitle}
                       </p>
@@ -53,7 +53,7 @@ export function QuickNavCards({ content }: { content: SiteContent }) {
                 </div>
 
                 <div className="absolute inset-0 flex [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                  <div className="flex h-full min-h-[380px] w-full flex-col overflow-hidden rounded-2xl border border-[var(--divider)] bg-[var(--surface)] shadow-[0_24px_60px_rgba(0,0,0,0.26)] ring-1 ring-inset ring-[#e30613]/20 sm:min-h-[400px]">
+                  <div className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[var(--divider)] bg-[var(--surface)] shadow-[0_24px_60px_rgba(0,0,0,0.26)] ring-1 ring-inset ring-[#e30613]/20">
                     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-5 pb-4 pt-5">
                       <h3 className="shrink-0 text-[15px] font-semibold leading-tight text-[var(--foreground)]">
                         {card.title}
