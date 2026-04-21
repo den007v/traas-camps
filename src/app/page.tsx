@@ -5,7 +5,7 @@ import { CookieBanner } from "@/components/layout/CookieBanner";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { QuickNavCards } from "@/components/sections/QuickNavCards";
 import { CheckupsSection } from "@/components/sections/CheckupsSection";
-import { FeatureRows } from "@/components/sections/FeatureRows";
+import { CasesSection } from "@/components/sections/CasesSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { PublicationsSection } from "@/components/sections/PublicationsSection";
 
@@ -17,7 +17,7 @@ export default function Home() {
         <HeroSection content={siteContent} />
         <QuickNavCards content={siteContent} />
         <CheckupsSection content={siteContent} />
-        <FeatureRows content={siteContent} />
+        <CasesSection />
         <ServicesSection content={siteContent} />
         <PublicationsSection content={siteContent} />
       </main>
