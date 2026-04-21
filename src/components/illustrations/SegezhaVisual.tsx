@@ -41,18 +41,18 @@ export function SegezhaVisual() {
     };
 
     const trees: Tree[] = [];
-    for (let i = 0; i < 38; i += 1) {
+    for (let i = 0; i < 44; i += 1) {
       const r = rand(i + 1);
       const layer = (i % 4) as 0 | 1 | 2 | 3;
-      const layerScale = layer === 0 ? 0.72 : layer === 1 ? 0.9 : layer === 2 ? 1.08 : 1.24;
+      const layerScale = layer === 0 ? 0.7 : layer === 1 ? 0.86 : layer === 2 ? 1.04 : 1.18;
       trees.push({
-        x: 10 + r * 380,
-        baseY: 172 + layer * 29 + rand(i + 21) * 7,
-        h: (44 + rand(i + 11) * 56) * layerScale,
-        w: (20 + rand(i + 31) * 26) * layerScale,
+        x: 6 + r * 388,
+        baseY: 190 + layer * 23 + rand(i + 21) * 8,
+        h: (40 + rand(i + 11) * 50) * layerScale,
+        w: (20 + rand(i + 31) * 24) * layerScale,
         layer,
         sway: rand(i + 51) * Math.PI * 2,
-        swaySpeed: 0.2 + rand(i + 61) * 0.16,
+        swaySpeed: 0.16 + rand(i + 61) * 0.12,
       });
     }
 
@@ -80,7 +80,7 @@ export function SegezhaVisual() {
 
     const drawTree = (tree: Tree, time: number) => {
       const grow = 1;
-      const sway = Math.sin(time * tree.swaySpeed + tree.sway) * 0.18;
+      const sway = Math.sin(time * tree.swaySpeed + tree.sway) * 0.12;
       const x = (tree.x / 400) * width + sway;
       const baseY = (tree.baseY / 300) * height;
       const h = (tree.h / 300) * height * grow;
@@ -94,9 +94,9 @@ export function SegezhaVisual() {
       ctx.fillStyle = grad;
       for (let i = 0; i < 3; i += 1) {
         const k = i / 4;
-        const tierH = h * (0.56 - i * 0.085);
-        const yTop = baseY - h + k * h * 0.4;
-        const half = w * (0.72 - i * 0.09);
+        const tierH = h * (0.58 - i * 0.09);
+        const yTop = baseY - h + k * h * 0.41;
+        const half = w * (0.74 - i * 0.1);
         ctx.beginPath();
         ctx.moveTo(x, yTop);
         ctx.lineTo(x - half, yTop + tierH);
@@ -134,7 +134,7 @@ export function SegezhaVisual() {
       ctx.arc(moonX, moonY, 13 * (width / 400), 0, Math.PI * 2);
       ctx.fill();
 
-      const fogBands = [0.66, 0.74, 0.81];
+      const fogBands = [0.68, 0.75, 0.82];
       fogBands.forEach((f, i) => {
         const y = height * f;
         const fg = ctx.createLinearGradient(0, y, 0, y + 28);
@@ -144,7 +144,7 @@ export function SegezhaVisual() {
         ctx.fillRect(0, y, width, 32);
       });
 
-      const groundY = height * 0.87;
+      const groundY = height * 0.885;
       const ground = ctx.createLinearGradient(0, groundY, 0, height);
       ground.addColorStop(0, "#04120c");
       ground.addColorStop(1, "#020a06");
