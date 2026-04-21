@@ -19,35 +19,47 @@ export function MedsiVisual() {
     let dpr = 1;
 
     const ecgY = (t: number) => {
-      if (t < 0.18) return 0;
-      if (t < 0.26) {
-        const p = (t - 0.18) / 0.08;
-        return Math.sin(Math.PI * p) * 0.12;
-      }
-      if (t < 0.38) return 0;
-      if (t < 0.46) {
-        const p = (t - 0.38) / 0.08;
-        return Math.sin(Math.PI * p) * 0.08;
-      }
-      if (t < 0.49) {
-        const p = (t - 0.46) / 0.03;
-        return -0.12 * p;
-      }
-      if (t < 0.505) {
-        const p = (t - 0.49) / 0.015;
-        return -0.12 + p * 1.12;
-      }
-      if (t < 0.525) {
-        const p = (t - 0.505) / 0.02;
-        return 1.0 - p * 1.4;
-      }
-      if (t < 0.57) {
-        const p = (t - 0.525) / 0.045;
-        return -0.4 + p * 0.4;
-      }
-      if (t < 0.7) {
-        const p = (t - 0.57) / 0.13;
+      if (t < 0.2) return 0;
+      if (t < 0.29) {
+        const p = (t - 0.2) / 0.09;
         return Math.sin(Math.PI * p) * 0.2;
+      }
+      if (t < 0.35) {
+        const p = (t - 0.29) / 0.06;
+        return 0.05 + Math.sin(Math.PI * p) * 0.06;
+      }
+      if (t < 0.44) return 0;
+      if (t < 0.5) {
+        const p = (t - 0.44) / 0.06;
+        return -0.24 * Math.sin(Math.PI * p);
+      }
+      if (t < 0.512) {
+        const p = (t - 0.5) / 0.012;
+        return p * 1.0;
+      }
+      if (t < 0.527) {
+        const p = (t - 0.512) / 0.015;
+        return 1.0 - p * 0.45;
+      }
+      if (t < 0.55) {
+        const p = (t - 0.527) / 0.023;
+        return 0.55 - p * 1.45;
+      }
+      if (t < 0.59) {
+        const p = (t - 0.55) / 0.04;
+        return -0.9 + p * 0.82;
+      }
+      if (t < 0.68) {
+        const p = (t - 0.59) / 0.09;
+        return 0.02 + p * 0.12;
+      }
+      if (t < 0.84) {
+        const p = (t - 0.68) / 0.16;
+        return Math.sin(Math.PI * p) * 0.34;
+      }
+      if (t < 0.9) {
+        const p = (t - 0.84) / 0.06;
+        return 0.34 * (1 - p);
       }
       return 0;
     };
