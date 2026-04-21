@@ -175,6 +175,9 @@ export default function AiReadinessAssessmentPage() {
             <AssessmentResult
               level={level}
               radarData={radarData}
+              scoresByQuestion={scoresByQuestion}
+              totalScore={totalScore}
+              profileAnswers={profileAnswers}
               onReset={resetTest}
               onCta={() => setContactOpen(true)}
             />
