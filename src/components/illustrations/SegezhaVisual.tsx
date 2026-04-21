@@ -22,8 +22,6 @@ type Firefly = {
   ampY: number;
 };
 
-const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
-
 export function SegezhaVisual() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -37,7 +35,6 @@ export function SegezhaVisual() {
     let width = 0;
     let height = 0;
     let dpr = 1;
-    const cycleSec = 11.5;
 
     const rand = (seed: number) => {
       const x = Math.sin(seed * 9283.17) * 43758.5453;
@@ -83,13 +80,9 @@ export function SegezhaVisual() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
-    const drawTree = (tree: Tree, time: number, tNorm: number) => {
-      const appearRaw = (tNorm - tree.delay) / 0.95;
-      const appear = Math.max(0, Math.min(1, appearRaw));
-      if (appear <= 0) return;
-
-      const grow = easeOutCubic(appear);
-      const sway = Math.sin(time * tree.swaySpeed + tree.sway) * 2;
+    const drawTree = (tree: Tree, time: number) => {
+      const grow = 1;
+      const sway = Math.sin(time * tree.swaySpeed + tree.sway) * 1.2;
       const x = (tree.x / 400) * width + sway;
       const baseY = (tree.baseY / 300) * height;
       const h = (tree.h / 300) * height * grow;
@@ -120,8 +113,6 @@ export function SegezhaVisual() {
 
     const draw = (ts: number) => {
       const sec = ts / 1000;
-      const cycle = sec % cycleSec;
-      const tNorm = cycle / cycleSec;
 
       const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
       skyGrad.addColorStop(0, "#08101a");
@@ -162,7 +153,7 @@ export function SegezhaVisual() {
       ctx.fillStyle = ground;
       ctx.fillRect(0, groundY, width, height - groundY);
 
-      trees.forEach((tree) => drawTree(tree, sec, tNorm));
+      trees.forEach((tree) => drawTree(tree, sec));
 
       fireflies.forEach((f) => {
         const x = (f.x / 400) * width + Math.sin(sec * f.speed + f.phase) * f.ampX;

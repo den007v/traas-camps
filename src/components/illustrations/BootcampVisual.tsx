@@ -119,7 +119,7 @@ export function BootcampVisual() {
 
       const step = 18;
       ctx.lineWidth = 0.5;
-      ctx.strokeStyle = "rgba(255,255,255,0.028)";
+      ctx.strokeStyle = "rgba(255,255,255,0.038)";
       for (let x = 0; x <= width; x += step) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
