@@ -25,7 +25,7 @@ const cases = [
     visual: <SegezhaVisual />,
   },
   {
-    slug: "/tech-bootcamp",
+    slug: "/cases/tech-bootcamp",
     company: "TechBootcamp",
     caseName: "Обучение",
     action: "Собрали программу развития ИТ-лидеров с упором на практику и внедрение.",
