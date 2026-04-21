@@ -12,8 +12,6 @@ export function MedsiVisual() {
     if (!ctx) return;
 
     let raf = 0;
-    let pulse = 0;
-    let lastTs = 0;
     let width = 0;
     let height = 0;
     let dpr = 1;
@@ -76,11 +74,6 @@ export function MedsiVisual() {
     };
 
     const draw = (ts: number) => {
-      if (!lastTs) lastTs = ts;
-      const dt = ts - lastTs;
-      lastTs = ts;
-      pulse = (pulse + dt * 0.00028) % 1;
-
       ctx.clearRect(0, 0, width, height);
 
       const sx = width / 7;
@@ -102,6 +95,7 @@ export function MedsiVisual() {
 
       const baseY = height * 0.52;
       const amp = height * 0.2;
+      const phase = (Math.sin(ts * 0.00062) + 1) * 0.5;
       ctx.beginPath();
       ctx.lineWidth = 1.5;
       ctx.strokeStyle = "rgba(180,60,70,0.22)";
@@ -114,7 +108,7 @@ export function MedsiVisual() {
       ctx.stroke();
 
       const tailLen = width * 0.18;
-      const headX = pulse * width;
+      const headX = phase * width;
       const tailX = Math.max(0, headX - tailLen);
       const yAt = (x: number) => {
         const t = x / width;
