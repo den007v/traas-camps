@@ -13,7 +13,7 @@ function renderCheckupVisual(stepId: string): ReactNode {
   if (stepId === "1") {
     return (
       <svg width="100%" viewBox="0 0 680 380" preserveAspectRatio="xMidYMid meet" style={{ borderRadius: "8px", marginBottom: "16px" }}>
-        <g transform="translate(200,195)">
+        <g transform="translate(170,195)">
           <polygon points="0,-120 103.9,-60 103.9,60 0,120 -103.9,60 -103.9,-60" fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="0.5" />
           <polygon points="0,-90 77.9,-45 77.9,45 0,90 -77.9,45 -77.9,-45" fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="0.5" />
           <polygon points="0,-60 51.9,-30 51.9,30 0,60 -51.9,30 -51.9,-30" fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="0.5" />
@@ -36,22 +36,22 @@ function renderCheckupVisual(stepId: string): ReactNode {
           <text x="6" y="-86" fill="rgba(255,255,255,0.30)" fontSize="9" fontFamily="inherit">3</text>
           <text x="6" y="-116" fill="rgba(255,255,255,0.30)" fontSize="9" fontFamily="inherit">4</text>
         </g>
-        <text x="200" y="52" textAnchor="middle" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Архитектура</text>
-        <text x="330" y="126" textAnchor="start" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Данные</text>
-        <text x="330" y="278" textAnchor="start" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Безопасность</text>
-        <text x="200" y="346" textAnchor="middle" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Процессы</text>
-        <text x="66" y="278" textAnchor="end" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Инфраструктура</text>
-        <text x="66" y="126" textAnchor="end" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Команда</text>
-        <text x="390" y="80" fill="rgba(255,255,255,0.90)" fontSize="13" fontWeight="500" fontFamily="inherit">Карта зрелости</text>
-        <text x="390" y="98" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">6 направлений ИТ, шкала 1–5</text>
-        <rect x="390" y="116" width="10" height="10" rx="2" fill="#C0392B" fillOpacity="0.18" stroke="#C0392B" strokeWidth="1.5" />
-        <text x="406" y="126" fill="rgba(255,255,255,0.60)" fontSize="11" fontFamily="inherit">Текущий уровень</text>
-        <rect x="390" y="136" width="10" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="0.5" />
-        <text x="406" y="146" fill="rgba(255,255,255,0.60)" fontSize="11" fontFamily="inherit">Целевой уровень 5/5</text>
-        <line x1="390" y1="164" x2="630" y2="164" stroke="rgba(255,255,255,0.10)" strokeWidth="0.5" />
-        <text x="390" y="186" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">Результат диагностики</text>
-        <text x="390" y="204" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">становится основой</text>
-        <text x="390" y="222" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">для шага 2</text>
+        <text x="170" y="52" textAnchor="middle" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Архитектура</text>
+        <text x="304" y="126" textAnchor="start" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Данные</text>
+        <text x="304" y="278" textAnchor="start" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Безопасность</text>
+        <text x="170" y="346" textAnchor="middle" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Процессы</text>
+        <text x="34" y="278" textAnchor="start" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Инфраструктура</text>
+        <text x="34" y="126" textAnchor="start" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Команда</text>
+        <text x="430" y="80" fill="rgba(255,255,255,0.90)" fontSize="13" fontWeight="500" fontFamily="inherit">Карта зрелости</text>
+        <text x="430" y="98" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">6 направлений ИТ, шкала 1–5</text>
+        <rect x="430" y="116" width="10" height="10" rx="2" fill="#C0392B" fillOpacity="0.18" stroke="#C0392B" strokeWidth="1.5" />
+        <text x="446" y="126" fill="rgba(255,255,255,0.60)" fontSize="11" fontFamily="inherit">Текущий уровень</text>
+        <rect x="430" y="136" width="10" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="0.5" />
+        <text x="446" y="146" fill="rgba(255,255,255,0.60)" fontSize="11" fontFamily="inherit">Целевой уровень 5/5</text>
+        <line x1="430" y1="164" x2="650" y2="164" stroke="rgba(255,255,255,0.10)" strokeWidth="0.5" />
+        <text x="430" y="186" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">Результат диагностики</text>
+        <text x="430" y="204" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">становится основой</text>
+        <text x="430" y="222" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">для шага 2</text>
       </svg>
     );
   }
@@ -93,28 +93,28 @@ function renderCheckupVisual(stepId: string): ReactNode {
         <line x1="495" y1="188" x2="605" y2="188" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
         <line x1="495" y1="188" x2="495" y2="206" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
         <line x1="605" y1="188" x2="605" y2="206" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
-        {[{ x: 35, label: "SRE-практики" }, { x: 145, label: "CMDB и ITSM" }, { x: 245, label: "CI/CD" }, { x: 355, label: "Data platform" }, { x: 455, label: "ML / AI" }, { x: 565, label: "Платформы" }].map(({ x, label }) => (
+        {[{ x: 24, label: "SRE-практики" }, { x: 127, label: "CMDB и ITSM" }, { x: 230, label: "CI/CD" }, { x: 333, label: "Data platform" }, { x: 436, label: "ML / AI" }, { x: 539, label: "Платформы" }].map(({ x, label }) => (
           <g key={label}>
-            <rect x={x} y="206" width="80" height="30" rx="5" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
-            <text x={x + 40} y="221" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.65)" fontSize="11" fontFamily="inherit">{label}</text>
+            <rect x={x} y="206" width="92" height="30" rx="5" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
+            <text x={x + 46} y="221" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.65)" fontSize="10.5" fontFamily="inherit">{label}</text>
           </g>
         ))}
         <line x1="40" y1="266" x2="640" y2="266" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="4 4" />
         <text x="40" y="290" fill="rgba(255,255,255,0.80)" fontSize="13" fontWeight="500" fontFamily="inherit">Приоритизация бэклога</text>
         <text x="40" y="308" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">по эффекту и сложности внедрения</text>
-        <rect x="390" y="276" width="56" height="56" rx="4" fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
-        <line x1="418" y1="276" x2="418" y2="332" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
-        <line x1="390" y1="304" x2="446" y2="304" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
-        <circle cx="402" cy="288" r="5" fill="#C0392B" fillOpacity="0.90" />
-        <circle cx="410" cy="292" r="3.5" fill="#C0392B" fillOpacity="0.60" />
-        <circle cx="432" cy="320" r="3.5" fill="rgba(255,255,255,0.35)" />
-        <circle cx="438" cy="316" r="2.5" fill="rgba(255,255,255,0.25)" />
-        <text x="388" y="274" textAnchor="end" fill="rgba(255,255,255,0.25)" fontSize="9" fontFamily="inherit">Эффект↑</text>
-        <text x="450" y="338" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="9" fontFamily="inherit">Сложность→</text>
-        <circle cx="460" cy="288" r="4" fill="#C0392B" fillOpacity="0.90" />
-        <text x="470" y="292" fill="rgba(255,255,255,0.55)" fontSize="11" fontFamily="inherit">Quick wins</text>
-        <circle cx="460" cy="308" r="4" fill="rgba(255,255,255,0.30)" />
-        <text x="470" y="312" fill="rgba(255,255,255,0.55)" fontSize="11" fontFamily="inherit">Long-term</text>
+        <rect x="386" y="262" width="84" height="84" rx="6" fill="none" stroke="rgba(255,255,255,0.22)" strokeWidth="0.6" />
+        <line x1="428" y1="262" x2="428" y2="346" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
+        <line x1="386" y1="304" x2="470" y2="304" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
+        <circle cx="402" cy="280" r="5.2" fill="#C0392B" fillOpacity="0.92" />
+        <circle cx="412" cy="286" r="4" fill="#C0392B" fillOpacity="0.62" />
+        <circle cx="447" cy="327" r="4" fill="rgba(255,255,255,0.35)" />
+        <circle cx="456" cy="320" r="3" fill="rgba(255,255,255,0.25)" />
+        <text x="384" y="258" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="9.5" fontFamily="inherit">Эффект↑</text>
+        <text x="472" y="352" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="9.5" fontFamily="inherit">Сложность→</text>
+        <circle cx="492" cy="285" r="4.5" fill="#C0392B" fillOpacity="0.90" />
+        <text x="505" y="289" fill="rgba(255,255,255,0.55)" fontSize="11" fontFamily="inherit">Quick wins</text>
+        <circle cx="492" cy="313" r="4.5" fill="rgba(255,255,255,0.30)" />
+        <text x="505" y="317" fill="rgba(255,255,255,0.55)" fontSize="11" fontFamily="inherit">Long-term</text>
       </svg>
     );
   }
@@ -186,41 +186,41 @@ function renderCheckupVisual(stepId: string): ReactNode {
             <rect x="0" y="0" width="310" height="340" />
           </clipPath>
         </defs>
-        <circle cx="200" cy="175" r="28" fill="#C0392B" fillOpacity="0.28" stroke="#C0392B" strokeWidth="1.5" />
-        <circle cx="200" cy="175" r="64" fill="#C0392B" fillOpacity="0.10" stroke="#C0392B" strokeWidth="0.8" strokeDasharray="3 3" />
-        <circle cx="200" cy="175" r="104" fill="#C0392B" fillOpacity="0.05" stroke="#C0392B" strokeWidth="0.5" strokeDasharray="4 6" />
-        <circle cx="200" cy="175" r="148" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="4 8" clipPath="url(#leftClip)" />
-        <circle cx="200" cy="175" r="14" fill="#C0392B" />
-        <line x1="214" y1="175" x2="236" y2="175" stroke="rgba(255,255,255,0.35)" strokeWidth="0.7" />
-        <text x="244" y="175" textAnchor="start" dominantBaseline="central" fill="#ffffff" fontSize="11" fontWeight="500" fontFamily="inherit">TraaS</text>
-        <text x="252" y="141" textAnchor="start" fill="#C0392B" fontSize="12" fontFamily="inherit">Пилот</text>
-        <text x="252" y="104" textAnchor="start" fill="rgba(255,255,255,0.55)" fontSize="12" fontFamily="inherit">Отдел</text>
-        <text x="252" y="64" textAnchor="start" fill="rgba(255,255,255,0.40)" fontSize="12" fontFamily="inherit">Бизнес-юнит</text>
-        <text x="252" y="26" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="12" fontFamily="inherit">Вся организация</text>
-        <line x1="200" y1="161" x2="200" y2="132" stroke="#C0392B" strokeWidth="0.8" markerEnd="url(#arr4)" />
-        <line x1="200" y1="125" x2="200" y2="96" stroke="rgba(255,255,255,0.20)" strokeWidth="0.8" markerEnd="url(#arr4)" />
-        <line x1="200" y1="89" x2="200" y2="57" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8" markerEnd="url(#arr4)" />
-        <line x1="340" y1="20" x2="340" y2="320" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
-        <text x="370" y="38" fill="rgba(255,255,255,0.80)" fontSize="13" fontWeight="500" fontFamily="inherit">Рост технологической зрелости</text>
-        <line x1="380" y1="260" x2="635" y2="260" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" markerEnd="url(#arr4)" />
-        <line x1="380" y1="260" x2="380" y2="60" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" markerEnd="url(#arr4)" />
+        <circle cx="182" cy="175" r="28" fill="#C0392B" fillOpacity="0.28" stroke="#C0392B" strokeWidth="1.5" />
+        <circle cx="182" cy="175" r="64" fill="#C0392B" fillOpacity="0.10" stroke="#C0392B" strokeWidth="0.8" strokeDasharray="3 3" />
+        <circle cx="182" cy="175" r="104" fill="#C0392B" fillOpacity="0.05" stroke="#C0392B" strokeWidth="0.5" strokeDasharray="4 6" />
+        <circle cx="182" cy="175" r="148" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="4 8" clipPath="url(#leftClip)" />
+        <circle cx="182" cy="175" r="14" fill="#C0392B" />
+        <line x1="196" y1="175" x2="220" y2="175" stroke="rgba(255,255,255,0.35)" strokeWidth="0.7" />
+        <text x="228" y="175" textAnchor="start" dominantBaseline="central" fill="#ffffff" fontSize="11" fontWeight="500" fontFamily="inherit">TraaS</text>
+        <text x="228" y="140" textAnchor="start" fill="#C0392B" fontSize="12" fontFamily="inherit">Пилот</text>
+        <text x="228" y="104" textAnchor="start" fill="rgba(255,255,255,0.55)" fontSize="12" fontFamily="inherit">Отдел</text>
+        <text x="228" y="66" textAnchor="start" fill="rgba(255,255,255,0.40)" fontSize="12" fontFamily="inherit">Бизнес-юнит</text>
+        <text x="228" y="28" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="12" fontFamily="inherit">Вся организация</text>
+        <line x1="182" y1="161" x2="182" y2="132" stroke="#C0392B" strokeWidth="0.8" markerEnd="url(#arr4)" />
+        <line x1="182" y1="125" x2="182" y2="96" stroke="rgba(255,255,255,0.20)" strokeWidth="0.8" markerEnd="url(#arr4)" />
+        <line x1="182" y1="89" x2="182" y2="57" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8" markerEnd="url(#arr4)" />
+        <line x1="372" y1="20" x2="372" y2="320" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
+        <text x="402" y="38" fill="rgba(255,255,255,0.80)" fontSize="13" fontWeight="500" fontFamily="inherit">Рост технологической зрелости</text>
+        <line x1="414" y1="260" x2="650" y2="260" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" markerEnd="url(#arr4)" />
+        <line x1="414" y1="260" x2="414" y2="60" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" markerEnd="url(#arr4)" />
         {[1, 2, 3, 4, 5].map((n, i) => (
-          <text key={n} x="374" y={260 - i * 40} textAnchor="end" dominantBaseline="central" fill="rgba(255,255,255,0.25)" fontSize="10" fontFamily="inherit">{n}</text>
+          <text key={n} x="408" y={260 - i * 40} textAnchor="end" dominantBaseline="central" fill="rgba(255,255,255,0.25)" fontSize="10" fontFamily="inherit">{n}</text>
         ))}
-        <line x1="380" y1="100" x2="630" y2="100" stroke="rgba(255,255,255,0.12)" strokeWidth="0.5" strokeDasharray="4 4" />
-        <text x="632" y="100" fill="rgba(255,255,255,0.25)" fontSize="9" fontFamily="inherit">цель</text>
-        <path d="M388,258 C410,255 430,250 450,238 C470,226 480,210 498,190 C516,170 526,148 545,128 C560,114 580,108 610,104" fill="none" stroke="#C0392B" strokeWidth="2" strokeLinecap="round" />
-        {[[388, 258], [450, 238], [498, 190], [545, 128], [610, 104]].map(([cx, cy], i) => (
+        <line x1="414" y1="100" x2="648" y2="100" stroke="rgba(255,255,255,0.12)" strokeWidth="0.5" strokeDasharray="4 4" />
+        <text x="650" y="100" fill="rgba(255,255,255,0.25)" fontSize="9" fontFamily="inherit">цель</text>
+        <path d="M420,258 C438,256 456,251 474,238 C490,226 498,210 514,190 C528,170 538,148 556,128 C570,114 590,108 625,104" fill="none" stroke="#C0392B" strokeWidth="2" strokeLinecap="round" />
+        {[[420, 258], [474, 238], [514, 190], [556, 128], [625, 104]].map(([cx, cy], i) => (
           <circle key={i} cx={cx} cy={cy} r="4" fill="#C0392B" fillOpacity={1 - i * 0.15} />
         ))}
-        {[["Start", 388], ["Пилот", 450], ["Запуск", 498], ["Масштаб", 545]].map(([t, x]) => (
+        {[["Start", 420], ["Пилот", 474], ["Запуск", 514], ["Масштаб", 556]].map(([t, x]) => (
           <text key={t} x={x} y="275" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="10" fontFamily="inherit">{t}</text>
         ))}
-        <line x1="355" y1="298" x2="640" y2="298" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
+        <line x1="390" y1="298" x2="654" y2="298" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
         {[
-          { x: 360, width: 92, label: "+30% скорость", fill: "#C0392B", fo: 0.30 },
-          { x: 462, width: 112, label: "−25% инциденты", fill: "#C0392B", fo: 0.18 },
-          { x: 584, width: 88, label: "Зрелость 4/5", fill: "rgba(255,255,255,0.08)", fo: 1 },
+          { x: 396, width: 92, label: "+30% скорость", fill: "#C0392B", fo: 0.30 },
+          { x: 498, width: 112, label: "−25% инциденты", fill: "#C0392B", fo: 0.18 },
+          { x: 566, width: 88, label: "Зрелость 4/5", fill: "rgba(255,255,255,0.08)", fo: 1 },
         ].map(({ x, width, label, fill, fo }) => (
           <g key={label}>
             <rect x={x} y="308" width={width} height="24" rx="6" fill={fill} fillOpacity={fo} stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
