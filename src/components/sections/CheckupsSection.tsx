@@ -42,16 +42,22 @@ function renderCheckupVisual(stepId: string): ReactNode {
         <text x="170" y="346" textAnchor="middle" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Процессы</text>
         <text x="34" y="278" textAnchor="start" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Инфраструктура</text>
         <text x="34" y="126" textAnchor="start" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Команда</text>
-        <text x="430" y="80" fill="rgba(255,255,255,0.90)" fontSize="13" fontWeight="500" fontFamily="inherit">Карта зрелости</text>
-        <text x="430" y="98" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">6 направлений ИТ, шкала 1–5</text>
-        <rect x="430" y="116" width="10" height="10" rx="2" fill="#C0392B" fillOpacity="0.18" stroke="#C0392B" strokeWidth="1.5" />
-        <text x="446" y="126" fill="rgba(255,255,255,0.60)" fontSize="11" fontFamily="inherit">Текущий уровень</text>
-        <rect x="430" y="136" width="10" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="0.5" />
-        <text x="446" y="146" fill="rgba(255,255,255,0.60)" fontSize="11" fontFamily="inherit">Целевой уровень 5/5</text>
-        <line x1="430" y1="164" x2="650" y2="164" stroke="rgba(255,255,255,0.10)" strokeWidth="0.5" />
-        <text x="430" y="186" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">Результат диагностики</text>
-        <text x="430" y="204" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">становится основой</text>
-        <text x="430" y="222" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">для шага 2</text>
+        <line x1="170" y1="74" x2="170" y2="88" stroke="rgba(255,255,255,0.22)" strokeWidth="0.6" />
+        <line x1="260" y1="128" x2="275" y2="120" stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
+        <line x1="260" y1="262" x2="275" y2="270" stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
+        <line x1="170" y1="302" x2="170" y2="318" stroke="rgba(255,255,255,0.22)" strokeWidth="0.6" />
+        <line x1="82" y1="262" x2="64" y2="270" stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
+        <line x1="82" y1="128" x2="64" y2="120" stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
+        <text x="452" y="80" fill="rgba(255,255,255,0.90)" fontSize="13" fontWeight="500" fontFamily="inherit">Карта зрелости</text>
+        <text x="452" y="98" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">6 направлений ИТ, шкала 1–5</text>
+        <rect x="452" y="116" width="10" height="10" rx="2" fill="#C0392B" fillOpacity="0.18" stroke="#C0392B" strokeWidth="1.5" />
+        <text x="468" y="126" fill="rgba(255,255,255,0.60)" fontSize="11" fontFamily="inherit">Текущий уровень</text>
+        <rect x="452" y="136" width="10" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="0.5" />
+        <text x="468" y="146" fill="rgba(255,255,255,0.60)" fontSize="11" fontFamily="inherit">Целевой уровень 5/5</text>
+        <line x1="452" y1="164" x2="664" y2="164" stroke="rgba(255,255,255,0.10)" strokeWidth="0.5" />
+        <text x="452" y="186" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">Результат диагностики</text>
+        <text x="452" y="204" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">становится основой</text>
+        <text x="452" y="222" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">для шага 2</text>
       </svg>
     );
   }
@@ -99,22 +105,22 @@ function renderCheckupVisual(stepId: string): ReactNode {
             <text x={x + 46} y="221" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.65)" fontSize="10.5" fontFamily="inherit">{label}</text>
           </g>
         ))}
-        <line x1="40" y1="266" x2="640" y2="266" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="4 4" />
-        <text x="40" y="290" fill="rgba(255,255,255,0.80)" fontSize="13" fontWeight="500" fontFamily="inherit">Приоритизация бэклога</text>
-        <text x="40" y="308" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">по эффекту и сложности внедрения</text>
-        <rect x="386" y="262" width="84" height="84" rx="6" fill="none" stroke="rgba(255,255,255,0.22)" strokeWidth="0.6" />
-        <line x1="428" y1="262" x2="428" y2="346" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
-        <line x1="386" y1="304" x2="470" y2="304" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
-        <circle cx="402" cy="280" r="5.2" fill="#C0392B" fillOpacity="0.92" />
-        <circle cx="412" cy="286" r="4" fill="#C0392B" fillOpacity="0.62" />
-        <circle cx="447" cy="327" r="4" fill="rgba(255,255,255,0.35)" />
-        <circle cx="456" cy="320" r="3" fill="rgba(255,255,255,0.25)" />
-        <text x="384" y="258" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="9.5" fontFamily="inherit">Эффект↑</text>
-        <text x="472" y="352" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="9.5" fontFamily="inherit">Сложность→</text>
-        <circle cx="492" cy="285" r="4.5" fill="#C0392B" fillOpacity="0.90" />
-        <text x="505" y="289" fill="rgba(255,255,255,0.55)" fontSize="11" fontFamily="inherit">Quick wins</text>
-        <circle cx="492" cy="313" r="4.5" fill="rgba(255,255,255,0.30)" />
-        <text x="505" y="317" fill="rgba(255,255,255,0.55)" fontSize="11" fontFamily="inherit">Long-term</text>
+        <line x1="40" y1="276" x2="640" y2="276" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="4 4" />
+        <text x="40" y="310" fill="rgba(255,255,255,0.80)" fontSize="13" fontWeight="500" fontFamily="inherit">Приоритизация бэклога</text>
+        <text x="40" y="328" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">по эффекту и сложности внедрения</text>
+        <rect x="386" y="272" width="84" height="84" rx="6" fill="none" stroke="rgba(255,255,255,0.22)" strokeWidth="0.6" />
+        <line x1="428" y1="272" x2="428" y2="356" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
+        <line x1="386" y1="314" x2="470" y2="314" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
+        <circle cx="402" cy="290" r="5.2" fill="#C0392B" fillOpacity="0.92" />
+        <circle cx="412" cy="296" r="4" fill="#C0392B" fillOpacity="0.62" />
+        <circle cx="447" cy="337" r="4" fill="rgba(255,255,255,0.35)" />
+        <circle cx="456" cy="330" r="3" fill="rgba(255,255,255,0.25)" />
+        <text x="384" y="268" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="9.5" fontFamily="inherit">Эффект↑</text>
+        <text x="472" y="362" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="9.5" fontFamily="inherit">Сложность→</text>
+        <circle cx="492" cy="295" r="4.5" fill="#C0392B" fillOpacity="0.90" />
+        <text x="505" y="299" fill="rgba(255,255,255,0.55)" fontSize="11" fontFamily="inherit">Quick wins</text>
+        <circle cx="492" cy="323" r="4.5" fill="rgba(255,255,255,0.30)" />
+        <text x="505" y="327" fill="rgba(255,255,255,0.55)" fontSize="11" fontFamily="inherit">Long-term</text>
       </svg>
     );
   }
@@ -177,13 +183,13 @@ function renderCheckupVisual(stepId: string): ReactNode {
 
   if (stepId === "4") {
     return (
-      <svg width="100%" viewBox="0 0 680 340" preserveAspectRatio="xMidYMid meet" style={{ borderRadius: "8px", marginBottom: "16px" }}>
+      <svg width="100%" viewBox="0 0 680 360" preserveAspectRatio="xMidYMid meet" style={{ borderRadius: "8px", marginBottom: "16px" }}>
         <defs>
           <marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,255,255,0.30)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </marker>
           <clipPath id="leftClip">
-            <rect x="0" y="0" width="310" height="340" />
+            <rect x="0" y="0" width="310" height="360" />
           </clipPath>
         </defs>
         <circle cx="182" cy="175" r="28" fill="#C0392B" fillOpacity="0.28" stroke="#C0392B" strokeWidth="1.5" />
@@ -213,14 +219,14 @@ function renderCheckupVisual(stepId: string): ReactNode {
         {[[420, 258], [474, 238], [514, 190], [556, 128], [625, 104]].map(([cx, cy], i) => (
           <circle key={i} cx={cx} cy={cy} r="4" fill="#C0392B" fillOpacity={1 - i * 0.15} />
         ))}
-        {[["Start", 420], ["Пилот", 474], ["Запуск", 514], ["Масштаб", 556]].map(([t, x]) => (
+        {[["Start", 420], ["Пилот", 476], ["Запуск", 530], ["Масштаб", 584]].map(([t, x]) => (
           <text key={t} x={x} y="275" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="10" fontFamily="inherit">{t}</text>
         ))}
         <line x1="390" y1="298" x2="654" y2="298" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
         {[
-          { x: 396, width: 92, label: "+30% скорость", fill: "#C0392B", fo: 0.30 },
-          { x: 498, width: 112, label: "−25% инциденты", fill: "#C0392B", fo: 0.18 },
-          { x: 566, width: 88, label: "Зрелость 4/5", fill: "rgba(255,255,255,0.08)", fo: 1 },
+          { x: 390, width: 98, label: "+30% скорость", fill: "#C0392B", fo: 0.30 },
+          { x: 496, width: 112, label: "−25% инциденты", fill: "#C0392B", fo: 0.18 },
+          { x: 580, width: 74, label: "Зрелость 4/5", fill: "rgba(255,255,255,0.08)", fo: 1 },
         ].map(({ x, width, label, fill, fo }) => (
           <g key={label}>
             <rect x={x} y="308" width={width} height="24" rx="6" fill={fill} fillOpacity={fo} stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
