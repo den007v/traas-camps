@@ -41,18 +41,18 @@ export function SegezhaVisual() {
     };
 
     const trees: Tree[] = [];
-    for (let i = 0; i < 46; i += 1) {
+    for (let i = 0; i < 38; i += 1) {
       const r = rand(i + 1);
       const layer = (i % 4) as 0 | 1 | 2 | 3;
-      const layerScale = layer === 0 ? 0.62 : layer === 1 ? 0.78 : layer === 2 ? 0.95 : 1.1;
+      const layerScale = layer === 0 ? 0.72 : layer === 1 ? 0.9 : layer === 2 ? 1.08 : 1.24;
       trees.push({
-        x: 8 + r * 384,
-        baseY: 184 + layer * 22 + rand(i + 21) * 10,
-        h: (30 + rand(i + 11) * 46) * layerScale,
-        w: (16 + rand(i + 31) * 22) * layerScale,
+        x: 10 + r * 380,
+        baseY: 172 + layer * 29 + rand(i + 21) * 7,
+        h: (44 + rand(i + 11) * 56) * layerScale,
+        w: (20 + rand(i + 31) * 26) * layerScale,
         layer,
         sway: rand(i + 51) * Math.PI * 2,
-        swaySpeed: 0.32 + rand(i + 61) * 0.28,
+        swaySpeed: 0.2 + rand(i + 61) * 0.16,
       });
     }
 
@@ -80,23 +80,23 @@ export function SegezhaVisual() {
 
     const drawTree = (tree: Tree, time: number) => {
       const grow = 1;
-      const sway = Math.sin(time * tree.swaySpeed + tree.sway) * 0.35;
+      const sway = Math.sin(time * tree.swaySpeed + tree.sway) * 0.18;
       const x = (tree.x / 400) * width + sway;
       const baseY = (tree.baseY / 300) * height;
       const h = (tree.h / 300) * height * grow;
       const w = (tree.w / 400) * width * grow;
 
-      const layerAlpha = tree.layer === 0 ? 0.2 : tree.layer === 1 ? 0.3 : tree.layer === 2 ? 0.45 : 0.62;
+      const layerAlpha = tree.layer === 0 ? 0.22 : tree.layer === 1 ? 0.33 : tree.layer === 2 ? 0.5 : 0.68;
       const grad = ctx.createLinearGradient(x, baseY - h, x, baseY);
-      grad.addColorStop(0, `rgba(56,145,74,${0.68 * layerAlpha})`);
-      grad.addColorStop(1, `rgba(22,78,38,${0.9 * layerAlpha})`);
+      grad.addColorStop(0, `rgba(62,162,88,${0.68 * layerAlpha})`);
+      grad.addColorStop(1, `rgba(20,72,40,${0.92 * layerAlpha})`);
 
       ctx.fillStyle = grad;
       for (let i = 0; i < 3; i += 1) {
         const k = i / 4;
-        const tierH = h * (0.52 - i * 0.08);
-        const yTop = baseY - h + k * h * 0.42;
-        const half = w * (0.68 - i * 0.08);
+        const tierH = h * (0.56 - i * 0.085);
+        const yTop = baseY - h + k * h * 0.4;
+        const half = w * (0.72 - i * 0.09);
         ctx.beginPath();
         ctx.moveTo(x, yTop);
         ctx.lineTo(x - half, yTop + tierH);
@@ -105,8 +105,8 @@ export function SegezhaVisual() {
         ctx.fill();
       }
 
-      ctx.fillStyle = `rgba(32,40,24,${0.78 * layerAlpha})`;
-      ctx.fillRect(x - Math.max(0.8, w * 0.05), baseY - h * 0.09, Math.max(1.5, w * 0.1), h * 0.24);
+      ctx.fillStyle = `rgba(30,45,30,${0.78 * layerAlpha})`;
+      ctx.fillRect(x - Math.max(0.9, w * 0.048), baseY - h * 0.085, Math.max(1.6, w * 0.096), h * 0.23);
     };
 
     const draw = (ts: number) => {
@@ -134,7 +134,7 @@ export function SegezhaVisual() {
       ctx.arc(moonX, moonY, 13 * (width / 400), 0, Math.PI * 2);
       ctx.fill();
 
-      const fogBands = [0.64, 0.72, 0.79];
+      const fogBands = [0.66, 0.74, 0.81];
       fogBands.forEach((f, i) => {
         const y = height * f;
         const fg = ctx.createLinearGradient(0, y, 0, y + 28);
@@ -144,7 +144,7 @@ export function SegezhaVisual() {
         ctx.fillRect(0, y, width, 32);
       });
 
-      const groundY = height * 0.86;
+      const groundY = height * 0.87;
       const ground = ctx.createLinearGradient(0, groundY, 0, height);
       ground.addColorStop(0, "#04120c");
       ground.addColorStop(1, "#020a06");
@@ -155,7 +155,7 @@ export function SegezhaVisual() {
 
       fireflies.forEach((f) => {
         const x = (f.x / 400) * width + Math.sin(sec * f.speed + f.phase) * f.ampX;
-        const y = (f.y / 300) * height + Math.cos(sec * f.speed * 0.8 + f.phase * 1.2) * f.ampY;
+        const y = (f.y / 300) * height + Math.cos(sec * f.speed * 0.8 + f.phase * 1.2) * f.ampY * 0.85;
         const alpha = ((Math.sin(sec * 3.2 + f.phase) + 1) * 0.5) * 0.55;
         ctx.fillStyle = `rgba(210,255,190,${alpha})`;
         ctx.beginPath();

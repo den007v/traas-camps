@@ -19,47 +19,48 @@ export function MedsiVisual() {
     let dpr = 1;
 
     const ecgY = (t: number) => {
-      if (t < 0.2) return 0;
-      if (t < 0.29) {
-        const p = (t - 0.2) / 0.09;
-        return Math.sin(Math.PI * p) * 0.2;
-      }
-      if (t < 0.35) {
-        const p = (t - 0.29) / 0.06;
-        return 0.05 + Math.sin(Math.PI * p) * 0.06;
-      }
-      if (t < 0.44) return 0;
-      if (t < 0.5) {
-        const p = (t - 0.44) / 0.06;
+      if (t < 0.16) return 0;
+      if (t < 0.2) {
+        const p = (t - 0.16) / 0.04;
         return -0.24 * Math.sin(Math.PI * p);
       }
-      if (t < 0.512) {
-        const p = (t - 0.5) / 0.012;
-        return p * 1.0;
+      if (t < 0.34) return 0;
+      if (t < 0.39) {
+        const p = (t - 0.34) / 0.05;
+        return Math.sin(Math.PI * p) * 0.42;
       }
-      if (t < 0.527) {
-        const p = (t - 0.512) / 0.015;
-        return 1.0 - p * 0.45;
+      if (t < 0.42) {
+        const p = (t - 0.39) / 0.03;
+        return 0.1 - 0.22 * p;
       }
-      if (t < 0.55) {
-        const p = (t - 0.527) / 0.023;
-        return 0.55 - p * 1.45;
+      if (t < 0.455) {
+        const p = (t - 0.42) / 0.035;
+        return -0.12 - 0.24 * p;
       }
-      if (t < 0.59) {
-        const p = (t - 0.55) / 0.04;
-        return -0.9 + p * 0.82;
+      if (t < 0.474) {
+        const p = (t - 0.455) / 0.019;
+        return -0.36 + p * 1.42;
       }
-      if (t < 0.68) {
-        const p = (t - 0.59) / 0.09;
-        return 0.02 + p * 0.12;
+      if (t < 0.507) {
+        const p = (t - 0.474) / 0.033;
+        return 1.06 - p * 2.35;
       }
-      if (t < 0.84) {
-        const p = (t - 0.68) / 0.16;
-        return Math.sin(Math.PI * p) * 0.34;
+      if (t < 0.535) {
+        const p = (t - 0.507) / 0.028;
+        return -1.29 + p * 1.05;
       }
-      if (t < 0.9) {
-        const p = (t - 0.84) / 0.06;
-        return 0.34 * (1 - p);
+      if (t < 0.565) {
+        const p = (t - 0.535) / 0.03;
+        return -0.24 + p * 0.18;
+      }
+      if (t < 0.72) return 0;
+      if (t < 0.81) {
+        const p = (t - 0.72) / 0.09;
+        return Math.sin(Math.PI * p) * 0.55;
+      }
+      if (t < 0.86) {
+        const p = (t - 0.81) / 0.05;
+        return 0.55 * (1 - p);
       }
       return 0;
     };
