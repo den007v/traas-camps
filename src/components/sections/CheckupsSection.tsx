@@ -42,18 +42,6 @@ function renderCheckupVisual(stepId: string): ReactNode {
         <text x="170" y="346" textAnchor="middle" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Процессы</text>
         <text x="34" y="278" textAnchor="start" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Инфраструктура</text>
         <text x="34" y="126" textAnchor="start" fill="rgba(255,255,255,0.70)" fontSize="12" fontFamily="inherit">Команда</text>
-        <line x1="222" y1="74" x2="110" y2="96" stroke="rgba(255,255,255,0.16)" strokeWidth="0.6" />
-        <line x1="326" y1="135" x2="110" y2="122" stroke="rgba(255,255,255,0.14)" strokeWidth="0.6" />
-        <line x1="326" y1="255" x2="110" y2="148" stroke="rgba(255,255,255,0.14)" strokeWidth="0.6" />
-        <line x1="222" y1="315" x2="110" y2="174" stroke="rgba(255,255,255,0.14)" strokeWidth="0.6" />
-        <line x1="118" y1="255" x2="110" y2="200" stroke="rgba(255,255,255,0.16)" strokeWidth="0.6" />
-        <line x1="118" y1="135" x2="110" y2="226" stroke="rgba(255,255,255,0.16)" strokeWidth="0.6" />
-        <text x="24" y="99" textAnchor="start" fill="rgba(255,255,255,0.74)" fontSize="12" fontFamily="inherit">Архитектура</text>
-        <text x="24" y="125" textAnchor="start" fill="rgba(255,255,255,0.74)" fontSize="12" fontFamily="inherit">Данные</text>
-        <text x="24" y="151" textAnchor="start" fill="rgba(255,255,255,0.74)" fontSize="12" fontFamily="inherit">Безопасность</text>
-        <text x="24" y="177" textAnchor="start" fill="rgba(255,255,255,0.74)" fontSize="12" fontFamily="inherit">Процессы</text>
-        <text x="24" y="203" textAnchor="start" fill="rgba(255,255,255,0.74)" fontSize="12" fontFamily="inherit">Инфраструктура</text>
-        <text x="24" y="229" textAnchor="start" fill="rgba(255,255,255,0.74)" fontSize="12" fontFamily="inherit">Команда</text>
         <text x="466" y="80" fill="rgba(255,255,255,0.90)" fontSize="13" fontWeight="500" fontFamily="inherit">Карта зрелости</text>
         <text x="466" y="98" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">6 направлений ИТ, шкала 1–5</text>
         <rect x="466" y="116" width="10" height="10" rx="2" fill="#C0392B" fillOpacity="0.18" stroke="#C0392B" strokeWidth="1.5" />
@@ -203,12 +191,16 @@ function renderCheckupVisual(stepId: string): ReactNode {
         <circle cx="182" cy="175" r="104" fill="#C0392B" fillOpacity="0.05" stroke="#C0392B" strokeWidth="0.5" strokeDasharray="4 6" />
         <circle cx="182" cy="175" r="148" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="4 8" clipPath="url(#leftClip)" />
         <circle cx="182" cy="175" r="14" fill="#C0392B" />
-        <line x1="196" y1="175" x2="220" y2="175" stroke="rgba(255,255,255,0.35)" strokeWidth="0.7" />
-        <text x="228" y="175" textAnchor="start" dominantBaseline="central" fill="#ffffff" fontSize="11" fontWeight="500" fontFamily="inherit">TraaS</text>
-        <text x="228" y="140" textAnchor="start" fill="#C0392B" fontSize="12" fontFamily="inherit">Пилот</text>
-        <text x="228" y="104" textAnchor="start" fill="rgba(255,255,255,0.55)" fontSize="12" fontFamily="inherit">Отдел</text>
-        <text x="228" y="66" textAnchor="start" fill="rgba(255,255,255,0.40)" fontSize="12" fontFamily="inherit">Бизнес-юнит</text>
-        <text x="228" y="28" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="12" fontFamily="inherit">Вся организация</text>
+        <line x1="182" y1="175" x2="126" y2="175" stroke="rgba(255,255,255,0.35)" strokeWidth="0.7" />
+        <text x="118" y="175" textAnchor="end" dominantBaseline="central" fill="#ffffff" fontSize="11" fontWeight="500" fontFamily="inherit">TraaS</text>
+        <line x1="182" y1="146" x2="124" y2="146" stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
+        <text x="116" y="146" textAnchor="end" fill="#C0392B" fontSize="12" fontFamily="inherit">Пилот</text>
+        <line x1="182" y1="111" x2="124" y2="111" stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
+        <text x="116" y="111" textAnchor="end" fill="rgba(255,255,255,0.55)" fontSize="12" fontFamily="inherit">Отдел</text>
+        <line x1="182" y1="76" x2="124" y2="76" stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
+        <text x="116" y="76" textAnchor="end" fill="rgba(255,255,255,0.40)" fontSize="12" fontFamily="inherit">Бизнес-юнит</text>
+        <line x1="182" y1="42" x2="124" y2="42" stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
+        <text x="116" y="42" textAnchor="end" fill="rgba(255,255,255,0.25)" fontSize="12" fontFamily="inherit">Вся организация</text>
         <line x1="182" y1="161" x2="182" y2="132" stroke="#C0392B" strokeWidth="0.8" markerEnd="url(#arr4)" />
         <line x1="182" y1="125" x2="182" y2="96" stroke="rgba(255,255,255,0.20)" strokeWidth="0.8" markerEnd="url(#arr4)" />
         <line x1="182" y1="89" x2="182" y2="57" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8" markerEnd="url(#arr4)" />
