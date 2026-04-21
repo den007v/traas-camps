@@ -64,23 +64,23 @@ function renderCheckupVisual(stepId: string): ReactNode {
             <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,255,255,0.40)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </marker>
         </defs>
-        <rect x="220" y="18" width="240" height="42" rx="8" fill="#C0392B" fillOpacity="0.25" stroke="#C0392B" strokeWidth="1" />
-        <text x="340" y="35" textAnchor="middle" dominantBaseline="central" fill="#ffffff" fontSize="13" fontWeight="500" fontFamily="inherit">Бизнес-стратегия</text>
-        <text x="340" y="52" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.55)" fontSize="11" fontFamily="inherit">Рост и устойчивость</text>
+        <rect x="220" y="16" width="240" height="46" rx="8" fill="#C0392B" fillOpacity="0.25" stroke="#C0392B" strokeWidth="1" />
+        <text x="340" y="33" textAnchor="middle" dominantBaseline="central" fill="#ffffff" fontSize="13" fontWeight="500" fontFamily="inherit">Бизнес-стратегия</text>
+        <text x="340" y="50" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.55)" fontSize="11" fontFamily="inherit">Рост и устойчивость</text>
         <line x1="340" y1="60" x2="340" y2="92" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
         <line x1="130" y1="92" x2="550" y2="92" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
         <line x1="130" y1="92" x2="130" y2="110" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
-        <rect x="50" y="110" width="160" height="42" rx="8" fill="#C0392B" fillOpacity="0.15" stroke="#C0392B" strokeWidth="0.8" strokeOpacity="0.6" />
-        <text x="130" y="127" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.90)" fontSize="12" fontWeight="500" fontFamily="inherit">Надёжность</text>
-        <text x="130" y="143" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">и безопасность</text>
+        <rect x="50" y="110" width="160" height="46" rx="8" fill="#C0392B" fillOpacity="0.15" stroke="#C0392B" strokeWidth="0.8" strokeOpacity="0.6" />
+        <text x="130" y="126" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.90)" fontSize="12" fontWeight="500" fontFamily="inherit">Надёжность</text>
+        <text x="130" y="142" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">и безопасность</text>
         <line x1="340" y1="92" x2="340" y2="110" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
-        <rect x="260" y="110" width="160" height="42" rx="8" fill="#C0392B" fillOpacity="0.15" stroke="#C0392B" strokeWidth="0.8" strokeOpacity="0.6" />
-        <text x="340" y="127" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.90)" fontSize="12" fontWeight="500" fontFamily="inherit">Эффективность</text>
-        <text x="340" y="143" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">разработки и данных</text>
+        <rect x="260" y="110" width="160" height="46" rx="8" fill="#C0392B" fillOpacity="0.15" stroke="#C0392B" strokeWidth="0.8" strokeOpacity="0.6" />
+        <text x="340" y="126" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.90)" fontSize="12" fontWeight="500" fontFamily="inherit">Эффективность</text>
+        <text x="340" y="142" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">разработки и данных</text>
         <line x1="550" y1="92" x2="550" y2="110" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
-        <rect x="470" y="110" width="160" height="42" rx="8" fill="#C0392B" fillOpacity="0.15" stroke="#C0392B" strokeWidth="0.8" strokeOpacity="0.6" />
-        <text x="550" y="127" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.90)" fontSize="12" fontWeight="500" fontFamily="inherit">Масштабирование</text>
-        <text x="550" y="143" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">и AI-готовность</text>
+        <rect x="470" y="110" width="160" height="46" rx="8" fill="#C0392B" fillOpacity="0.15" stroke="#C0392B" strokeWidth="0.8" strokeOpacity="0.6" />
+        <text x="550" y="126" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.90)" fontSize="12" fontWeight="500" fontFamily="inherit">Масштабирование</text>
+        <text x="550" y="142" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.50)" fontSize="11" fontFamily="inherit">и AI-готовность</text>
         <line x1="130" y1="152" x2="130" y2="188" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
         <line x1="75" y1="188" x2="185" y2="188" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
         <line x1="75" y1="188" x2="75" y2="206" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
@@ -136,7 +136,7 @@ function renderCheckupVisual(stepId: string): ReactNode {
         <line x1="140" y1="91" x2="140" y2="44" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
         <rect x="60" y="14" width="160" height="32" rx="8" fill="#C0392B" fillOpacity="0.30" stroke="#C0392B" strokeWidth="1" />
         <text x="140" y="30" textAnchor="middle" dominantBaseline="central" fill="#ffffff" fontSize="13" fontWeight="500" fontFamily="inherit">Пилот</text>
-        <text x="140" y="112" textAnchor="middle" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">1–3 мес</text>
+        <text x="140" y="124" textAnchor="middle" fill="rgba(255,255,255,0.42)" fontSize="11" fontFamily="inherit">1–3 мес</text>
         {["2–3 команды", "Быстрые победы", "Метрики успеха"].map((t, i) => (
           <g key={t}>
             <rect x="60" y={138 + i * 28} width="160" height="22" rx="4" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)" strokeWidth="0.5" />
@@ -146,7 +146,7 @@ function renderCheckupVisual(stepId: string): ReactNode {
         <line x1="350" y1="91" x2="350" y2="44" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
         <rect x="270" y="14" width="160" height="32" rx="8" fill="#C0392B" fillOpacity="0.18" stroke="#C0392B" strokeWidth="0.8" strokeOpacity="0.60" />
         <text x="350" y="30" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.90)" fontSize="13" fontWeight="500" fontFamily="inherit">Внедрение</text>
-        <text x="350" y="112" textAnchor="middle" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">2–4 мес</text>
+        <text x="350" y="124" textAnchor="middle" fill="rgba(255,255,255,0.42)" fontSize="11" fontFamily="inherit">2–4 мес</text>
         {["Инструменты", "Обучение команды", "Playbook"].map((t, i) => (
           <g key={t}>
             <rect x="270" y={138 + i * 28} width="160" height="22" rx="4" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)" strokeWidth="0.5" />
@@ -156,7 +156,7 @@ function renderCheckupVisual(stepId: string): ReactNode {
         <line x1="560" y1="91" x2="560" y2="44" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
         <rect x="480" y="14" width="160" height="32" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5" />
         <text x="560" y="30" textAnchor="middle" dominantBaseline="central" fill="rgba(255,255,255,0.70)" fontSize="13" fontWeight="500" fontFamily="inherit">Масштабирование</text>
-        <text x="560" y="112" textAnchor="middle" fill="rgba(255,255,255,0.40)" fontSize="11" fontFamily="inherit">3–6 мес</text>
+        <text x="560" y="124" textAnchor="middle" fill="rgba(255,255,255,0.42)" fontSize="11" fontFamily="inherit">3–6 мес</text>
         {["Передача ownership", "Все команды", "Go/No-Go"].map((t, i) => (
           <g key={t}>
             <rect x="480" y={138 + i * 28} width="160" height="22" rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)" strokeWidth="0.5" />
@@ -191,11 +191,12 @@ function renderCheckupVisual(stepId: string): ReactNode {
         <circle cx="200" cy="175" r="104" fill="#C0392B" fillOpacity="0.05" stroke="#C0392B" strokeWidth="0.5" strokeDasharray="4 6" />
         <circle cx="200" cy="175" r="148" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="4 8" clipPath="url(#leftClip)" />
         <circle cx="200" cy="175" r="14" fill="#C0392B" />
-        <text x="200" y="175" textAnchor="middle" dominantBaseline="central" fill="#ffffff" fontSize="11" fontWeight="500" fontFamily="inherit">TraaS</text>
-        <text x="200" y="141" textAnchor="middle" fill="#C0392B" fontSize="12" fontFamily="inherit">Пилот</text>
-        <text x="200" y="104" textAnchor="middle" fill="rgba(255,255,255,0.55)" fontSize="12" fontFamily="inherit">Отдел</text>
-        <text x="200" y="64" textAnchor="middle" fill="rgba(255,255,255,0.40)" fontSize="12" fontFamily="inherit">Бизнес-юнит</text>
-        <text x="200" y="26" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="12" fontFamily="inherit">Вся организация</text>
+        <line x1="214" y1="175" x2="236" y2="175" stroke="rgba(255,255,255,0.35)" strokeWidth="0.7" />
+        <text x="244" y="175" textAnchor="start" dominantBaseline="central" fill="#ffffff" fontSize="11" fontWeight="500" fontFamily="inherit">TraaS</text>
+        <text x="252" y="141" textAnchor="start" fill="#C0392B" fontSize="12" fontFamily="inherit">Пилот</text>
+        <text x="252" y="104" textAnchor="start" fill="rgba(255,255,255,0.55)" fontSize="12" fontFamily="inherit">Отдел</text>
+        <text x="252" y="64" textAnchor="start" fill="rgba(255,255,255,0.40)" fontSize="12" fontFamily="inherit">Бизнес-юнит</text>
+        <text x="252" y="26" textAnchor="start" fill="rgba(255,255,255,0.25)" fontSize="12" fontFamily="inherit">Вся организация</text>
         <line x1="200" y1="161" x2="200" y2="132" stroke="#C0392B" strokeWidth="0.8" markerEnd="url(#arr4)" />
         <line x1="200" y1="125" x2="200" y2="96" stroke="rgba(255,255,255,0.20)" strokeWidth="0.8" markerEnd="url(#arr4)" />
         <line x1="200" y1="89" x2="200" y2="57" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8" markerEnd="url(#arr4)" />
