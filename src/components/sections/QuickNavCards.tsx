@@ -31,8 +31,8 @@ export function QuickNavCards({ content }: { content: SiteContent }) {
             >
               <div className="relative h-[360px] w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                 <div className="absolute inset-0 flex [backface-visibility:hidden]">
-                  <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[var(--divider)] bg-[var(--surface)] text-left shadow-[0_20px_50px_rgba(0,0,0,0.22)] ring-1 ring-inset ring-[#e30613]/15">
-                    <div className="relative min-h-[240px] flex-1 overflow-hidden px-5 pt-5">
+                  <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[var(--divider)] bg-[#0d1019] text-left shadow-[0_20px_50px_rgba(0,0,0,0.22)] ring-1 ring-inset ring-[#e30613]/15">
+                    <div className={`relative min-h-[240px] flex-1 overflow-hidden pt-5 ${card.variant === "ai" ? "px-6" : "px-5"}`}>
                       <div className="relative h-full w-full overflow-hidden rounded-xl">
                         <DiagnosticCardCanvas variant={card.variant} />
                       </div>
@@ -55,7 +55,15 @@ export function QuickNavCards({ content }: { content: SiteContent }) {
                             "linear-gradient(to bottom, rgba(10,12,20,0), rgba(10,12,20,0.55) 70%, rgba(10,12,20,0.72) 100%)",
                         }}
                       />
-                      <p className="text-center text-balance text-[16px] font-bold leading-snug tracking-tight text-[var(--foreground)] sm:text-[17px]">
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                          background:
+                            "linear-gradient(to bottom, rgba(10,12,20,0.35) 0%, rgba(10,12,20,0.72) 48%, rgba(10,12,20,0.86) 100%)",
+                        }}
+                      />
+                      <p className="relative z-[1] text-center text-balance text-[16px] font-bold leading-snug tracking-tight text-[var(--foreground)] sm:text-[17px]">
                         {card.frontTitle}
                       </p>
                     </div>

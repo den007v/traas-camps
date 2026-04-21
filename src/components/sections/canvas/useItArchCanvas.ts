@@ -75,9 +75,14 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
       const phase = phaseRef.current;
       ctx.clearRect(0, 0, width, height);
 
+      const insetX = width * 0.09;
+      const insetY = height * 0.08;
+      const usableWidth = width - insetX * 2;
+      const usableHeight = height - insetY * 2;
+
       const services = RELATIVE_POS.map((p, i) => ({
-        x: p.x * width,
-        y: p.y * height,
+        x: insetX + p.x * usableWidth,
+        y: insetY + p.y * usableHeight,
         w: Math.max(46, width * 0.16),
         h: Math.max(20, height * 0.08),
         label: SERVICES[i],

@@ -19,7 +19,7 @@ type Phase = "scatter" | "gather" | "hold" | "scatter_out";
 
 const SCATTER = 168;
 const GATHER = 256;
-const HOLD = 72;
+const HOLD = 8;
 
 export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) {
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -34,8 +34,8 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
   const getGrid = (width: number, height: number) => {
     const cols = 6;
     const rows = 4;
-    const padX = width * 0.12;
-    const padY = height * 0.18;
+    const padX = width * 0.1;
+    const padY = height * 0.14;
     const stepX = (width - padX * 2) / (cols - 1);
     const stepY = (height - padY * 2) / (rows - 1);
     const points: Array<{ x: number; y: number }> = [];
