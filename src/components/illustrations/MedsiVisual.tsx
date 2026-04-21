@@ -18,53 +18,40 @@ export function MedsiVisual() {
     let height = 0;
     let dpr = 1;
     let ecgPoints: Array<{ x: number; y: number }> = [];
-    const samples = 320;
+    const samples = 360;
+    const ecgAnchors: Array<[number, number]> = [
+      [0.0, 0],
+      [0.16, 0],
+      [0.185, -0.18],
+      [0.205, 0],
+      [0.33, 0],
+      [0.365, 0.36],
+      [0.39, -0.05],
+      [0.42, 0.18],
+      [0.44, -0.22],
+      [0.455, -0.08],
+      [0.466, 1.12],
+      [0.488, 0.28],
+      [0.515, -1.26],
+      [0.54, -0.12],
+      [0.565, 0.0],
+      [0.74, 0.0],
+      [0.8, 0.5],
+      [0.84, 0.0],
+      [1.0, 0.0],
+    ];
 
     const ecgY = (t: number) => {
-      if (t < 0.17) return 0;
-      if (t < 0.205) {
-        const p = (t - 0.17) / 0.035;
-        return -0.18 * Math.sin(Math.PI * p);
+      if (t <= ecgAnchors[0][0]) return ecgAnchors[0][1];
+      for (let i = 1; i < ecgAnchors.length; i += 1) {
+        const [x1, y1] = ecgAnchors[i];
+        const [x0, y0] = ecgAnchors[i - 1];
+        if (t <= x1) {
+          const p = (t - x0) / Math.max(0.0001, x1 - x0);
+          return y0 + (y1 - y0) * p;
+        }
       }
-      if (t < 0.305) return 0;
-      if (t < 0.365) {
-        const p = (t - 0.305) / 0.06;
-        return Math.sin(Math.PI * p) * 0.38;
-      }
-      if (t < 0.39) {
-        const p = (t - 0.365) / 0.025;
-        return 0.16 - p * 0.22;
-      }
-      if (t < 0.425) {
-        const p = (t - 0.39) / 0.035;
-        return -0.06 - p * 0.23;
-      }
-      if (t < 0.447) {
-        const p = (t - 0.425) / 0.022;
-        return -0.29 + p * 1.5;
-      }
-      if (t < 0.49) {
-        const p = (t - 0.447) / 0.043;
-        return 1.21 - p * 2.56;
-      }
-      if (t < 0.522) {
-        const p = (t - 0.49) / 0.032;
-        return -1.35 + p * 1.18;
-      }
-      if (t < 0.56) {
-        const p = (t - 0.522) / 0.038;
-        return -0.17 + p * 0.19;
-      }
-      if (t < 0.76) return 0;
-      if (t < 0.86) {
-        const p = (t - 0.76) / 0.1;
-        return Math.sin(Math.PI * p) * 0.5;
-      }
-      if (t < 0.91) {
-        const p = (t - 0.86) / 0.05;
-        return 0.5 * (1 - p);
-      }
-      return 0;
+      return ecgAnchors[ecgAnchors.length - 1][1];
     };
 
     const rebuildStaticLine = () => {
