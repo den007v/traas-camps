@@ -95,7 +95,7 @@ export function MedsiVisual() {
 
       const baseY = height * 0.52;
       const amp = height * 0.2;
-      const phase = (Math.sin(ts * 0.00062) + 1) * 0.5;
+      const loop = (ts * 0.00022) % 1;
       ctx.beginPath();
       ctx.lineWidth = 1.5;
       ctx.strokeStyle = "rgba(180,60,70,0.22)";
@@ -108,8 +108,8 @@ export function MedsiVisual() {
       ctx.stroke();
 
       const tailLen = width * 0.18;
-      const headX = phase * width;
-      const tailX = Math.max(0, headX - tailLen);
+      const headX = (1 - loop) * width;
+      const tailX = Math.min(width, headX + tailLen);
       const yAt = (x: number) => {
         const t = x / width;
         return baseY - ecgY(t) * amp;
@@ -118,14 +118,14 @@ export function MedsiVisual() {
 
       const grad = ctx.createLinearGradient(tailX, 0, headX, 0);
       grad.addColorStop(0, "rgba(255,80,90,0)");
-      grad.addColorStop(1, "rgba(255,100,110,1)");
+      grad.addColorStop(1, "rgba(255,100,110,0.98)");
       ctx.beginPath();
       ctx.lineWidth = 2.5;
       ctx.strokeStyle = grad;
       const tailSamples = 42;
       for (let i = 0; i <= tailSamples; i += 1) {
         const p = i / tailSamples;
-        const x = tailX + (headX - tailX) * p;
+        const x = tailX - (tailX - headX) * p;
         const y = yAt(x);
         if (i === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);

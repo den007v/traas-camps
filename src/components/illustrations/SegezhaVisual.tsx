@@ -83,8 +83,8 @@ export function SegezhaVisual() {
       const sway = Math.sin(time * tree.swaySpeed + tree.sway) * 0.09;
       const x = (tree.x / 400) * width + sway;
       const baseY = (tree.baseY / 300) * height;
-      const h = (tree.h / 300) * height * grow;
-      const w = (tree.w / 400) * width * grow;
+      const h = (tree.h / 300) * height * grow * 2;
+      const w = (tree.w / 400) * width * grow * 2;
 
       const layerAlpha = tree.layer === 0 ? 0.2 : tree.layer === 1 ? 0.3 : tree.layer === 2 ? 0.46 : 0.62;
       const grad = ctx.createLinearGradient(x, baseY - h, x, baseY);
