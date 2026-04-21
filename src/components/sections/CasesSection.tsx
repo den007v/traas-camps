@@ -1,31 +1,37 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { MedsiIllustration } from "@/components/illustrations/MedsiIllustration";
-import { SegezhaIllustration } from "@/components/illustrations/SegezhaIllustration";
-import { BootcampIllustration } from "@/components/illustrations/BootcampIllustration";
+import { MedsiVisual } from "@/components/illustrations/MedsiVisual";
+import { SegezhaVisual } from "@/components/illustrations/SegezhaVisual";
+import { BootcampVisual } from "@/components/illustrations/BootcampVisual";
 
 const cases = [
   {
     slug: "/cases/medsi",
+    company: "Медси",
     tag: "Медси · IT-диагностика",
     title: "Технологический аудит группы компаний",
     result: "55 инициатив, 4 портфеля, роадмап на 3 года",
-    illustration: <MedsiIllustration />,
+    bg: "#0d1520",
+    visual: <MedsiVisual />,
   },
   {
     slug: "/cases/segezha",
+    company: "Сегежа",
     tag: "Сегежа · Инструменты управления",
     title: "Внедрение Asana в проектный офис",
     result: "Диагностика процессов, пилот в проектном офисе, перенос управления в единый инструмент",
-    illustration: <SegezhaIllustration />,
+    bg: "#08101a",
+    visual: <SegezhaVisual />,
   },
   {
     slug: "/tech-bootcamp",
+    company: "TechBootcamp",
     tag: "TechBootcamp · Обучение",
     title: "Программа развития IT-лидеров",
     result: "23 компании, NPS 77.8%, рост компетенций участников на 23%",
-    illustration: <BootcampIllustration />,
+    bg: "#0e1928",
+    visual: <BootcampVisual />,
   },
 ];
 
@@ -65,14 +71,21 @@ export function CasesSection() {
                 }}
               />
 
-              <div className="aspect-[4/3] w-full overflow-hidden border-b border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--surface-2)_74%,#1a131b)]">
-                <div className="h-full w-full transition duration-300 group-hover:scale-[1.02]">
-                  {item.illustration}
+              <div
+                className="relative aspect-[4/3] w-full overflow-hidden border-b border-[var(--divider)]"
+                style={{ backgroundColor: item.bg }}
+              >
+                <div className="absolute inset-0 transition duration-300 group-hover:scale-[1.02]">
+                  {item.visual}
                 </div>
               </div>
 
               <div className="px-5 pb-6 pt-4">
-                <p className="mb-2 text-[11px] uppercase tracking-[0.2em] text-[var(--muted)]">{item.tag}</p>
+                <p className="mb-2 text-[11px] uppercase tracking-[0.2em]">
+                  <span className="font-semibold text-[var(--foreground)]">{item.company}</span>
+                  <span className="mx-1.5 text-[var(--muted)]">·</span>
+                  <span className="text-[var(--muted)]">{item.tag.replace(`${item.company} · `, "")}</span>
+                </p>
                 <p className="mb-2 text-[15px] font-semibold leading-snug text-[var(--foreground)]">{item.title}</p>
                 <p className="text-[13px] leading-relaxed text-[var(--muted)]">{item.result}</p>
               </div>
