@@ -8,28 +8,28 @@ import { BootcampVisual } from "@/components/illustrations/BootcampVisual";
 const cases = [
   {
     slug: "/cases/medsi-it-diagnostic",
-    company: "Медси",
-    tag: "Медси · IT-диагностика",
-    title: "Диагностика ИТ-блока медицинской сети",
-    result: "Выявили 8 критических ограничений роста и сформировали портфель инициатив с эффектом >0,5 млрд руб./год",
+    company: "Крупная частная медицинская сеть",
+    caseName: "ИТ-диагностика",
+    action: "Провели полную диагностику ИТ-блока и сформировали приоритетный портфель инициатив.",
+    description: "Выявили 8 критических ограничений роста и рассчитали эффект программы развития >0,5 млрд руб./год.",
     bg: "#0d1520",
     visual: <MedsiVisual />,
   },
   {
     slug: "/cases/segezha",
     company: "Сегежа",
-    tag: "Сегежа · Инструменты управления",
-    title: "Внедрение Asana в проектный офис",
-    result: "Диагностика процессов, пилот в проектном офисе, перенос управления в единый инструмент",
+    caseName: "Инструменты управления",
+    action: "Запустили диагностику процессов и пилот новой модели управления проектами.",
+    description: "Перенесли проектный офис в единый контур Asana и выстроили прозрачный контроль сроков и нагрузки.",
     bg: "#08101a",
     visual: <SegezhaVisual />,
   },
   {
     slug: "/tech-bootcamp",
     company: "TechBootcamp",
-    tag: "TechBootcamp · Обучение",
-    title: "Программа развития IT-лидеров",
-    result: "23 компании, NPS 77.8%, рост компетенций участников на 23%",
+    caseName: "Обучение",
+    action: "Собрали программу развития ИТ-лидеров с упором на практику и внедрение.",
+    description: "23 компании, NPS 77.8%, рост компетенций участников на 23% и измеримый эффект в реальных командах.",
     bg: "#0e1928",
     visual: <BootcampVisual />,
   },
@@ -81,13 +81,15 @@ export function CasesSection() {
               </div>
 
               <div className="px-5 pb-6 pt-4">
-                <p className="mb-2 text-[11px] uppercase tracking-[0.2em]">
-                  <span className="font-semibold text-[var(--foreground)]">{item.company}</span>
-                  <span className="mx-1.5 text-[var(--muted)]">·</span>
-                  <span className="text-[var(--muted)]">{item.tag.replace(`${item.company} · `, "")}</span>
+                <p className="mb-2 text-[19px] font-semibold leading-tight text-[var(--foreground)]">
+                  {item.company}
+                  <span className="mx-2 text-[var(--muted)]">·</span>
+                  <span className="text-[var(--foreground)]">{item.caseName}</span>
                 </p>
-                <p className="mb-2 text-[15px] font-semibold leading-snug text-[var(--foreground)]">{item.title}</p>
-                <p className="text-[13px] leading-relaxed text-[var(--muted)]">{item.result}</p>
+                <p className="mb-2 text-[14px] leading-relaxed text-[color:color-mix(in_oklab,var(--foreground)_82%,white_18%)]">
+                  {item.action}
+                </p>
+                <p className="text-[13px] leading-relaxed text-[var(--muted)]">{item.description}</p>
               </div>
             </Link>
           ))}
