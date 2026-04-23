@@ -34,11 +34,11 @@ export function useDataGridCanvas(canvasRef: RefObject<HTMLCanvasElement | null>
   const getGrid = (width: number, height: number) => {
     const cols = 6;
     const rows = 4;
-    const padX = width * 0.1;
-    const gridHeight = height * 0.58;
-    const padY = (height - gridHeight) / 2;
+    const inset = Math.min(width, height) * 0.14;
+    const padX = inset;
+    const padY = inset;
     const stepX = (width - padX * 2) / (cols - 1);
-    const stepY = gridHeight / (rows - 1);
+    const stepY = (height - padY * 2) / (rows - 1);
     const points: Array<{ x: number; y: number }> = [];
     for (let r = 0; r < rows; r += 1) {
       for (let c = 0; c < cols; c += 1) {

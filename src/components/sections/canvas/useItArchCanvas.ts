@@ -75,8 +75,9 @@ export function useItArchCanvas(canvasRef: RefObject<HTMLCanvasElement | null>) 
       const phase = phaseRef.current;
       ctx.clearRect(0, 0, width, height);
 
-      const insetX = width * 0.09;
-      const insetY = height * 0.08;
+      const inset = Math.min(width, height) * 0.14;
+      const insetX = inset;
+      const insetY = inset;
       const usableWidth = width - insetX * 2;
       const usableHeight = height - insetY * 2;
 

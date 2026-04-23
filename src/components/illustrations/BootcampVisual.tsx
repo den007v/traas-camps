@@ -33,6 +33,8 @@ const edges: Array<[number, number]> = [
   [6, 7],
 ];
 
+const clamp = (v: number, min = 0, max = 1) => Math.max(min, Math.min(max, v));
+
 const appearInterval = 0.75;
 const appearDuration = 0.45;
 const appearEnd = (blocks.length - 1) * appearInterval + appearDuration;
@@ -42,8 +44,6 @@ const disappearDuration = 0.3;
 const disappearStart = appearEnd + fullPause;
 const disappearEnd = disappearStart + (blocks.length - 1) * disappearInterval + disappearDuration;
 const cycleDuration = disappearEnd + 0.8;
-
-const clamp = (v: number, min = 0, max = 1) => Math.max(min, Math.min(max, v));
 
 export function BootcampVisual() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -116,7 +116,6 @@ export function BootcampVisual() {
     const draw = (ts: number) => {
       const t = (ts / 1000) % cycleDuration;
       ctx.clearRect(0, 0, width, height);
-
       const step = 18;
       ctx.lineWidth = 0.5;
       ctx.strokeStyle = "rgba(255,255,255,0.038)";

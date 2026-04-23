@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
@@ -36,6 +39,9 @@ const cases = [
 ];
 
 export function CasesSection() {
+  const defaultActive = 1;
+  const [activeIndex, setActiveIndex] = useState(defaultActive);
+
   return (
     <AnimatedSection id="cases" className="scroll-mt-24 border-y border-[var(--divider)] bg-[var(--surface-soft)] py-16">
       <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:radial-gradient(circle_at_12%_8%,rgba(227,6,19,0.14),transparent_34%),radial-gradient(circle_at_86%_14%,rgba(255,255,255,0.08),transparent_36%)]" />
@@ -51,53 +57,97 @@ export function CasesSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {cases.map((item, index) => (
+        <div className="mt-4 md:mt-14 md:px-3 lg:px-6" onMouseLeave={() => setActiveIndex(defaultActive)}>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
+          {cases.map((item, index) => {
+            const isActive = index === activeIndex;
+            return (
             <Link
               key={item.slug}
               href={item.slug}
-              className="group relative block overflow-hidden rounded-2xl border border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--surface)_92%,#120f16)] transition duration-300 hover:border-[#e30613]/45 hover:bg-[color:color-mix(in_oklab,var(--surface)_85%,#1c1217)] hover:shadow-[0_20px_45px_-24px_rgba(227,6,19,0.45)]"
+              onMouseEnter={() => setActiveIndex(index)}
+              className={`group relative block h-full overflow-hidden rounded-2xl border bg-[color:color-mix(in_oklab,var(--surface)_92%,#120f16)] transition-transform delay-[40ms] duration-[1430ms] [transition-timing-function:cubic-bezier(0.42,0,0.58,1)] ${
+                isActive
+                  ? "z-30 border-[var(--divider)] bg-[color:color-mix(in_oklab,var(--surface)_84%,#1f1218)] shadow-[0_28px_72px_-34px_rgba(227,6,19,0.34)]"
+                  : "z-10 border-[var(--divider)] shadow-[0_16px_36px_-26px_rgba(0,0,0,0.5)]"
+              }`}
+              style={{
+                transform: isActive
+                  ? "translate3d(0,0,0) scaleX(1.04) scaleY(1.11)"
+                  : "translate3d(0,0,0) scale(0.94)",
+                transformOrigin: "center center",
+                willChange: "transform",
+              }}
             >
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-0 h-24 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                className={`pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-75 ${
+                  isActive ? "opacity-100" : "opacity-0"
+                }`}
+                style={{
+                  background:
+                    "linear-gradient(to right, rgba(227,6,19,0.055), rgba(227,6,19,0.055)) top / 100% 1px no-repeat, linear-gradient(to right, rgba(227,6,19,0.154), rgba(227,6,19,0.154)) bottom / 100% 1px no-repeat, linear-gradient(to bottom, rgba(227,6,19,0.055), rgba(227,6,19,0.154)) left / 1px 100% no-repeat, linear-gradient(to bottom, rgba(227,6,19,0.055), rgba(227,6,19,0.154)) right / 1px 100% no-repeat",
+                }}
+              />
+              <div
+                aria-hidden
+                className={`pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-75 ${
+                  isActive ? "opacity-100" : "opacity-0"
+                }`}
+                style={{
+                  background:
+                    "radial-gradient(52% 18% at 50% 0%, rgba(227,6,19,0.09), rgba(227,6,19,0) 100%), radial-gradient(52% 18% at 50% 100%, rgba(227,6,19,0.09), rgba(227,6,19,0) 100%)",
+                }}
+              />
+              <div
+                aria-hidden
+                className={`pointer-events-none absolute inset-0 rounded-2xl transition-opacity delay-[40ms] duration-[1430ms] [transition-timing-function:cubic-bezier(0.42,0,0.58,1)] ${
+                  isActive ? "opacity-100" : "opacity-0"
+                }`}
+                style={{
+                  boxShadow:
+                    "inset 0 0 0 1px rgba(227,6,19,0.14), inset 0 -52px 94px -58px rgba(227,6,19,0.17), inset 34px 0 64px -46px rgba(227,6,19,0.1), inset -34px 0 64px -46px rgba(227,6,19,0.1)",
+                }}
+              />
+              <div
+                aria-hidden
+                className={`pointer-events-none absolute inset-x-0 top-0 h-24 transition-opacity duration-75 ${
+                  isActive ? "opacity-100" : "opacity-0"
+                }`}
                 style={{
                   background:
                     index === 0
-                      ? "radial-gradient(circle at 18% 0%, rgba(227,6,19,0.24), transparent 62%)"
+                      ? "radial-gradient(circle at 18% 0%, rgba(227,6,19,0.09), transparent 62%)"
                       : index === 1
-                        ? "radial-gradient(circle at 50% 0%, rgba(227,6,19,0.22), transparent 62%)"
-                        : "radial-gradient(circle at 82% 0%, rgba(227,6,19,0.24), transparent 62%)",
+                        ? "radial-gradient(circle at 50% 0%, rgba(227,6,19,0.08), transparent 62%)"
+                        : "radial-gradient(circle at 82% 0%, rgba(227,6,19,0.09), transparent 62%)",
                 }}
               />
 
               <div
-                className="relative aspect-[4/3] w-full overflow-hidden border-b border-[var(--divider)]"
+                className="relative aspect-[8/9] w-full overflow-hidden border-b border-[var(--divider)]"
                 style={{ backgroundColor: item.bg }}
               >
-                <div className="absolute inset-0 transition duration-300 group-hover:scale-[1.02]">
+                <div className="absolute inset-0">
                   {item.visual}
                 </div>
               </div>
 
-              <div className="px-5 pb-6 pt-4">
-                <p className="mb-1 text-[11px] uppercase tracking-[0.16em] text-[var(--muted)]">
-                  Кейс TraaS
-                </p>
-                <p className="mb-2 text-[20px] font-semibold leading-tight text-[var(--foreground)]">
+              <div className="px-5 pb-5 pt-4">
+                <p className="mb-1.5 text-[22px] font-semibold leading-tight text-[var(--foreground)]">
                   {item.company}
-                  <span className="mx-2 text-[var(--muted)]">·</span>
-                  <span className="text-[var(--foreground)]">{item.caseName}</span>
                 </p>
-                <p className="mb-3 text-[14px] leading-relaxed text-[color:color-mix(in_oklab,var(--foreground)_86%,white_14%)]">
+                <p className="mb-2 font-mono text-[17px] leading-tight tracking-[0.01em] text-[color:color-mix(in_oklab,var(--muted)_82%,var(--foreground)_18%)]">
+                  {item.caseName}
+                </p>
+                <p className="text-[14px] leading-relaxed text-[color:color-mix(in_oklab,var(--foreground)_86%,white_14%)]">
                   {item.action}
-                </p>
-                <p className="text-[12px] font-medium leading-relaxed text-[color:color-mix(in_oklab,var(--primary)_74%,white_26%)]">
-                  {item.impact}
                 </p>
               </div>
             </Link>
-          ))}
+            );
+          })}
+          </div>
         </div>
       </Container>
     </AnimatedSection>

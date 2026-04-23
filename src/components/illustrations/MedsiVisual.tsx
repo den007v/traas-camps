@@ -16,27 +16,24 @@ export function MedsiVisual() {
     let height = 0;
     let dpr = 1;
     let ecgPoints: Array<{ x: number; y: number }> = [];
-    const samples = 360;
+    const samples = 380;
     const ecgAnchors: Array<[number, number]> = [
       [0.0, 0],
-      [0.16, 0],
-      [0.185, -0.18],
-      [0.205, 0],
+      [0.1, 0],
+      [0.15, 0.2],
+      [0.2, 0],
       [0.33, 0],
-      [0.365, 0.36],
-      [0.39, -0.05],
-      [0.42, 0.18],
-      [0.44, -0.22],
-      [0.455, -0.08],
-      [0.466, 1.12],
-      [0.488, 0.28],
-      [0.515, -1.26],
-      [0.54, -0.12],
-      [0.565, 0.0],
-      [0.74, 0.0],
-      [0.8, 0.5],
-      [0.84, 0.0],
-      [1.0, 0.0],
+      [0.385, 0.55],
+      [0.425, 0],
+      [0.475, -0.02],
+      [0.505, -0.62],
+      [0.54, 1.68],
+      [0.575, -1.25],
+      [0.61, 0.0],
+      [0.74, 0],
+      [0.79, 0.18],
+      [0.85, 0],
+      [1.0, 0],
     ];
 
     const ecgY = (t: number) => {
@@ -79,7 +76,7 @@ export function MedsiVisual() {
       const sx = width / 7;
       const sy = height / 5;
       ctx.lineWidth = 0.5;
-      ctx.strokeStyle = "rgba(255,255,255,0.04)";
+      ctx.strokeStyle = "rgba(255,255,255,0.048)";
       for (let x = 0; x <= width; x += sx) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
@@ -95,7 +92,14 @@ export function MedsiVisual() {
 
       const baseY = height * 0.52;
       const amp = height * 0.2;
-      const loop = (ts * 0.00022) % 1;
+      const sweepSpeed = 0.000329;
+      const tailLen = width * 0.18;
+      const travelX = width + tailLen;
+      const sweepMs = (travelX / width) / sweepSpeed;
+      const pauseMs = 500;
+      const cycleMs = sweepMs + pauseMs;
+      const cycleT = ts % cycleMs;
+      const loop = cycleT < sweepMs ? cycleT / sweepMs : 1;
       ctx.beginPath();
       ctx.lineWidth = 1.5;
       ctx.strokeStyle = "rgba(180,60,70,0.22)";
@@ -107,9 +111,8 @@ export function MedsiVisual() {
       });
       ctx.stroke();
 
-      const tailLen = width * 0.18;
-      const headX = loop * width;
-      const tailX = Math.max(0, headX - tailLen);
+      const headX = loop * travelX;
+      const tailX = headX - tailLen;
       const yAt = (x: number) => {
         const t = x / width;
         return baseY - ecgY(t) * amp;
