@@ -60,7 +60,7 @@ export const siteContent: SiteContent = {
         "Узкие места и quick wins на горизонте 30–90 дней",
         "Связка изменений с метриками и ответственностью ролей",
       ],
-      href: "#partners",
+      href: "/assessment/process-maturity",
       variant: "digital",
     },
     {
@@ -75,7 +75,7 @@ export const siteContent: SiteContent = {
         "Приоритеты модернизации и снижения сложности",
         "Ориентиры для инвестиций и поэтапной трансформации",
       ],
-      href: "#industry-solutions",
+      href: "/assessment/it-landscape",
       variant: "tech",
     },
   ],

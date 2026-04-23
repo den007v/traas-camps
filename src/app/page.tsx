@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { HeroSection } from "@/components/sections/HeroSection";
+import { TrustedCompaniesMarquee } from "@/components/sections/TrustedCompaniesMarquee";
 import { QuickNavCards } from "@/components/sections/QuickNavCards";
 import { CheckupsSection } from "@/components/sections/CheckupsSection";
 import { CasesSection } from "@/components/sections/CasesSection";
@@ -16,6 +17,7 @@ export default function Home() {
       <main className="flex-1">
         <HeroSection content={siteContent} />
         <QuickNavCards content={siteContent} />
+        <TrustedCompaniesMarquee />
         <CheckupsSection content={siteContent} />
         <CasesSection />
         <ServicesSection content={siteContent} />
