@@ -20,13 +20,15 @@ export function useNeuralNetCanvas(canvasRef: RefObject<HTMLCanvasElement | null
   const random = (a: number, b: number) => a + Math.random() * (b - a);
 
   const resetScene = useCallback((width: number, height: number) => {
+    const insetX = width * 0.09;
+    const insetY = height * 0.1;
     const nodes: Node[] = [];
     for (let i = 0; i < 38; i += 1) {
       const angle = Math.random() * Math.PI * 2;
       const speed = random(0.15, 0.35);
       nodes.push({
-        x: i === 0 ? width / 2 : random(8, width - 8),
-        y: i === 0 ? height / 2 : random(8, height - 8),
+        x: i === 0 ? width / 2 : random(insetX, width - insetX),
+        y: i === 0 ? height / 2 : random(insetY, height - insetY),
         vx: i === 0 ? 0 : Math.cos(angle) * speed,
         vy: i === 0 ? 0 : Math.sin(angle) * speed,
         r: i === 0 ? 7 : random(3, 5),
@@ -125,10 +127,12 @@ export function useNeuralNetCanvas(canvasRef: RefObject<HTMLCanvasElement | null
 
       for (let i = 1; i < nodes.length; i += 1) {
         const n = nodes[i];
+        const insetX = width * 0.09;
+        const insetY = height * 0.1;
         n.x += n.vx;
         n.y += n.vy;
-        if (n.x <= n.r || n.x >= width - n.r) n.vx *= -1;
-        if (n.y <= n.r || n.y >= height - n.r) n.vy *= -1;
+        if (n.x <= insetX + n.r || n.x >= width - insetX - n.r) n.vx *= -1;
+        if (n.y <= insetY + n.r || n.y >= height - insetY - n.r) n.vy *= -1;
         ctx.fillStyle = n.color;
         ctx.shadowBlur = 8;
         ctx.shadowColor = "#E05050";

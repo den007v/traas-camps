@@ -56,16 +56,20 @@ export default function TraasCasesPage() {
               ) : null}
 
               <div className="p-5">
-                <span className="inline-flex rounded-full border border-[var(--divider)] bg-[var(--surface-2)] px-2.5 py-1 text-[11px] text-[var(--muted)]">
+                <span className="inline-flex rounded-full border border-[var(--divider)] bg-[var(--surface-2)] px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] text-[var(--muted)]">
                   {item.card.badge}
                 </span>
-                <h2 className="mt-3 text-lg font-semibold leading-tight">{item.card.title}</h2>
-                <p className="mt-2 text-[13px] leading-relaxed text-[var(--muted)]">{item.card.description}</p>
-                <ul className="mt-3 space-y-1.5">
+                <h2 className="mt-3 text-[22px] font-semibold leading-tight tracking-tight">{item.card.title}</h2>
+                <p className="mt-2 text-[13px] leading-relaxed text-[color:color-mix(in_oklab,var(--foreground)_84%,white_16%)]">
+                  {item.card.description}
+                </p>
+                <ul className="mt-3 flex flex-wrap gap-2">
                   {item.card.bullets.map((point) => (
-                    <li key={point} className="flex items-start gap-2 text-[12px] text-[var(--muted)]">
-                      <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--primary)]" />
-                      <span>{point}</span>
+                    <li
+                      key={point}
+                      className="rounded-full border border-[color:color-mix(in_oklab,var(--primary)_38%,var(--divider))] bg-[color:color-mix(in_oklab,var(--surface-2)_70%,transparent)] px-3 py-1 text-[11px] font-medium leading-tight text-[color:color-mix(in_oklab,var(--primary)_72%,white_28%)]"
+                    >
+                      {point}
                     </li>
                   ))}
                 </ul>

@@ -10,8 +10,8 @@ const cases = [
     slug: "/cases/medsi-it-diagnostic",
     company: "Крупная частная медицинская сеть",
     caseName: "ИТ-диагностика",
-    action: "Провели полную диагностику ИТ-блока и сформировали приоритетный портфель инициатив.",
-    description: "Выявили 8 критических ограничений роста и рассчитали эффект программы развития >0,5 млрд руб./год.",
+    action: "Провели диагностику ИТ-блока и собрали приоритетный план изменений.",
+    impact: "8 критических ограничений · потенциал эффекта >0,5 млрд ₽/год",
     bg: "#0d1520",
     visual: <MedsiVisual />,
   },
@@ -19,8 +19,8 @@ const cases = [
     slug: "/cases/segezha-project-office",
     company: "Сегежа",
     caseName: "Инструменты управления",
-    action: "Запустили диагностику процессов и пилот новой модели управления проектами.",
-    description: "Перенесли проектный офис в единый контур Asana и выстроили прозрачный контроль сроков и нагрузки.",
+    action: "Запустили диагностику и пилот новой модели управления проектами.",
+    impact: "Единый контур проектного офиса · прозрачный контроль сроков и нагрузки",
     bg: "#08101a",
     visual: <SegezhaVisual />,
   },
@@ -28,8 +28,8 @@ const cases = [
     slug: "/cases/tech-bootcamp",
     company: "TechBootcamp",
     caseName: "Обучение",
-    action: "Собрали программу развития ИТ-лидеров с упором на практику и внедрение.",
-    description: "23 компании, NPS 77.8%, рост компетенций участников на 23% и измеримый эффект в реальных командах.",
+    action: "Собрали интенсив развития ИТ-лидеров с фокусом на внедрение в работе.",
+    impact: "23 компании · NPS 77.8% · рост компетенций +23%",
     bg: "#0e1928",
     visual: <BootcampVisual />,
   },
@@ -81,15 +81,20 @@ export function CasesSection() {
               </div>
 
               <div className="px-5 pb-6 pt-4">
-                <p className="mb-2 text-[19px] font-semibold leading-tight text-[var(--foreground)]">
+                <p className="mb-1 text-[11px] uppercase tracking-[0.16em] text-[var(--muted)]">
+                  Кейс TraaS
+                </p>
+                <p className="mb-2 text-[20px] font-semibold leading-tight text-[var(--foreground)]">
                   {item.company}
                   <span className="mx-2 text-[var(--muted)]">·</span>
                   <span className="text-[var(--foreground)]">{item.caseName}</span>
                 </p>
-                <p className="mb-2 text-[14px] leading-relaxed text-[color:color-mix(in_oklab,var(--foreground)_82%,white_18%)]">
+                <p className="mb-3 text-[14px] leading-relaxed text-[color:color-mix(in_oklab,var(--foreground)_86%,white_14%)]">
                   {item.action}
                 </p>
-                <p className="text-[13px] leading-relaxed text-[var(--muted)]">{item.description}</p>
+                <p className="text-[12px] font-medium leading-relaxed text-[color:color-mix(in_oklab,var(--primary)_74%,white_26%)]">
+                  {item.impact}
+                </p>
               </div>
             </Link>
           ))}
