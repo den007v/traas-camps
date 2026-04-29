@@ -1,11 +1,20 @@
 import { motion } from "framer-motion";
-import type {
-  AssessmentQuestionItem,
-  ProfileQuestion,
-} from "@/data/assessmentAiReadiness";
+
+type Option = {
+  id: string;
+  text: string;
+  value: string;
+};
+
+type Question = {
+  id: string;
+  text: string;
+  hint?: string;
+  options: Option[];
+};
 
 type Props = {
-  question: AssessmentQuestionItem | ProfileQuestion;
+  question: Question;
   selectedValue?: string | number;
   onSelect: (value: string) => void;
   otherText?: string;
@@ -32,6 +41,11 @@ export function AssessmentQuestion({
       <h2 className="text-balance text-xl font-semibold leading-tight text-[var(--foreground)] sm:text-[1.7rem]">
         {question.text}
       </h2>
+      {question.hint ? (
+        <p className="mt-2 text-sm italic leading-relaxed text-[var(--muted)]">
+          {question.hint}
+        </p>
+      ) : null}
       <div className="mt-5 grid gap-2.5">
         {question.options.map((option, idx) => {
           const selected = selectedValue === option.value;

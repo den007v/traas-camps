@@ -1,191 +1,199 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Container } from "@/components/ui/Container";
-import { ContactModal } from "@/components/contact/ContactModal";
-import { SiteHeader } from "@/components/layout/SiteHeader";
-import { AssessmentProgress } from "@/components/assessment/AssessmentProgress";
-import { AssessmentQuestion } from "@/components/assessment/AssessmentQuestion";
-import { AssessmentResult } from "@/components/assessment/AssessmentResult";
-import {
-  aiReadinessQuestions,
-  buildRadarData,
-  getReadinessLevel,
-  profileQuestions,
-} from "@/data/assessmentAiReadiness";
-import { siteContent } from "@/data/siteContent";
-import { useTheme } from "@/components/theme/ThemeProvider";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { FullResult } from "./_components/FullResult";
+import { IntroScreen } from "./_components/IntroScreen";
+import { ProfileQuestionScreen } from "./_components/ProfileQuestionScreen";
+import { QuestionScreen } from "./_components/QuestionScreen";
+import { assessmentBackground, assessmentShell } from "./_components/styles";
+import { PROFILE_QUESTIONS, QUESTIONS } from "./_lib/schema";
+import { computeResult } from "./_lib/scoring";
+import type { Answers, ProfileAnswers, ScreenState } from "./_lib/types";
 
-export default function AiReadinessAssessmentPage() {
-  const profileCount = profileQuestions.length;
-  const scoredCount = aiReadinessQuestions.length;
-  const totalSteps = profileCount + scoredCount;
-  const [step, setStep] = useState(0);
-  const [answerValues, setAnswerValues] = useState<string[]>([]);
-  const [profileAnswers, setProfileAnswers] = useState<Record<string, string>>({});
-  const [profileOtherText, setProfileOtherText] = useState<Record<string, string>>({});
-  const [contactOpen, setContactOpen] = useState(false);
-  const [analyticsSent, setAnalyticsSent] = useState(false);
-  const { theme } = useTheme();
+const STORAGE_KEY = "traas_assessment_v1";
+const AUTO_ADVANCE_DELAY_MS = 360;
+const TOTAL_STEPS = PROFILE_QUESTIONS.length + QUESTIONS.length;
 
-  const isDone = step >= totalSteps;
-  const isProfileStep = step < profileCount;
-  const scoredStepIndex = step - profileCount;
-  const currentQuestion = isProfileStep
-    ? profileQuestions[step]
-    : aiReadinessQuestions[Math.min(scoredStepIndex, scoredCount - 1)];
-  const selectedValue = isProfileStep
-    ? profileAnswers[currentQuestion?.id]
-    : answerValues[scoredStepIndex];
+type StoredAssessment = {
+  version: 1;
+  screen: ScreenState;
+  answers: Answers;
+  profileAnswers: ProfileAnswers;
+};
 
-  const scoresByQuestion = useMemo(
-    () =>
-      aiReadinessQuestions.map((q, idx) => {
-        const selected = answerValues[idx];
-        const score = q.options.find((o) => o.value === selected)?.score;
-        return score ?? 1;
-      }),
-    [answerValues],
-  );
+export default function AIReadinessAssessmentPage() {
+  const [screen, setScreen] = useState<ScreenState>({ kind: "intro" });
+  const [answers, setAnswers] = useState<Answers>({});
+  const [profileAnswers, setProfileAnswers] = useState<ProfileAnswers>({});
+  const autoAdvanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const analyticsSubmitted = useRef(false);
 
-  const totalScore = scoresByQuestion.reduce((sum, score) => sum + score, 0);
-  const level = getReadinessLevel(totalScore);
-  const radarData = buildRadarData(scoresByQuestion);
-
-  const palette = useMemo(
-    () =>
-      ({
-        "--a-bg": theme === "dark" ? "#181a26" : "#cfd7e7",
-        "--a-surface": theme === "dark" ? "#232734" : "#e3eaf6",
-        "--a-surface-2": theme === "dark" ? "#2b3040" : "#c1cde2",
-        "--a-border": theme === "dark" ? "rgba(202,209,230,0.22)" : "rgba(67,82,112,0.28)",
-        "--a-text": theme === "dark" ? "#f3f4f8" : "#0f1725",
-        "--a-muted": theme === "dark" ? "#b8bed0" : "#3f4d66",
-      }) as CSSProperties,
-    [theme],
-  );
-
-  function setAnswer(value: string) {
-    if (isProfileStep) {
-      setProfileAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }));
-      setStep((s) => Math.min(s + 1, totalSteps));
-      return;
-    }
-    setAnswerValues((prev) => {
-      const next = [...prev];
-      next[scoredStepIndex] = value;
-      return next;
-    });
-    setStep((s) => Math.min(s + 1, totalSteps));
-  }
-
-  function goBack() {
-    setStep((s) => Math.max(s - 1, 0));
-  }
-
-  function resetTest() {
-    setAnswerValues([]);
-    setProfileAnswers({});
-    setProfileOtherText({});
-    setAnalyticsSent(false);
-    setStep(0);
-  }
-
-  function resolveProfileValue(id: string) {
-    const selected = profileAnswers[id];
-    if (selected !== "other") return selected;
-    const custom = profileOtherText[id]?.trim();
-    return custom ? `other:${custom}` : "other";
-  }
-
-  async function saveAnalytics() {
-    if (analyticsSent) return;
-    if (answerValues.length !== scoredCount) return;
-    setAnalyticsSent(true);
-    try {
-      await fetch("/api/assessment/ai-readiness", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          role: resolveProfileValue("role"),
-          companySize: resolveProfileValue("companySize"),
-          industry: resolveProfileValue("industry"),
-          primaryChallenge: resolveProfileValue("primaryChallenge"),
-          scores: scoresByQuestion,
-        }),
-      });
-    } catch {
-      // intentionally ignore: assessment should not break UX
-    }
+  function clearAutoAdvanceTimer() {
+    if (!autoAdvanceTimer.current) return;
+    clearTimeout(autoAdvanceTimer.current);
+    autoAdvanceTimer.current = null;
   }
 
   useEffect(() => {
-    if (!isDone) return;
-    void saveAnalytics();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDone, analyticsSent, answerValues.length, scoredCount, profileAnswers, scoresByQuestion]);
+    const payload: StoredAssessment = {
+      version: 1,
+      screen,
+      answers,
+      profileAnswers,
+    };
+    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  }, [answers, profileAnswers, screen]);
+
+  useEffect(() => {
+    const hasAnswered = Object.keys(answers).length > 0;
+    if (screen.kind !== "question" || !hasAnswered) return;
+
+    function handleBeforeUnload(event: BeforeUnloadEvent) {
+      event.preventDefault();
+      event.returnValue = "Прогресс не сохранён. Уйти со страницы?";
+    }
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [answers, screen.kind]);
+
+  useEffect(() => clearAutoAdvanceTimer, []);
+
+  const result = useMemo(
+    () => (Object.keys(answers).length === QUESTIONS.length ? computeResult(answers) : null),
+    [answers],
+  );
+
+  useEffect(() => {
+    if (!result || analyticsSubmitted.current) return;
+    analyticsSubmitted.current = true;
+
+    const scores = QUESTIONS.map((question) => answers[question.id]);
+    void fetch("/api/assessment/ai-readiness", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        assessmentVersion: "ai_readiness_stage_1_1",
+        role: profileAnswers.role,
+        companySize: profileAnswers.companySize,
+        scores,
+        result: {
+          profile: result.profile,
+          finalScore: result.finalScore,
+          rawScore: result.rawScore,
+          hardCapTriggered: result.hardCapTriggered,
+          domainScores: result.domainScores,
+          topBlockers: result.topBlockers,
+        },
+      }),
+    }).catch(() => {
+      analyticsSubmitted.current = false;
+    });
+  }, [answers, profileAnswers, result]);
+
+  function start() {
+    setScreen({ kind: "profile", index: 0 });
+  }
+
+  function selectProfileAnswer(value: string) {
+    if (screen.kind !== "profile") return;
+    const question = PROFILE_QUESTIONS[screen.index];
+    setProfileAnswers((prev) => ({ ...prev, [question.id]: value }));
+    clearAutoAdvanceTimer();
+
+    const nextScreen: ScreenState =
+      screen.index === PROFILE_QUESTIONS.length - 1
+        ? { kind: "question", index: 0 }
+        : { kind: "profile", index: screen.index + 1 };
+
+    autoAdvanceTimer.current = setTimeout(() => {
+      setScreen(nextScreen);
+      autoAdvanceTimer.current = null;
+    }, AUTO_ADVANCE_DELAY_MS);
+  }
+
+  function selectAnswer(score: number) {
+    if (screen.kind !== "question") return;
+    const question = QUESTIONS[screen.index];
+    setAnswers((prev) => ({ ...prev, [question.id]: score }));
+    clearAutoAdvanceTimer();
+
+    const nextScreen: ScreenState =
+      screen.index === QUESTIONS.length - 1
+        ? { kind: "result" }
+        : { kind: "question", index: screen.index + 1 };
+
+    autoAdvanceTimer.current = setTimeout(() => {
+      setScreen(nextScreen);
+      autoAdvanceTimer.current = null;
+    }, AUTO_ADVANCE_DELAY_MS);
+  }
+
+  function goBack() {
+    if (screen.kind !== "question" && screen.kind !== "profile") return;
+    clearAutoAdvanceTimer();
+
+    if (screen.kind === "profile" && screen.index === 0) {
+      setScreen({ kind: "intro" });
+      return;
+    }
+
+    if (screen.kind === "profile") {
+      setScreen({ kind: "profile", index: screen.index - 1 });
+      return;
+    }
+
+    if (screen.index === 0) {
+      setScreen({ kind: "profile", index: PROFILE_QUESTIONS.length - 1 });
+      return;
+    }
+
+    setScreen({ kind: "question", index: screen.index - 1 });
+  }
+
+  if (screen.kind === "result" && !result) {
+    return (
+      <div className={assessmentShell}>
+        <div className={assessmentBackground} aria-hidden="true" />
+        <div className="relative">
+          <IntroScreen onStart={start} />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div style={palette} className="min-h-screen bg-[var(--a-bg)] text-[var(--a-text)]">
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute left-[10%] top-[6%] h-56 w-56 rounded-full bg-[#e30613]/[0.08] blur-3xl" />
-        <div className="absolute bottom-[10%] right-[8%] h-64 w-64 rounded-full bg-[#e30613]/[0.06] blur-3xl" />
+    <div className={assessmentShell}>
+      <div className={assessmentBackground} aria-hidden="true" />
+      <div className="relative">
+        {screen.kind === "intro" ? <IntroScreen onStart={start} /> : null}
+
+        {screen.kind === "profile" ? (
+          <ProfileQuestionScreen
+            question={PROFILE_QUESTIONS[screen.index]}
+            questionIndex={screen.index}
+            totalSteps={TOTAL_STEPS}
+            selectedValue={profileAnswers[PROFILE_QUESTIONS[screen.index].id] ?? null}
+            onSelect={selectProfileAnswer}
+            onBack={goBack}
+          />
+        ) : null}
+
+        {screen.kind === "question" ? (
+          <QuestionScreen
+            question={QUESTIONS[screen.index]}
+            questionIndex={PROFILE_QUESTIONS.length + screen.index}
+            totalQuestions={TOTAL_STEPS}
+            selectedScore={answers[QUESTIONS[screen.index].id] ?? null}
+            onSelect={selectAnswer}
+            onBack={goBack}
+          />
+        ) : null}
+
+        {screen.kind === "result" && result ? (
+          <FullResult result={result} profileAnswers={profileAnswers} answers={answers} />
+        ) : null}
       </div>
-      <SiteHeader content={siteContent} currentPageLabel="Оценка готовности к ИИ-трансформации" />
-
-      <Container className="relative z-10 py-7 sm:py-10">
-        {!isDone ? (
-          <div className="mx-auto max-w-3xl">
-            <AssessmentProgress current={step + 1} total={totalSteps} />
-            <div className="mt-6 rounded-2xl border border-[var(--a-border)] bg-[color:color-mix(in_oklab,var(--a-surface)_94%,transparent)] p-4 sm:p-6">
-              <AnimatePresence mode="wait">
-                <AssessmentQuestion
-                  key={currentQuestion.id}
-                  question={currentQuestion}
-                  selectedValue={selectedValue}
-                  onSelect={setAnswer}
-                  otherText={profileOtherText[currentQuestion.id]}
-                  onOtherInput={
-                    isProfileStep
-                      ? (value) =>
-                          setProfileOtherText((prev) => ({ ...prev, [currentQuestion.id]: value }))
-                      : undefined
-                  }
-                />
-              </AnimatePresence>
-
-              <motion.div
-                layout
-                className="mt-6 flex items-center gap-3"
-              >
-                <button
-                  type="button"
-                  onClick={goBack}
-                  disabled={step === 0}
-                  className="rounded-full border border-[var(--a-border)] px-4 py-2 text-sm text-[var(--a-muted)] transition hover:text-[var(--a-text)] disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  Назад
-                </button>
-              </motion.div>
-            </div>
-          </div>
-        ) : (
-          <div className="mx-auto max-w-5xl rounded-3xl border border-[var(--a-border)] bg-[color:color-mix(in_oklab,var(--a-surface)_95%,transparent)] p-5 sm:p-7">
-            <AssessmentResult
-              level={level}
-              radarData={radarData}
-              scoresByQuestion={scoresByQuestion}
-              totalScore={totalScore}
-              profileAnswers={profileAnswers}
-              onReset={resetTest}
-              onCta={() => setContactOpen(true)}
-            />
-          </div>
-        )}
-      </Container>
-
-      <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { TrustedCompaniesMarquee } from "@/components/sections/TrustedCompaniesMarquee";
+import { Clients } from "@/components/sections/Clients";
 import { QuickNavCards } from "@/components/sections/QuickNavCards";
 import { CheckupsSection } from "@/components/sections/CheckupsSection";
 import { CasesSection } from "@/components/sections/CasesSection";
@@ -16,8 +16,8 @@ export default function Home() {
       <SiteHeader content={siteContent} />
       <main className="flex-1">
         <HeroSection content={siteContent} />
+        <Clients />
         <QuickNavCards content={siteContent} />
-        <TrustedCompaniesMarquee />
         <CheckupsSection content={siteContent} />
         <CasesSection />
         <ServicesSection content={siteContent} />
