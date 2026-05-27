@@ -7,8 +7,6 @@ import { Clients } from "@/components/sections/Clients";
 import { QuickNavCards } from "@/components/sections/QuickNavCards";
 import { CheckupsSection } from "@/components/sections/CheckupsSection";
 import { CasesSection } from "@/components/sections/CasesSection";
-import { ServicesSection } from "@/components/sections/ServicesSection";
-import { PublicationsSection } from "@/components/sections/PublicationsSection";
 
 export default function Home() {
   return (
@@ -20,8 +18,6 @@ export default function Home() {
         <QuickNavCards content={siteContent} />
         <CheckupsSection content={siteContent} />
         <CasesSection />
-        <ServicesSection content={siteContent} />
-        <PublicationsSection content={siteContent} />
       </main>
       <SiteFooter content={siteContent} />
       <CookieBanner />

@@ -81,7 +81,15 @@ function ResultContent() {
     );
   }
 
-  return <FullResult result={result} profileAnswers={profileAnswers} answers={answers} />;
+  return (
+    <FullResult
+      result={result}
+      profileAnswers={profileAnswers}
+      onReset={() => {
+        window.location.href = "/assessment/ai-readiness";
+      }}
+    />
+  );
 }
 
 function StateMessage({

@@ -92,6 +92,8 @@ export type ProfileContent = {
     opportunity: string;
   };
   warnings: string[];
+  strengths: string[];
+  quickWins: string[];
   color: string;
   bgTint: string;
   border: string;

@@ -151,6 +151,15 @@ export default function AIReadinessAssessmentPage() {
     setScreen({ kind: "question", index: screen.index - 1 });
   }
 
+  function reset() {
+    clearAutoAdvanceTimer();
+    setScreen({ kind: "intro" });
+    setAnswers({});
+    setProfileAnswers({});
+    analyticsSubmitted.current = false;
+    window.sessionStorage.removeItem(STORAGE_KEY);
+  }
+
   if (screen.kind === "result" && !result) {
     return (
       <div className={assessmentShell}>
@@ -191,7 +200,7 @@ export default function AIReadinessAssessmentPage() {
         ) : null}
 
         {screen.kind === "result" && result ? (
-          <FullResult result={result} profileAnswers={profileAnswers} answers={answers} />
+          <FullResult result={result} profileAnswers={profileAnswers} onReset={reset} />
         ) : null}
       </div>
     </div>

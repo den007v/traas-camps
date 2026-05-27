@@ -10,7 +10,7 @@ export function SiteFooter({ content }: { content: SiteContent }) {
     <footer id="footer" className="border-t border-[var(--divider)] bg-[var(--surface-soft)]">
       <Container className="py-14">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-          <div className="lg:col-span-1">
+          <div className="md:col-span-2 lg:col-span-2">
             <p className="text-lg">
               <BrandWordmark />
             </p>

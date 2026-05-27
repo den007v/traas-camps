@@ -70,6 +70,8 @@ export type ReadinessLevel = {
   color: string;
   description: string;
   insights: string[];
+  strengths: string[];
+  quickWins: string[];
   nextActions: string[];
   ctaText: string;
   ctaLabel: string;
@@ -311,6 +313,16 @@ export const readinessLevels: ReadinessLevel[] = [
       "Отсутствие надёжного мониторинга означает, что бизнес узнаёт о проблемах последним — от клиентов, а не от систем.",
       "ИТ без стратегии работает в режиме firefighting, не создавая ценность — это ведёт к выгоранию команды и разочарованию бизнеса.",
     ],
+    strengths: [
+      "Есть понимание, что ИТ-ландшафт требует изменений — это уже честная стартовая точка",
+      "Бизнес-процессы работают вне зависимости от ИТ — есть операционная устойчивость",
+      "Низкий уровень — это точка максимального ROI от улучшений: каждый шаг даёт заметный результат",
+    ],
+    quickWins: [
+      "Проведите архитектурный аудит за 2 недели: зафиксируйте все системы, их связи и точки отказа — это стартовая карта управления",
+      "Внедрите базовый мониторинг с alerting для 3–5 критических систем — бизнес перестанет узнавать о проблемах от клиентов",
+      "Проведите встречу ИТ и бизнеса: согласуйте 3 приоритета на 6 месяцев с измеримым результатом",
+    ],
     nextActions: [
       "Проведите архитектурный audit за 2-3 недели: зафиксируйте все системы, связи и критические точки отказа",
       "Внедрите базовый мониторинг с alerting для топ-5 критических систем — это первый шаг к проактивному управлению",
@@ -332,6 +344,16 @@ export const readinessLevels: ReadinessLevel[] = [
       "Точечные интеграции и нестабильные пайплайны создают технический долг быстрее, чем он успевает погашаться.",
       "Реактивный подход к надёжности — постоянный операционный стресс для команды и непредсказуемость для бизнеса.",
       "ИБ без системного подхода — это иллюзия безопасности: базовые меры защищают только от случайных угроз.",
+    ],
+    strengths: [
+      "Базовые практики заложены: есть мониторинг, зачатки CI/CD, начальные политики ИБ",
+      "Команда понимает, что нужно улучшать — есть осознанность и инициативы по развитию",
+      "ИТ-ландшафт развивается: точечные улучшения создают основу для системной работы",
+    ],
+    quickWins: [
+      "Выделите 20% мощности команды на системное снижение техдолга — приоритизируйте по бизнес-влиянию",
+      "Стабилизируйте CI/CD: 3 надёжных шага (lint + тесты + деплой на staging) важнее 10 нестабильных",
+      "Проведите ИБ-оценку рисков: определите наиболее ценные и уязвимые активы",
     ],
     nextActions: [
       "Приоритизируйте техдолг по бизнес-влиянию: выделите 20% мощности команды на системное снижение долга",
@@ -355,6 +377,16 @@ export const readinessLevels: ReadinessLevel[] = [
       "Зрелый ИТ-ландшафт открывает возможности для AI и data-сценариев — системы готовы к интеграции новых возможностей.",
       "Управляемый техдолг позволяет планировать модернизацию, а не тушить пожары — это меняет роль ИТ-команды.",
     ],
+    strengths: [
+      "Архитектура задокументирована и управляема — техдолг не растёт бесконтрольно",
+      "Интеграции надёжны, CI/CD зрелый — команда деплоит без стресса и операционных рисков",
+      "ИБ-политики и синхронизация с бизнесом создают предсказуемость и доверие к ИТ",
+    ],
+    quickWins: [
+      "Внедрите DORA-метрики (deployment frequency, lead time, MTTR, change failure rate) — выявите реальные узкие места",
+      "Запустите первый AI/data-пилот: зрелый ИТ-ландшафт позволяет получить результат быстро",
+      "Развивайте platform engineering: общие компоненты для всех команд снизят стоимость разработки",
+    ],
     nextActions: [
       "Внедрите DORA метрики: deployment frequency, lead time, MTTR, change failure rate — это покажет реальные узкие места",
       "Развивайте platform engineering: общие компоненты для всех команд снизят стоимость разработки и повысят согласованность",
@@ -376,6 +408,16 @@ export const readinessLevels: ReadinessLevel[] = [
       "Зрелый технологический фундамент позволяет запускать сложные AI и data-продукты быстрее любого конкурента.",
       "При высоком уровне зрелости важно следить за тем, чтобы платформа не превратилась в новый монолит — гибкость требует постоянного внимания.",
       "ИТ как стратегический партнёр позволяет реагировать на рыночные изменения в недели, а не месяцы.",
+    ],
+    strengths: [
+      "Современная гибкая архитектура с управляемым техдолгом — изменения обходятся дёшево",
+      "SRE-практики и DevSecOps — надёжность и безопасность встроены в процесс, а не добавляются post factum",
+      "ИТ — стратегический партнёр бизнеса: совместные OKR, измеримый бизнес-эффект",
+    ],
+    quickWins: [
+      "Оцените возможность создания технологических продуктов для клиентов — зрелость ИТ-ландшафта может стать источником дохода",
+      "Постройте технологический радар: регулярная оценка emerging technologies применительно к вашему бизнесу",
+      "Развивайте developer experience как конкурентное преимущество при найме",
     ],
     nextActions: [
       "Оцените возможность создания технологических продуктов для клиентов — зрелость ИТ-ландшафта может стать источником дохода",
@@ -414,9 +456,57 @@ export function getProfileLabel(id: ProfileQuestion["id"], value: string): strin
   return option?.text ?? value;
 }
 
-export function scoreColor(score: number): string {
+export type ItHeatmapDomain = {
+  id: string;
+  title: string;
+  icon: string;
+  score: number;
+  maxScore: number;
+  insight: { title: string; diagnosis: string; action: string };
+};
+
+export function buildItHeatmapDomains(scoresByQuestion: number[]): ItHeatmapDomain[] {
+  return itLandscapeQuestions.map((q, idx) => {
+    const score = scoresByQuestion[idx] ?? 1;
+    const insight = q.dimensionInsights[score - 1];
+    return {
+      id: q.id,
+      title: q.dimension,
+      icon: q.dimensionIcon,
+      score,
+      maxScore: 4,
+      insight,
+    };
+  });
+}
+
+export type ItRiskFlag = {
+  title: string;
+  observation: string;
+  businessImpact: string;
+  severity: "Высокая" | "Средняя";
+};
+
+export function buildItRiskFlags(scoresByQuestion: number[]): ItRiskFlag[] {
+  const domains = buildItHeatmapDomains(scoresByQuestion);
+  return [...domains]
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 3)
+    .map((d) => ({
+      title: d.insight.title,
+      observation: d.insight.diagnosis,
+      businessImpact: d.insight.action,
+      severity: d.score <= 1 ? "Высокая" : "Средняя",
+    }));
+}
+
+export function itScoreColor(score: number): string {
   if (score <= 1) return "#e30613";
   if (score <= 2) return "#d7a21f";
   if (score <= 3) return "#2ea36b";
   return "#7b5cff";
+}
+
+export function scoreColor(score: number): string {
+  return itScoreColor(score);
 }

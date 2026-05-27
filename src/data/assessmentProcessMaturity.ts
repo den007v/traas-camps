@@ -88,7 +88,7 @@ export const profileQuestions: ProfileQuestion[] = [
     id: "role",
     type: "qualification",
     text: "Ваша роль в компании",
-    hint: "Нужно только для тональности отчёта и маршрутизации CTA. На оценку не влияет.",
+    hint: "Нужно для персонализации отчёта. На итоговую оценку не влияет.",
     options: [
       { id: "A", value: "ceo_board", text: "CEO / Основатель / Член правления" },
       { id: "B", value: "cio_cto_cdo", text: "CIO / CTO / CDO / CDTO" },
@@ -444,11 +444,17 @@ export function calculateProcessMaturityResult(answerValues: Record<string, stri
     .slice(0, 3)
     .map((domain) => `${domain.title}: ${domain.insight.title.toLowerCase()}`);
 
-  const quickWins = weakest.map((domain) => domain.insight.action);
+  const quickWins = weakest.map((domain) => `${domain.title}: ${domain.insight.action}`);
+  const w0 = weakest[0];
+  const w1 = weakest[1];
   const roadmap = [
-    "За 30 дней: зафиксировать владельцев, текущие метрики и проблемные стыки по трём самым критичным доменам.",
-    "За 60 дней: собрать backlog улучшений с оценкой эффекта, сложности и владельца внедрения.",
-    "За 90 дней: перевести приоритетные улучшения в регулярный контур управления с SLA, метриками и ревью результата.",
+    w0
+      ? `Фокус на "${w0.title}": ${w0.insight.action}`
+      : "Зафиксировать владельцев и текущие метрики по трём самым критичным доменам.",
+    w1
+      ? `Фокус на "${w1.title}": ${w1.insight.action}`
+      : "Собрать backlog улучшений с оценкой эффекта, сложности и владельца внедрения.",
+    "Перевести приоритетные улучшения в регулярный контур управления: назначить SLA, метрики и ритм ревью результата.",
   ];
 
   return {
@@ -457,7 +463,7 @@ export function calculateProcessMaturityResult(answerValues: Record<string, stri
     level,
     domainScores,
     riskFlags: riskFlags.length ? riskFlags : fallbackRiskFlags,
-    strengths: strengths.length ? strengths : ["Есть достаточный материал для первичной диагностики: ответы уже показывают, где начинать наведение порядка."],
+    strengths,
     quickWins,
     roadmap,
     hardCapApplied,

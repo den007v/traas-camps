@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Home, RotateCcw } from "lucide-react";
 import Link from "next/link";
+import { AINotice } from "@/components/assessment/AINotice";
 import { AssessmentProgress } from "@/components/assessment/AssessmentProgress";
 import { AssessmentQuestion } from "@/components/assessment/AssessmentQuestion";
 import { ContactModal } from "@/components/contact/ContactModal";
@@ -30,7 +31,6 @@ import {
   getProfileLabel,
   processMaturityQuestions,
   profileQuestions,
-  scoreColor,
   type DomainScore,
   type ProcessMaturityResult,
 } from "@/data/assessmentProcessMaturity";
@@ -56,12 +56,10 @@ function trackEvent(name: string, params: Record<string, unknown> = {}) {
   win.dataLayer = win.dataLayer ?? [];
   win.dataLayer.push({ event: name, ...params });
 }
-
 function currentQuestionForStep(step: number) {
   if (step < profileQuestions.length) return profileQuestions[step];
   return processMaturityQuestions[step - profileQuestions.length];
 }
-
 export default function ProcessMaturityAssessmentPage() {
   const [screen, setScreen] = useState<Screen>("intro");
   const [step, setStep] = useState(0);
@@ -70,6 +68,7 @@ export default function ProcessMaturityAssessmentPage() {
   const [contactOpen, setContactOpen] = useState(false);
   const analyticsSent = useRef(false);
   const loadingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const autoAdvanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const currentQuestion = currentQuestionForStep(step);
   const isProfileStep = step < profileQuestions.length;
@@ -127,7 +126,15 @@ export default function ProcessMaturityAssessmentPage() {
 
   useEffect(() => () => {
     if (loadingTimer.current) clearTimeout(loadingTimer.current);
+    clearAutoAdvance();
   }, []);
+
+  function clearAutoAdvance() {
+    if (autoAdvanceTimer.current) {
+      clearTimeout(autoAdvanceTimer.current);
+      autoAdvanceTimer.current = null;
+    }
+  }
 
   function start() {
     setScreen("step");
@@ -150,19 +157,21 @@ export default function ProcessMaturityAssessmentPage() {
       score: selected?.score ?? null,
       domain: "domain" in currentQuestion ? currentQuestion.domain : null,
     });
-  }
 
-  function next() {
-    if (!selectedValue) return;
-    if (step < totalSteps - 1) {
-      setStep((prev) => prev + 1);
-      return;
-    }
-    setScreen("loading");
-    loadingTimer.current = setTimeout(() => setScreen("result"), LOADING_DELAY_MS);
+    clearAutoAdvance();
+    autoAdvanceTimer.current = setTimeout(() => {
+      if (step < totalSteps - 1) {
+        setStep((prev) => prev + 1);
+      } else {
+        setScreen("loading");
+        loadingTimer.current = setTimeout(() => setScreen("result"), LOADING_DELAY_MS);
+      }
+      autoAdvanceTimer.current = null;
+    }, 300);
   }
 
   function back() {
+    clearAutoAdvance();
     if (screen === "result") {
       setScreen("step");
       setStep(totalSteps - 1);
@@ -173,6 +182,7 @@ export default function ProcessMaturityAssessmentPage() {
   }
 
   function reset() {
+    clearAutoAdvance();
     if (loadingTimer.current) clearTimeout(loadingTimer.current);
     setScreen("intro");
     setStep(0);
@@ -224,7 +234,6 @@ export default function ProcessMaturityAssessmentPage() {
             selectedValue={selectedValue}
             onSelect={selectAnswer}
             onBack={back}
-            onNext={next}
           />
         ) : null}
         {screen === "loading" ? <LoadingScreen /> : null}
@@ -243,7 +252,6 @@ export default function ProcessMaturityAssessmentPage() {
     </div>
   );
 }
-
 function IntroScreen({ onStart }: { onStart: () => void }) {
   return (
     <Container className="py-8 sm:py-10 lg:py-14">
@@ -317,21 +325,18 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
     </Container>
   );
 }
-
 function QuestionFlow({
   step,
   question,
   selectedValue,
   onSelect,
   onBack,
-  onNext,
 }: {
   step: number;
   question: ReturnType<typeof currentQuestionForStep>;
   selectedValue?: string;
   onSelect: (value: string) => void;
   onBack: () => void;
-  onNext: () => void;
 }) {
   return (
     <Container className="py-8 sm:py-12">
@@ -354,7 +359,7 @@ function QuestionFlow({
               onSelect={onSelect}
             />
           </AnimatePresence>
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+          <div className="mt-6 flex flex-wrap items-center justify-start gap-3">
             <button
               type="button"
               onClick={onBack}
@@ -362,14 +367,6 @@ function QuestionFlow({
               className={`${assessmentSecondaryButton} min-h-11 px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-40`}
             >
               <ArrowLeft className="h-4 w-4" /> Назад
-            </button>
-            <button
-              type="button"
-              onClick={onNext}
-              disabled={!selectedValue}
-              className={`${assessmentPrimaryButton} min-h-11 px-5 py-2.5 text-sm`}
-            >
-              {step === totalSteps - 1 ? "Показать отчёт" : "Далее"}
             </button>
           </div>
         </div>
@@ -448,7 +445,7 @@ function ResultScreen({
               </p>
               {result.hardCapApplied ? (
                 <div className="mt-5 rounded-2xl border border-[#e30613]/35 bg-[#e30613]/10 p-4 text-sm leading-relaxed text-[#ffc6ca]">
-                  Сработал hard cap: базовая гигиена по владельцам процессов или качеству данных ограничивает итоговый уровень до 2.5/5, даже если другие домены выглядят сильнее.
+                  Обратите внимание: в вашей компании отсутствует один из двух базовых элементов — назначенные владельцы процессов или измеримое качество данных. Без этого фундамента устойчивый рост по остальным направлениям крайне затруднён. Итоговый балл скорректирован с учётом этого разрыва. Начните именно здесь — это разблокирует развитие всего остального.
                 </div>
               ) : null}
               <div className="mt-5 flex flex-wrap gap-2">
@@ -460,7 +457,7 @@ function ResultScreen({
           </div>
         </section>
 
-        <AIGeneratedNotice />
+        <AINotice topic="зрелости процессов и данных" />
 
         <section className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
           <Heatmap domains={result.domainScores} />
@@ -468,8 +465,8 @@ function ResultScreen({
         </section>
 
         <section className="grid gap-5 lg:grid-cols-2">
-          <InfoPanel title="Что у вас работает" items={result.strengths} tone="success" />
-          <InfoPanel title="Quick wins на 30 дней" items={result.quickWins} tone="warning" />
+          <StrengthsOrStart strengths={result.strengths} />
+          <QuickWinsPanel items={result.quickWins} />
         </section>
 
         <section className={`${assessmentCard} p-6 sm:p-8`}>
@@ -477,7 +474,12 @@ function ResultScreen({
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {result.roadmap.map((item, index) => (
               <div key={item} className={`${assessmentSoftCard} p-4`}>
-                <span className="text-sm font-semibold" style={{ color: result.level.color }}>0{index + 1}</span>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-sm font-semibold" style={{ color: result.level.color }}>0{index + 1}</span>
+                  <span className="rounded-full border border-[var(--divider)] px-2 py-0.5 text-[10px] text-[var(--muted)]">
+                    {index === 0 ? "30 дней" : index === 1 ? "60 дней" : "90 дней"}
+                  </span>
+                </div>
                 <p className="mt-3 text-sm leading-relaxed text-[var(--foreground)]/85">{item}</p>
               </div>
             ))}
@@ -520,22 +522,6 @@ function ProfilePill({ label }: { label: string }) {
   );
 }
 
-function AIGeneratedNotice() {
-  return (
-    <section className={`${assessmentSoftCard} border-l-2 border-l-[var(--primary)] p-5`}>
-      <p className={assessmentEyebrow}>
-        Важно о результате
-      </p>
-      <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-        Этот отчёт подготовлен AI на основе ваших ответов и не является экспертным заключением TraaS.
-        Он помогает быстро увидеть вероятные зоны риска, но не заменяет полноценную диагностику с интервью,
-        анализом процессов, системных артефактов и качества данных. Если хотите более глубокий и конкретный
-        разбор вашей ситуации — приходите к нам, команда TraaS поможет собрать практичный план действий.
-      </p>
-    </section>
-  );
-}
-
 function ScoreBadge({ score, uncappedScore, color }: { score: number; uncappedScore: number; color: string }) {
   const pct = Math.min(Math.max(score / 5, 0), 1);
   const radius = 54;
@@ -572,13 +558,34 @@ function ScoreBadge({ score, uncappedScore, color }: { score: number; uncappedSc
   );
 }
 
+function scoreLabel(score: number): { label: string; color: string } {
+  if (score <= 2) return { label: "Требует внимания", color: "#e30613" };
+  if (score <= 3) return { label: "Есть потенциал", color: "#d38f1f" };
+  if (score <= 4) return { label: "Развивается", color: "#2ea36b" };
+  return { label: "Сильная сторона", color: "#0f9f6e" };
+}
+
 function Heatmap({ domains }: { domains: DomainScore[] }) {
   return (
     <section className={`${assessmentCard} p-5 sm:p-6`}>
-      <p className={assessmentEyebrow}>Heatmap по 8 доменам</p>
+      <p className={assessmentEyebrow}>Разбор по направлениям</p>
+      <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-[var(--muted)]">
+        {[1, 3, 5].map((score) => {
+          const { label, color } = scoreLabel(score);
+          return (
+            <span key={label} className="flex items-center gap-1.5">
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-full"
+                style={{ background: color }}
+              />
+              {label}
+            </span>
+          );
+        })}
+      </div>
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {domains.map((domain) => {
-          const color = scoreColor(domain.score);
+          const { label, color } = scoreLabel(domain.score);
           return (
             <article key={domain.id} className={`${assessmentSoftCard} p-4 transition hover:border-[color:color-mix(in_oklab,var(--primary)_34%,var(--border))]`}>
               <div className="flex items-start justify-between gap-3">
@@ -586,7 +593,12 @@ function Heatmap({ domains }: { domains: DomainScore[] }) {
                   <span style={{ color }}>{domain.icon}</span>
                   <h3 className="text-sm font-semibold leading-snug text-[var(--foreground)]">{domain.title}</h3>
                 </div>
-                <span className="text-sm font-semibold" style={{ color }}>{formatMaturityScore(domain.score)}</span>
+                <span
+                  className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+                  style={{ background: `color-mix(in oklab, ${color} 16%, transparent)`, color }}
+                >
+                  {label}
+                </span>
               </div>
               <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[var(--surface-2)]">
                 <div className="h-full rounded-full" style={{ width: `${(domain.score / 5) * 100}%`, background: color }} />
@@ -597,6 +609,74 @@ function Heatmap({ domains }: { domains: DomainScore[] }) {
           );
         })}
       </div>
+    </section>
+  );
+}
+
+function QuickWinsPanel({ items }: { items: string[] }) {
+  return (
+    <section className={`${assessmentWarningPanel} p-5 sm:p-6`}>
+      <p className={assessmentEyebrow}>Quick wins на 30 дней</p>
+      <div className="mt-5 space-y-3">
+        {items.map((item, index) => {
+          const colonIdx = item.indexOf(": ");
+          const domain = colonIdx > -1 ? item.slice(0, colonIdx) : null;
+          const action = colonIdx > -1 ? item.slice(colonIdx + 2) : item;
+          return (
+            <div key={item} className={`${assessmentElevated} p-4`}>
+              <div className="flex items-start gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#d38f1f] text-xs font-semibold text-white">
+                  {index + 1}
+                </span>
+                <div>
+                  {domain ? (
+                    <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[#d38f1f]">
+                      {domain}
+                    </p>
+                  ) : null}
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--foreground)]/85">
+                    {action}
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function StrengthsOrStart({ strengths }: { strengths: string[] }) {
+  if (strengths.length > 0) {
+    return (
+      <section className={`${assessmentSuccessPanel} p-5 sm:p-6`}>
+        <p className={assessmentEyebrow}>Что у вас работает</p>
+        <div className="mt-5 space-y-3">
+          {strengths.map((item, index) => (
+            <div key={item} className={`${assessmentElevated} flex gap-3 p-4`}>
+              <span
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white"
+                style={{ background: "#2ea36b" }}
+              >
+                {index + 1}
+              </span>
+              <p className="text-sm leading-relaxed text-[var(--foreground)]/85">{item}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className={`${assessmentSoftCard} border-l-2 border-l-[var(--muted)] p-5 sm:p-6`}>
+      <p className={assessmentEyebrow}>С чего начать</p>
+      <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
+        По результатам диагностики ни один домен не достиг уровня, который можно уверенно назвать сильной стороной.
+        Это честная отправная точка — и точка максимального эффекта от изменений. Конкретные приоритеты — в Quick wins
+        и Roadmap ниже.
+      </p>
     </section>
   );
 }
@@ -615,26 +695,6 @@ function RiskFlags({ result }: { result: ProcessMaturityResult }) {
             <p className="mt-2 text-xs leading-relaxed text-[var(--muted)]">{risk.observation}</p>
             <p className="mt-2 text-xs leading-relaxed text-[#ffc6ca]">{risk.businessImpact}</p>
           </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function InfoPanel({ title, items, tone }: { title: string; items: string[]; tone: "success" | "warning" }) {
-  const color = tone === "success" ? "#2ea36b" : "#d38f1f";
-  const panelClass = tone === "success" ? assessmentSuccessPanel : assessmentWarningPanel;
-  return (
-    <section className={`${panelClass} p-5 sm:p-6`}>
-      <p className={assessmentEyebrow}>{title}</p>
-      <div className="mt-5 space-y-3">
-        {items.map((item, index) => (
-          <div key={item} className={`${assessmentElevated} flex gap-3 p-4`}>
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white" style={{ background: color }}>
-              {index + 1}
-            </span>
-            <p className="text-sm leading-relaxed text-[var(--foreground)]/85">{item}</p>
-          </div>
         ))}
       </div>
     </section>

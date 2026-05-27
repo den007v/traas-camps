@@ -1,17 +1,13 @@
+import { useMemo } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { RotateCcw } from "lucide-react";
+import { AINotice } from "@/components/assessment/AINotice";
 import { Container } from "@/components/ui/Container";
-import { FULL_DIAGNOSTIC_ARTIFACTS, PROFILES, RELATED_CASES } from "../_lib/content";
-import { getProfileAnswerLabel, PROFILE_QUESTIONS, QUESTIONS } from "../_lib/schema";
-import { BenchmarkSection } from "./BenchmarkSection";
-import { BlockerCard } from "./BlockerCard";
-import { EmailGate } from "./EmailGate";
+import { BLOCKER_CONTENT, DOMAIN_VERDICTS, PROFILES, ROADMAP_CONTENT } from "../_lib/content";
+import { DOMAINS, getProfileAnswerLabel, PROFILE_QUESTIONS, QUESTIONS } from "../_lib/schema";
 import { Heatmap } from "./Heatmap";
-import { PitfallsSection } from "./PitfallsSection";
 import { ProgressBar } from "./ProgressBar";
-import { RoadmapSection } from "./RoadmapSection";
 import { ScoreCircle } from "./ScoreCircle";
-import { TeamQuestions } from "./TeamQuestions";
 import {
   assessmentCard,
   assessmentChip,
@@ -20,26 +16,61 @@ import {
   assessmentEyebrow,
   assessmentPrimaryButton,
   assessmentSecondaryButton,
-  assessmentSectionTitle,
   assessmentSoftCard,
   assessmentSuccessPanel,
+  assessmentWarningPanel,
 } from "./styles";
-import type { Answers, ProfileAnswers, ScoreResult } from "../_lib/types";
+import type { DomainKey, ProfileAnswers, ScoreResult } from "../_lib/types";
 
 export function FullResult({
   result,
   profileAnswers,
-  answers,
+  onReset,
 }: {
   result: ScoreResult;
   profileAnswers: ProfileAnswers;
-  answers: Answers;
+  onReset: () => void;
 }) {
   const profile = PROFILES[result.profile];
-  const relatedCase = RELATED_CASES[result.profile];
   const roleLabel = getProfileAnswerLabel("role", profileAnswers.role);
   const companySizeLabel = getProfileAnswerLabel("companySize", profileAnswers.companySize);
   const totalSteps = PROFILE_QUESTIONS.length + QUESTIONS.length;
+  const dynamicQuickWins = result.topBlockers
+    .filter((d): d is Exclude<typeof d, "experience"> => d !== "experience")
+    .slice(0, 3)
+    .map((d) => ({
+      domain: BLOCKER_CONTENT[d]?.title.replace("Узкое место: ", "") ?? d,
+      action: BLOCKER_CONTENT[d]?.firstStep ?? "",
+    }))
+    .filter((w) => w.action);
+  const dynamicRoadmap = useMemo(() => {
+    const blockers = result.topBlockers
+      .filter((d): d is Exclude<typeof d, "experience"> => d !== "experience")
+      .slice(0, 2);
+    const b0 = blockers[0] ? BLOCKER_CONTENT[blockers[0]] : null;
+    const b1 = blockers[1] ? BLOCKER_CONTENT[blockers[1]] : null;
+    const fallback = ROADMAP_CONTENT[result.profile] ?? [];
+    return [
+      b0
+        ? `${b0.title.replace("Узкое место: ", "")}: ${b0.firstStep}`
+        : fallback[0] ?? "",
+      b1
+        ? `${b1.title.replace("Узкое место: ", "")}: ${b1.firstStep}`
+        : fallback[1] ?? "",
+      fallback[2] ?? "Внедрите первые результаты в регулярный операционный контур.",
+    ];
+  }, [result]);
+  const dynamicStrengths = useMemo(() => {
+    return DOMAINS
+      .filter((d) => d.key !== "experience")
+      .flatMap((d) => {
+        const key = d.key as Exclude<typeof d.key, "experience">;
+        const score = result.domainScores[key];
+        if (score?.level !== "high") return [];
+        const verdict = DOMAIN_VERDICTS[key]?.high;
+        return verdict ? [`${d.label}: ${verdict}`] : [];
+      });
+  }, [result.domainScores]);
 
   return (
     <main className="py-8 sm:py-10">
@@ -155,100 +186,129 @@ export function FullResult({
         </div>
       </section>
 
-      <section className={`${assessmentSoftCard} border-l-2 border-l-[var(--primary)] p-5`}>
-        <p className={assessmentEyebrow}>
-          Важно о результате
-        </p>
-        <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-          Этот отчёт подготовлен AI на основе ваших ответов и не является экспертным заключением TraaS.
-          Он помогает быстро увидеть вероятные зоны риска, но не заменяет полноценную диагностику с интервью,
-          анализом артефактов и проверкой данных. Если хотите более глубокий и конкретный разбор вашей
-          ситуации — приходите к нам, команда TraaS поможет собрать практичный план действий.
-        </p>
-      </section>
+      <AINotice topic="готовности к ИИ-трансформации" />
 
       <Heatmap domainScores={result.domainScores} />
 
-      <section aria-labelledby="blockers-title" className="space-y-4">
-        <h2 id="blockers-title" className={assessmentSectionTitle}>
-          Узкие места
-        </h2>
-        <div className="grid gap-4">
-          {result.topBlockers.map((domain) => (
-            <BlockerCard key={domain} domain={domain} />
-          ))}
-        </div>
-      </section>
-
-      <BenchmarkSection profile={result.profile} />
-
-      <PitfallsSection profile={result.profile} />
-
-      <TeamQuestions profile={result.profile} />
-
-      <RoadmapSection profile={result.profile} />
-
-      <section className={`${assessmentCard} p-6 text-center sm:p-8 lg:p-12`}>
-        <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:radial-gradient(circle_at_50%_0%,rgba(227,6,19,0.16),transparent_34%)]" />
-        <div className="relative">
-        <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[color:color-mix(in_oklab,var(--primary)_16%,transparent)] text-[#ff6e79]">
-          <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
-        </div>
-        <h2 className="mt-5 text-3xl font-bold tracking-tight text-[var(--foreground)]">{profile.ctaTitle}</h2>
-        <p className="mx-auto mt-3 max-w-2xl leading-relaxed text-[var(--muted)]">
-          {profile.ctaDescription}
+      <section className={`${assessmentDangerPanel} p-5 sm:p-6`}>
+        <p className="text-xs font-medium uppercase tracking-[0.22em] text-[var(--error)]">
+          Top-3 блокера
         </p>
-        <Link
-          href="/#contact"
-          className={`${assessmentPrimaryButton} mt-6`}
-        >
-          {profile.ctaButtonText}
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
+        <div className="mt-5 space-y-3">
+          {result.topBlockers.map((domain) => {
+            const content = getBlockerContent(domain);
+            if (!content) return null;
+            return (
+              <article key={domain} className={`${assessmentElevated} p-4`}>
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-sm font-semibold text-[var(--foreground)]">{content.title}</h3>
+                  <span className="rounded-full bg-[#e30613]/15 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#ffc6ca]">Высокая</span>
+                </div>
+                <p className="mt-2 text-xs leading-relaxed text-[var(--muted)]">{content.whatHappens}</p>
+                <p className="mt-2 text-xs leading-relaxed text-[#ffc6ca]">{content.consequences}</p>
+              </article>
+            );
+          })}
         </div>
       </section>
 
-      <EmailGate result={result} profileAnswers={profileAnswers} answers={answers} />
+      <StrengthsOrStart strengths={dynamicStrengths} />
 
-      <section className={`${assessmentCard} p-6 sm:p-8`}>
-        <h2 className="text-2xl font-semibold text-[var(--foreground)]">
-          Что даёт полная диагностика TraaS
-        </h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {FULL_DIAGNOSTIC_ARTIFACTS.map((item) => (
-            <div key={item} className={`${assessmentSoftCard} p-4`}>
-              <p className="font-semibold leading-relaxed text-[var(--foreground)]">{item}</p>
+      <section className={`${assessmentWarningPanel} p-5 sm:p-6`}>
+        <p className={assessmentEyebrow}>Quick wins на 30 дней</p>
+        <div className="mt-5 space-y-3">
+          {dynamicQuickWins.map(({ domain, action }, index) => (
+            <div key={domain} className={`${assessmentElevated} p-4`}>
+              <div className="flex items-start gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#d38f1f] text-xs font-semibold text-white">
+                  {index + 1}
+                </span>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[#d38f1f]">
+                    {domain}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--foreground)]/85">
+                    {action}
+                  </p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
       <section className={`${assessmentCard} p-6 sm:p-8`}>
-        <p className={assessmentEyebrow}>
-          Релевантный кейс
-        </p>
-        <h2 className="mt-2 text-2xl font-semibold text-[var(--foreground)]">{relatedCase.title}</h2>
-        <p className="mt-3 max-w-2xl leading-relaxed text-[var(--muted)]">{relatedCase.description}</p>
-        <Link
-          href={`/cases/${relatedCase.slug}`}
-          className={`${assessmentSecondaryButton} mt-5 min-h-11`}
-        >
-          Читать кейс <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
+        <p className={assessmentEyebrow}>Roadmap · 90 дней</p>
+        <div className="mt-5 grid gap-4 md:grid-cols-3">
+          {dynamicRoadmap.map((item, index) => (
+            <div key={item} className={`${assessmentSoftCard} p-4`}>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-semibold" style={{ color: profile.color }}>0{index + 1}</span>
+                <span className="rounded-full border border-[var(--divider)] px-2 py-0.5 text-[10px] text-[var(--muted)]">
+                  {index === 0 ? "30 дней" : index === 1 ? "60 дней" : "90 дней"}
+                </span>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--foreground)]/85">{item}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
-      <footer className={`${assessmentCard} p-6 text-center sm:p-8`}>
-        <p className="text-lg font-semibold text-[var(--foreground)]">
-          Хотите обсудить результат с командой TraaS?
-        </p>
-        <Link
-          href="/#contact"
-          className={`${assessmentPrimaryButton} mt-4`}
-        >
-          Забронировать 30-минутный созвон <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
-      </footer>
+      <section className={`${assessmentCard} p-6 sm:p-8`}>
+        <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:radial-gradient(circle_at_50%_0%,rgba(227,6,19,0.16),transparent_34%)]" />
+        <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-tight text-[var(--foreground)]">{profile.ctaTitle}</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">{profile.ctaDescription}</p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/#contact" className={`${assessmentPrimaryButton} text-sm`}>
+              {profile.ctaButtonText}
+            </Link>
+            <button type="button" onClick={onReset} className={`${assessmentSecondaryButton} text-sm`}>
+              <RotateCcw className="h-4 w-4" /> Пройти заново
+            </button>
+          </div>
+        </div>
+      </section>
       </Container>
     </main>
+  );
+}
+function getBlockerContent(domain: DomainKey) {
+  if (domain === "experience") return null;
+  return BLOCKER_CONTENT[domain];
+}
+function StrengthsOrStart({ strengths }: { strengths: string[] }) {
+  if (strengths.length > 0) {
+    return (
+      <section className={`${assessmentSuccessPanel} p-5 sm:p-6`}>
+        <p className={assessmentEyebrow}>Что у вас работает</p>
+        <div className="mt-5 space-y-3">
+          {strengths.map((item, index) => (
+            <div key={item} className={`${assessmentElevated} flex gap-3 p-4`}>
+              <span
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white"
+                style={{ background: "#2ea36b" }}
+              >
+                {index + 1}
+              </span>
+              <p className="text-sm leading-relaxed text-[var(--foreground)]/85">{item}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className={`${assessmentSoftCard} border-l-2 border-l-[var(--muted)] p-5 sm:p-6`}>
+      <p className={assessmentEyebrow}>С чего начать</p>
+      <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
+        По результатам диагностики ни одно ИИ-направление не достигло уровня сильной стороны. Это нормальная
+        стартовая позиция для большинства компаний. Главное — у вас теперь есть конкретная картина узких мест.
+        Приоритеты для первых шагов — в Quick wins ниже.
+      </p>
+    </section>
   );
 }

@@ -1,13 +1,13 @@
 import type { Domain, ProfileQuestion, Question } from "./types";
 
 export const DOMAINS: Domain[] = [
-  { key: "ownership", label: "Ownership и mandate", weight: 0.15, hardCap: 49 },
-  { key: "use_cases", label: "Use case selection", weight: 0.15, hardCap: 59 },
-  { key: "data", label: "Data readiness", weight: 0.2, hardCap: 59 },
-  { key: "platform", label: "Platform и delivery", weight: 0.15, hardCap: 69 },
-  { key: "governance", label: "Governance и risk", weight: 0.15, hardCap: 69 },
-  { key: "adoption", label: "Adoption и change", weight: 0.1 },
-  { key: "economics", label: "Economics и value", weight: 0.1 },
+  { key: "ownership", label: "Ответственность и полномочия", weight: 0.15, hardCap: 49 },
+  { key: "use_cases", label: "Выбор сценариев применения", weight: 0.15, hardCap: 59 },
+  { key: "data", label: "Готовность данных", weight: 0.2, hardCap: 59 },
+  { key: "platform", label: "Платформа и внедрение", weight: 0.15, hardCap: 69 },
+  { key: "governance", label: "Управление и риски", weight: 0.15, hardCap: 69 },
+  { key: "adoption", label: "Внедрение и изменения", weight: 0.1 },
+  { key: "economics", label: "Экономика и ценность", weight: 0.1 },
   { key: "experience", label: "Опыт и результат", weight: 0 },
 ];
 

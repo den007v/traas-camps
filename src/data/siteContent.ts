@@ -24,7 +24,6 @@ export const siteContent: SiteContent = {
       { label: "Оценка", href: "#assessment" },
       { label: "Услуги", href: "#tech-bootcamp" },
       { label: "Кейсы", href: "#case-team" },
-      { label: "Отзывы", href: "#reviews" },
     ],
   },
   quickNavIntro: {
@@ -252,38 +251,26 @@ export const siteContent: SiteContent = {
   ],
   footer: {
     tagline:
-      "Краткий слоган или описание проекта. Ниже — колонки навигации для доработки.",
+      "Системная трансформация ИТ и процессов — от диагностики до внедрения. Оцениваем зрелость, расставляем приоритеты и сопровождаем изменения.",
     columns: [
+      {
+        title: "Диагностики",
+        links: [
+          { label: "Состояние ИТ-ландшафта", href: "/assessment/it-landscape" },
+          { label: "Зрелость процессов и данных", href: "/assessment/process-maturity" },
+          { label: "Готовность к ИИ-трансформации", href: "/assessment/ai-readiness" },
+        ],
+      },
       {
         title: "Разделы",
         links: [
-          { label: "Пункт 1", href: "#" },
-          { label: "Пункт 2", href: "#" },
-          { label: "Пункт 3", href: "#" },
-        ],
-      },
-      {
-        title: "Темы",
-        links: [
-          { label: "Тема А", href: "#" },
-          { label: "Тема Б", href: "#" },
-          { label: "Тема В", href: "#" },
-        ],
-      },
-      {
-        title: "Компания",
-        links: [
-          { label: "О проекте", href: "#" },
-          { label: "Контакты", href: "#footer" },
-          { label: "Документы", href: "#" },
+          { label: "Tech Bootcamp", href: "#tech-bootcamp" },
+          { label: "Кейсы", href: "#case-team" },
+          { label: "Связаться", href: "#footer" },
         ],
       },
     ],
-    legal:
-      "© {год} — юридическая текстовка, реквизиты и ссылки на политики. Замените на свои.",
-    contacts: [
-      { label: "Email", value: "hello@example.com", href: "mailto:hello@example.com" },
-      { label: "Телефон", value: "+0 (000) 000-00-00", href: "tel:+00000000000" },
-    ],
+    legal: "© {год} TraaS & Camps. Все права защищены.",
+    contacts: [],
   },
 };
